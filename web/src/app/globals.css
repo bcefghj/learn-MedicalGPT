@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-primary: #3B82F6;
+  --color-secondary: #10B981;
+  --color-accent: #8B5CF6;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f4f4f5;
+  --color-text: #09090b;
+  --color-text-secondary: #71717a;
+  --color-border: #e4e4e7;
+}
+
+.dark {
+  --color-bg: #09090b;
+  --color-bg-secondary: #18181b;
+  --color-text: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-border: #27272a;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes data-flow {
+  0% { stroke-dashoffset: 20; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-data-flow { animation: data-flow 1s linear infinite; }

@@ -1,0 +1,6154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Learn MedicalGPT — 从零基础到写进简历</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Learn MedicalGPT — 从零基础到写进简历</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#learn-medicalgpt-从零基础到写进简历"
+id="toc-learn-medicalgpt-从零基础到写进简历">Learn MedicalGPT —
+从零基础到写进简历</a>
+<ul>
+<li><a href="#项目全景导航" id="toc-项目全景导航">项目全景导航</a></li>
+<li><a href="#学习路线图" id="toc-学习路线图">学习路线图</a></li>
+<li><a href="#每节课一句话" id="toc-每节课一句话">每节课一句话</a></li>
+<li><a href="#如何使用本仓库"
+id="toc-如何使用本仓库">如何使用本仓库</a></li>
+<li><a href="#项目结构" id="toc-项目结构">项目结构</a></li>
+<li><a href="#核心参考资源" id="toc-核心参考资源">核心参考资源</a></li>
+<li><a href="#star-history" id="toc-star-history">Star History</a></li>
+<li><a href="#license" id="toc-license">License</a></li>
+</ul></li>
+<li><a href="#medicalgpt-学习资源汇总"
+id="toc-medicalgpt-学习资源汇总">MedicalGPT 学习资源汇总</a>
+<ul>
+<li><a href="#一medicalgpt-官方资源"
+id="toc-一medicalgpt-官方资源">一、MedicalGPT 官方资源</a></li>
+<li><a href="#二github-优秀学习项目"
+id="toc-二github-优秀学习项目">二、GitHub 优秀学习项目</a></li>
+<li><a href="#三技术博客与教程文章"
+id="toc-三技术博客与教程文章">三、技术博客与教程文章</a></li>
+<li><a href="#四视频教程" id="toc-四视频教程">四、视频教程</a></li>
+<li><a href="#五核心论文清单面试必读"
+id="toc-五核心论文清单面试必读">五、核心论文清单（面试必读）</a></li>
+<li><a href="#六学习路径推荐"
+id="toc-六学习路径推荐">六、学习路径推荐</a></li>
+<li><a href="#七工具与环境"
+id="toc-七工具与环境">七、工具与环境</a></li>
+</ul></li>
+<li><a href="#医疗大模型岗位市场与面试经验2025-2026"
+id="toc-医疗大模型岗位市场与面试经验2025-2026">医疗大模型岗位市场与面试经验（2025-2026）</a>
+<ul>
+<li><a href="#一岗位需求总览"
+id="toc-一岗位需求总览">一、岗位需求总览</a></li>
+<li><a href="#二牛客网面试经验整理"
+id="toc-二牛客网面试经验整理">二、牛客网面试经验整理</a></li>
+<li><a href="#三面试技能树按-jd-维度"
+id="toc-三面试技能树按-jd-维度">三、面试技能树（按 JD 维度）</a></li>
+<li><a href="#四薪资参考2025-2026"
+id="toc-四薪资参考2025-2026">四、薪资参考（2025-2026）</a></li>
+<li><a href="#五面试准备-checklist"
+id="toc-五面试准备-checklist">五、面试准备 Checklist</a></li>
+</ul></li>
+<li><a href="#面试速查手册-150-题全覆盖关键词版"
+id="toc-面试速查手册-150-题全覆盖关键词版">面试速查手册 — 150+
+题全覆盖（关键词版）</a>
+<ul>
+<li><a href="#导航" id="toc-导航">导航</a></li>
+<li><a href="#一项目概述类10-题"
+id="toc-一项目概述类10-题">一、项目概述类（10 题）</a></li>
+<li><a href="#二预训练类10-题" id="toc-二预训练类10-题">二、预训练类（10
+题）</a></li>
+<li><a href="#三sft-微调类12-题" id="toc-三sft-微调类12-题">三、SFT
+微调类（12 题）</a></li>
+<li><a href="#四lora-qlora-类10-题"
+id="toc-四lora-qlora-类10-题">四、LoRA / QLoRA 类（10 题）</a></li>
+<li><a href="#五rlhf-dpo-对齐类14-题"
+id="toc-五rlhf-dpo-对齐类14-题">五、RLHF / DPO / 对齐类（14
+题）</a></li>
+<li><a href="#六数据类10-题" id="toc-六数据类10-题">六、数据类（10
+题）</a></li>
+<li><a href="#七工程与部署类10-题"
+id="toc-七工程与部署类10-题">七、工程与部署类（10 题）</a></li>
+<li><a href="#八算法深度追问类12-题"
+id="toc-八算法深度追问类12-题">八、算法深度追问类（12 题）</a></li>
+<li><a href="#九前沿技术专题2025-2026-新增16-题"
+id="toc-九前沿技术专题2025-2026-新增16-题">九、前沿技术专题（2025-2026
+新增，16 题）</a></li>
+<li><a href="#十医疗合规与安全专题8-题"
+id="toc-十医疗合规与安全专题8-题">十、医疗合规与安全专题（8
+题）</a></li>
+<li><a href="#十一系统设计题8-题"
+id="toc-十一系统设计题8-题">十一、系统设计题（8 题）</a></li>
+<li><a href="#十二手撕算法题10-题"
+id="toc-十二手撕算法题10-题">十二、手撕算法题（10 题）</a></li>
+<li><a href="#十三开放性问题10-题"
+id="toc-十三开放性问题10-题">十三、开放性问题（10 题）</a></li>
+<li><a href="#十四minimind-项目专题10-题"
+id="toc-十四minimind-项目专题10-题">十四、MiniMind 项目专题（10
+题）</a></li>
+<li><a href="#十五补充高频追问5-题"
+id="toc-十五补充高频追问5-题">十五、补充高频追问（5 题）</a></li>
+<li><a href="#使用建议" id="toc-使用建议">使用建议</a></li>
+</ul></li>
+<li><a href="#minimind-项目全景-从零理解大模型"
+id="toc-minimind-项目全景-从零理解大模型">MiniMind 项目全景 —
+从零理解大模型</a>
+<ul>
+<li><a href="#一minimind-是什么" id="toc-一minimind-是什么">一、MiniMind
+是什么？</a></li>
+<li><a href="#二为什么-minimind-适合面试"
+id="toc-二为什么-minimind-适合面试">二、为什么 MiniMind
+适合面试？</a></li>
+<li><a href="#三项目架构总览"
+id="toc-三项目架构总览">三、项目架构总览</a></li>
+<li><a href="#四核心文件清单"
+id="toc-四核心文件清单">四、核心文件清单</a></li>
+<li><a href="#五面试30秒速讲"
+id="toc-五面试30秒速讲">五、面试30秒速讲</a></li>
+<li><a href="#六与本仓库其他内容的关系"
+id="toc-六与本仓库其他内容的关系">六、与本仓库其他内容的关系</a></li>
+</ul></li>
+<li><a href="#minimind-从零搭建指南-小白也能跑通"
+id="toc-minimind-从零搭建指南-小白也能跑通">MiniMind 从零搭建指南 —
+小白也能跑通</a>
+<ul>
+<li><a href="#一环境准备" id="toc-一环境准备">一、环境准备</a></li>
+<li><a href="#二数据准备" id="toc-二数据准备">二、数据准备</a></li>
+<li><a href="#三第一步预训练约-1-1.5-小时"
+id="toc-三第一步预训练约-1-1.5-小时">三、第一步：预训练（约 1-1.5
+小时）</a></li>
+<li><a href="#四第二步监督微调-sft约-30-分钟"
+id="toc-四第二步监督微调-sft约-30-分钟">四、第二步：监督微调 SFT（约 30
+分钟）</a></li>
+<li><a href="#五第三步dpo-偏好对齐约-20-分钟"
+id="toc-五第三步dpo-偏好对齐约-20-分钟">五、第三步：DPO 偏好对齐（约 20
+分钟）</a></li>
+<li><a href="#六进阶lora-微调" id="toc-六进阶lora-微调">六、进阶：LoRA
+微调</a></li>
+<li><a href="#七进阶强化学习rlhf"
+id="toc-七进阶强化学习rlhf">七、进阶：强化学习（RLHF）</a></li>
+<li><a href="#八部署与推理"
+id="toc-八部署与推理">八、部署与推理</a></li>
+<li><a href="#九完整训练时间表"
+id="toc-九完整训练时间表">九、完整训练时间表</a></li>
+<li><a href="#十训练过程中的关键观察点面试素材"
+id="toc-十训练过程中的关键观察点面试素材">十、训练过程中的关键观察点（面试素材）</a></li>
+</ul></li>
+<li><a href="#minimind-源码精读-逐行理解核心代码"
+id="toc-minimind-源码精读-逐行理解核心代码">MiniMind 源码精读 —
+逐行理解核心代码</a>
+<ul>
+<li><a href="#一模型架构总览"
+id="toc-一模型架构总览">一、模型架构总览</a></li>
+<li><a href="#二rmsnorm-归一化" id="toc-二rmsnorm-归一化">二、RMSNorm —
+归一化</a></li>
+<li><a href="#三rope-旋转位置编码" id="toc-三rope-旋转位置编码">三、RoPE
+— 旋转位置编码</a></li>
+<li><a href="#四gqa-attention-分组查询注意力"
+id="toc-四gqa-attention-分组查询注意力">四、GQA Attention —
+分组查询注意力</a></li>
+<li><a href="#五swiglu-ffn-前馈网络"
+id="toc-五swiglu-ffn-前馈网络">五、SwiGLU FFN — 前馈网络</a></li>
+<li><a href="#六transformer-block-完整一层"
+id="toc-六transformer-block-完整一层">六、Transformer Block —
+完整一层</a></li>
+<li><a href="#七训练循环关键代码"
+id="toc-七训练循环关键代码">七、训练循环关键代码</a></li>
+<li><a href="#八tokenizer-训练" id="toc-八tokenizer-训练">八、Tokenizer
+训练</a></li>
+<li><a href="#九moe-变体model_moe.py"
+id="toc-九moe-变体model_moe.py">九、MoE 变体（model_moe.py）</a></li>
+<li><a href="#十代码阅读路线图"
+id="toc-十代码阅读路线图">十、代码阅读路线图</a></li>
+</ul></li>
+<li><a href="#minimind-简历包装-让面试官眼前一亮"
+id="toc-minimind-简历包装-让面试官眼前一亮">MiniMind 简历包装 —
+让面试官眼前一亮</a>
+<ul>
+<li><a href="#一star-法则回顾" id="toc-一star-法则回顾">一、STAR
+法则回顾</a></li>
+<li><a href="#二三个版本的简历描述"
+id="toc-二三个版本的简历描述">二、三个版本的简历描述</a></li>
+<li><a href="#三关键数字提炼"
+id="toc-三关键数字提炼">三、关键数字提炼</a></li>
+<li><a href="#四技能映射表"
+id="toc-四技能映射表">四、技能映射表</a></li>
+<li><a href="#五简历写作红线"
+id="toc-五简历写作红线">五、简历写作红线</a></li>
+<li><a href="#六简历模板" id="toc-六简历模板">六、简历模板</a></li>
+</ul></li>
+<li><a href="#minimind-star-面试稿-面试口述模板"
+id="toc-minimind-star-面试稿-面试口述模板">MiniMind STAR 面试稿 —
+面试口述模板</a>
+<ul>
+<li><a href="#一项目介绍三个版本"
+id="toc-一项目介绍三个版本">一、项目介绍（三个版本）</a></li>
+<li><a href="#二10-个-star-面试回答模板"
+id="toc-二10-个-star-面试回答模板">二、10 个 STAR 面试回答模板</a></li>
+<li><a href="#三追问应对策略"
+id="toc-三追问应对策略">三、追问应对策略</a></li>
+<li><a href="#四面试前一天-checklist"
+id="toc-四面试前一天-checklist">四、面试前一天 Checklist</a></li>
+</ul></li>
+<li><a href="#minimind-面试问答-100-题-star-格式详尽版"
+id="toc-minimind-面试问答-100-题-star-格式详尽版">MiniMind 面试问答 100
+题 — STAR 格式详尽版</a>
+<ul>
+<li><a href="#第一章项目动机与选型10-题"
+id="toc-第一章项目动机与选型10-题">第一章：项目动机与选型（10
+题）</a></li>
+<li><a href="#第二章模型架构15-题"
+id="toc-第二章模型架构15-题">第二章：模型架构（15 题）</a></li>
+<li><a href="#第三章预训练10-题"
+id="toc-第三章预训练10-题">第三章：预训练（10 题）</a></li>
+<li><a href="#第四章sft-微调10-题"
+id="toc-第四章sft-微调10-题">第四章：SFT 微调（10 题）</a></li>
+<li><a href="#第五章dpo-对齐10-题"
+id="toc-第五章dpo-对齐10-题">第五章：DPO / 对齐（10 题）</a></li>
+<li><a href="#第六章lora-微调10-题"
+id="toc-第六章lora-微调10-题">第六章：LoRA 微调（10 题）</a></li>
+<li><a href="#第七章工程优化10-题"
+id="toc-第七章工程优化10-题">第七章：工程优化（10 题）</a></li>
+<li><a href="#第八章部署与推理10-题"
+id="toc-第八章部署与推理10-题">第八章：部署与推理（10 题）</a></li>
+<li><a href="#第九章对比与扩展10-题"
+id="toc-第九章对比与扩展10-题">第九章：对比与扩展（10 题）</a></li>
+<li><a href="#第十章综合与开放题5-题"
+id="toc-第十章综合与开放题5-题">第十章：综合与开放题（5 题）</a></li>
+</ul></li>
+<li><a href="#核心概念速查表一页纸"
+id="toc-核心概念速查表一页纸">核心概念速查表（一页纸）</a>
+<ul>
+<li><a href="#导航-1" id="toc-导航-1">导航</a></li>
+<li><a href="#训练阶段速查各一行"
+id="toc-训练阶段速查各一行">训练阶段速查（各一行）</a></li>
+<li><a href="#关键超参数速查表"
+id="toc-关键超参数速查表">关键超参数速查表</a></li>
+<li><a href="#显存需求速查量级直觉非保证"
+id="toc-显存需求速查量级直觉非保证">显存需求速查（量级直觉，非保证）</a></li>
+<li><a href="#算法对比速查ppo-vs-dpo-vs-grpo-vs-orpo"
+id="toc-算法对比速查ppo-vs-dpo-vs-grpo-vs-orpo">算法对比速查：PPO vs DPO
+vs GRPO vs ORPO</a></li>
+<li><a href="#数据格式速查" id="toc-数据格式速查">数据格式速查</a></li>
+<li><a href="#常用命令速查medicalgpt-hf-生态"
+id="toc-常用命令速查medicalgpt-hf-生态">常用命令速查（MedicalGPT / HF
+生态）</a></li>
+<li><a href="#一页纸自检进场前-1-分钟"
+id="toc-一页纸自检进场前-1-分钟">一页纸自检（进场前 1 分钟）</a></li>
+<li><a href="#相关课程索引" id="toc-相关课程索引">相关课程索引</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="learn-medicalgpt-从零基础到写进简历">Learn MedicalGPT —
+从零基础到写进简历</h1>
+<p><strong>用 20 节课 + MiniMind
+实战，彻底搞懂医疗大模型训练全流程，面试对答如流。</strong></p>
+<blockquote>
+<p>本项目参考 <a
+href="https://github.com/shibing624/MedicalGPT">MedicalGPT</a>
+的完整训练 Pipeline，
+从”什么是大模型”讲起，一路带你走到”面试官随便问”的水平。 同时配套 <a
+href="https://github.com/jingyaogong/minimind">MiniMind</a>
+从零训练实战，让你既懂「怎么用」也懂「怎么做」。</p>
+<p>最终目标：<strong>把 MedicalGPT + MiniMind
+写进简历，面试时自信讲解每一个技术细节。</strong></p>
+</blockquote>
+<figure>
+<img src="comics/comic-01-opening.png" alt="开篇漫画" />
+<figcaption aria-hidden="true">开篇漫画</figcaption>
+</figure>
+<h3 id="交互式学习平台带动画">交互式学习平台（带动画！）</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> web <span class="kw">&amp;&amp;</span> <span class="ex">npm</span> install <span class="kw">&amp;&amp;</span> <span class="ex">npm</span> run dev   <span class="co"># 访问 http://localhost:3000</span></span></code></pre></div>
+<p>包含训练 Pipeline 动画演示、LoRA 原理动画、RLHF vs DPO
+对比动画、算法对比面板等交互式可视化。</p>
+<hr />
+<pre><code>                    MedicalGPT 训练全流程
+                    =====================
+
+    海量医疗文本          指令微调数据          人类偏好数据
+         |                      |                      |
+         v                      v                      v
+    +---------+          +---------+          +--------------+
+    |  阶段一  |          |  阶段二  |          |    阶段三     |
+    |   PT    | -------&gt; |   SFT   | -------&gt; | RLHF/DPO/..  |
+    | 增量预训练|          |有监督微调 |          |  偏好对齐     |
+    +---------+          +---------+          +--------------+
+         |                      |                      |
+         v                      v                      v
+     模型学会                模型学会               模型学会
+    &quot;读&quot;医疗文本           &quot;答&quot;医疗问题           &quot;好&quot;的回答方式</code></pre>
+<hr />
+<h2 id="项目全景导航">项目全景导航</h2>
+<h3 id="核心学习内容">核心学习内容</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr>
+<th>板块</th>
+<th>内容</th>
+<th>适合人群</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="lessons/">20 节课程体系</a></td>
+<td>LLM 基础 → Transformer → PT/SFT/LoRA → RLHF/DPO →
+数据/分布式/部署</td>
+<td>系统学习</td>
+</tr>
+<tr>
+<td><a href="minimind/">MiniMind 实战指南</a></td>
+<td>从零训练 64M 参数 GPT，纯 PyTorch 全流程</td>
+<td>动手实践</td>
+</tr>
+<tr>
+<td><a href="interview/">面试速查 150+ 题</a></td>
+<td>关键词版面试题，面试前 30 分钟速查</td>
+<td>面试突击</td>
+</tr>
+<tr>
+<td><a href="cheatsheets/">速查表</a></td>
+<td>核心概念、命令、超参一页纸</td>
+<td>随时参考</td>
+</tr>
+</tbody>
+</table>
+<h3 id="求职导向内容">求职导向内容</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr>
+<th>板块</th>
+<th>内容</th>
+<th>适合人群</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="job-market/">岗位市场与面经</a></td>
+<td>牛客/小红书面经 + Boss 直聘 JD 分析 + 薪资参考</td>
+<td>求职准备</td>
+</tr>
+<tr>
+<td><a href="resources/">学习资源汇总</a></td>
+<td>GitHub 项目、博客教程、论文清单、视频课程</td>
+<td>拓展学习</td>
+</tr>
+<tr>
+<td><a href="lessons/L19-简历包装与项目描述/">简历包装 (L19)</a></td>
+<td>STAR 法则写项目经验</td>
+<td>写简历</td>
+</tr>
+<tr>
+<td><a href="minimind/04-简历包装.md">MiniMind 简历包装</a></td>
+<td>三个版本的简历模板</td>
+<td>写简历</td>
+</tr>
+<tr>
+<td><a href="minimind/05-STAR面试稿.md">MiniMind STAR 面试稿</a></td>
+<td>30 秒/1 分钟/3 分钟项目介绍</td>
+<td>面试练习</td>
+</tr>
+<tr>
+<td><a href="minimind/06-面试问答100题.md">MiniMind 面试 100 题</a></td>
+<td>项目可能被问到的所有问题</td>
+<td>深度准备</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="学习路线图">学习路线图</h2>
+<pre><code>Phase 1: 基础入门                    Phase 2: 训练 Pipeline 核心
+========================             ================================
+L01  什么是大语言模型         [零基础]   L05  增量预训练 PT             [核心]
+     从 ChatGPT 聊起                        让模型学会&quot;读&quot;医疗文本
+     |                                      |
+     +-&gt; L02  Transformer 架构   [核心]     L06  有监督微调 SFT          [核心]
+              注意力机制的直觉理解               教模型&quot;回答&quot;医疗问题
+              |                                 |
+         L03  环境搭建与工具链   [实操]     L07  LoRA 与 QLoRA          [核心]
+              Python/PyTorch/HF                  用小显存做大事
+              |                                 |
+         L04  MedicalGPT 全景    [地图]     L08  奖励模型 RM            [进阶]
+              鸟瞰整个项目                       让模型学会&quot;好坏&quot;
+                                                |
+                                           L09  PPO 与 RLHF           [进阶]
+                                                让模型越来越好
+                                                |
+                                           L10  DPO 直接偏好优化        [进阶]
+                                                更简单的对齐方式
+                                                |
+                                           L11  ORPO 与 GRPO          [前沿]
+                                                最新优化方法
+
+Phase 3: 数据与工程                    Phase 4: 实战进阶
+========================             ========================
+L12  医疗数据集详解          [数据]     L16  Colab 动手全流程      [实战]
+     数据是一切的基石                        PT + SFT + DPO 跑通
+     |                                      |
+L13  数据处理与质量工程      [数据]     L17  RAG 检索增强生成      [应用]
+     打造高质量训练数据                      让医疗问答更精准
+     |                                      |
+L14  分布式训练 DeepSpeed    [工程]     L18  源码逐行精读          [深入]
+     多卡训练实战                            理解每一行代码
+     |
+L15  模型评估与推理部署      [工程]
+     从训练到上线
+
+
+Phase 5: 面试冲刺                     Phase 6: MiniMind 实战
+========================             ========================
+L19  简历包装与项目描述      [求职]     M01  MiniMind 项目全景    [实战]
+     如何让面试官眼前一亮                    64M 参数 GPT 全貌
+     |                                      |
+L20  面试通关高频考点        [求职]     M02  从零搭建指南         [实战]
+     150+ 道真题全覆盖                       手把手跑通全流程
+                                             |
+                                        M03  源码精读             [深入]
+                                             逐行理解核心代码
+                                             |
+                                        M04  简历包装             [求职]
+                                             STAR 法写项目
+                                             |
+                                        M05  STAR 面试稿          [求职]
+                                             三种版本口述模板
+                                             |
+                                        M06  面试 100 题          [求职]
+                                             全部可能的问题</code></pre>
+<hr />
+<h2 id="每节课一句话">每节课一句话</h2>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 23%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>课程</th>
+<th>一句话精髓</th>
+<th>难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L01</strong></td>
+<td>什么是大语言模型</td>
+<td><em>“大模型就是一个超级学霸，读了互联网上所有的书”</em></td>
+<td>*</td>
+</tr>
+<tr>
+<td><strong>L02</strong></td>
+<td>Transformer 架构</td>
+<td><em>“注意力机制 = 阅读时知道该重点看哪个词”</em></td>
+<td>**</td>
+</tr>
+<tr>
+<td><strong>L03</strong></td>
+<td>环境搭建与工具链</td>
+<td><em>“磨刀不误砍柴工，环境搭好事半功倍”</em></td>
+<td>*</td>
+</tr>
+<tr>
+<td><strong>L04</strong></td>
+<td>MedicalGPT 全景</td>
+<td><em>“先看地图，再走路，不会迷路”</em></td>
+<td>*</td>
+</tr>
+<tr>
+<td><strong>L05</strong></td>
+<td>增量预训练 PT</td>
+<td><em>“先让模型读一千万篇医学论文”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L06</strong></td>
+<td>有监督微调 SFT</td>
+<td><em>“读完书还不够，得做题才会答题”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L07</strong></td>
+<td>LoRA 与 QLoRA</td>
+<td><em>“不用改整本书，只需贴几张便签纸”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L08</strong></td>
+<td>奖励模型 RM</td>
+<td><em>“训练一个’老师’来打分”</em></td>
+<td>****</td>
+</tr>
+<tr>
+<td><strong>L09</strong></td>
+<td>PPO 与 RLHF</td>
+<td><em>“用’老师’的评分不断改进’学生’的回答”</em></td>
+<td>****</td>
+</tr>
+<tr>
+<td><strong>L10</strong></td>
+<td>DPO 直接偏好优化</td>
+<td><em>“不要老师了，直接从好坏对比中学”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L11</strong></td>
+<td>ORPO 与 GRPO</td>
+<td><em>“更高效：一步到位学会对齐”</em></td>
+<td>****</td>
+</tr>
+<tr>
+<td><strong>L12</strong></td>
+<td>医疗数据集</td>
+<td><em>“数据决定上限，算法决定下限”</em></td>
+<td>**</td>
+</tr>
+<tr>
+<td><strong>L13</strong></td>
+<td>数据处理与质量</td>
+<td><em>“Garbage in, garbage out”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L14</strong></td>
+<td>分布式训练</td>
+<td><em>“一张卡不够？那就八张一起上”</em></td>
+<td>****</td>
+</tr>
+<tr>
+<td><strong>L15</strong></td>
+<td>评估与部署</td>
+<td><em>“训练好了不上线，等于白训练”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L16</strong></td>
+<td>Colab 全流程</td>
+<td><em>“纸上得来终觉浅，动手才是真功夫”</em></td>
+<td>**</td>
+</tr>
+<tr>
+<td><strong>L17</strong></td>
+<td>RAG 检索增强</td>
+<td><em>“让模型先查资料再回答，准确率翻倍”</em></td>
+<td>***</td>
+</tr>
+<tr>
+<td><strong>L18</strong></td>
+<td>源码精读</td>
+<td><em>“读源码是高手和新手的分水岭”</em></td>
+<td>****</td>
+</tr>
+<tr>
+<td><strong>L19</strong></td>
+<td>简历包装</td>
+<td><em>“好的项目描述 = STAR法则 + 量化数据”</em></td>
+<td>**</td>
+</tr>
+<tr>
+<td><strong>L20</strong></td>
+<td>面试通关</td>
+<td><em>“面试官问的，这里全有答案”</em></td>
+<td>***</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="如何使用本仓库">如何使用本仓库</h2>
+<h3 id="零基础学习者">零基础学习者</h3>
+<pre><code>建议顺序：L01 → L02 → L03 → L04 → L05 → L06 → L07 → ... → L20 → MiniMind 全套
+预计时间：3-4 周（每天 2-3 小时）</code></pre>
+<h3 id="有一定基础的学习者">有一定基础的学习者</h3>
+<pre><code>快速通道：L04(全景) → L05-L11(核心Pipeline) → MiniMind实战 → L19-L20(面试)
+预计时间：1-2 周</code></pre>
+<h3 id="面试突击">面试突击</h3>
+<pre><code>速成路线：L04(全景) → interview/(150+速查) → L19(简历) → L20(面试题)
+         → MiniMind/05(STAR面试稿) → MiniMind/06(100题)
+预计时间：3-5 天</code></pre>
+<hr />
+<h2 id="项目结构">项目结构</h2>
+<pre><code>learn-MedicalGPT/
+│
+├── README.md                          &lt;- 你在这里
+│
+├── comics/                            &lt;- 哆啦A梦风格漫画插图
+│   ├── comic-01-opening.png           &lt;- 开篇：面对面试 BOSS
+│   ├── comic-02-training-pipeline.png &lt;- 训练流程：PT→SFT→DPO
+│   ├── comic-03-lora.png             &lt;- LoRA：只贴便签纸
+│   ├── comic-04-minimind.png         &lt;- MiniMind：3 元训练大模型
+│   └── comic-05-interview.png        &lt;- 面试：STAR 法从容应对
+│
+├── web/                               &lt;- 交互式学习平台（Next.js + 动画）
+│   ├── src/components/visualizations/ &lt;- 训练Pipeline/LoRA/RLHF动画组件
+│   └── src/components/timeline/       &lt;- 学习路线时间轴动画
+│
+├── lessons/                           &lt;- 20 节课程（核心内容）
+│   ├── L01-什么是大语言模型/
+│   ├── L02-Transformer架构核心原理/
+│   ├── ...
+│   ├── L19-简历包装与项目描述/
+│   └── L20-面试通关高频考点/
+│
+├── minimind/                          &lt;- MiniMind 实战专区（6 篇）
+│   ├── 01-项目全景.md                  &lt;- 项目架构与定位
+│   ├── 02-从零搭建.md                  &lt;- 手把手跑通全流程
+│   ├── 03-源码精读.md                  &lt;- 逐行理解核心代码
+│   ├── 04-简历包装.md                  &lt;- STAR 法写简历
+│   ├── 05-STAR面试稿.md               &lt;- 30s/1min/3min 口述模板
+│   └── 06-面试问答100题.md             &lt;- 100 题 STAR 格式详解
+│
+├── interview/                         &lt;- 面试速查（150+ 题）
+│   └── README.md
+│
+├── job-market/                        &lt;- 岗位市场与面经
+│   └── README.md                      &lt;- JD 分析 + 面经 + 薪资
+│
+├── resources/                         &lt;- 学习资源汇总
+│   └── README.md                      &lt;- GitHub/博客/论文/视频
+│
+├── cheatsheets/                       &lt;- 速查表
+│   └── README.md                      &lt;- 核心概念一页纸速查
+│
+└── docs/                              &lt;- 多格式输出
+    └── ...</code></pre>
+<hr />
+<h2 id="核心参考资源">核心参考资源</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>资源</th>
+<th>链接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MedicalGPT 源码</td>
+<td><a href="https://github.com/shibing624/MedicalGPT">GitHub</a></td>
+<td>本课程学习的核心项目</td>
+</tr>
+<tr>
+<td>MiniMind 源码</td>
+<td><a href="https://github.com/jingyaogong/minimind">GitHub</a></td>
+<td>从零训练 LLM 实战项目</td>
+</tr>
+<tr>
+<td>MedicalGPT Wiki</td>
+<td><a
+href="https://github.com/shibing624/MedicalGPT/wiki">Wiki</a></td>
+<td>官方文档、FAQ、数据集说明</td>
+</tr>
+<tr>
+<td>Colab DPO Pipeline</td>
+<td><a
+href="https://colab.research.google.com/github/shibing624/MedicalGPT/blob/main/run_training_dpo_pipeline.ipynb">Notebook</a></td>
+<td>15 分钟跑通 PT+SFT+DPO</td>
+</tr>
+<tr>
+<td>Colab PPO Pipeline</td>
+<td><a
+href="https://colab.research.google.com/github/shibing624/MedicalGPT/blob/main/run_training_ppo_pipeline.ipynb">Notebook</a></td>
+<td>20 分钟跑通 PT+SFT+RLHF</td>
+</tr>
+<tr>
+<td>State of GPT (Karpathy)</td>
+<td><a href="https://karpathy.ai/stateofgpt.pdf">PDF</a></td>
+<td>RLHF Pipeline 的来源演讲</td>
+</tr>
+<tr>
+<td>HuggingFace 模型库</td>
+<td><a href="https://huggingface.co/shibing624">Models</a></td>
+<td>项目发布的预训练模型</td>
+</tr>
+<tr>
+<td>医疗数据集</td>
+<td><a
+href="https://huggingface.co/datasets/shibing624/medical">Dataset</a></td>
+<td>240 万条中文医疗数据</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="star-history">Star History</h2>
+<p>如果这个项目对你有帮助，请点个 Star 支持一下！</p>
+<hr />
+<h2 id="license">License</h2>
+<p>MIT License - 自由使用、学习、分享。</p>
+<hr />
+<blockquote>
+<p><strong>记住：学完这个仓库，你不只是”了解” MedicalGPT 和
+MiniMind，你是能”讲清楚”它们的人。</strong></p>
+<p><strong>面试官问什么，你都能从原理到代码、从数据到部署，给出完整的回答。</strong></p>
+</blockquote>
+<hr />
+<h1 id="medicalgpt-学习资源汇总">MedicalGPT 学习资源汇总</h1>
+<blockquote>
+<p>本页面收集整理了 MedicalGPT
+及医疗大模型领域的高质量学习资源，帮助你系统性掌握整个技术栈。</p>
+</blockquote>
+<hr />
+<h2 id="一medicalgpt-官方资源">一、MedicalGPT 官方资源</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>资源</th>
+<th>链接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MedicalGPT 源码仓库</td>
+<td><a href="https://github.com/shibing624/MedicalGPT">GitHub</a></td>
+<td>5.1K+ Star，完整训练 Pipeline</td>
+</tr>
+<tr>
+<td>官方 Wiki</td>
+<td><a
+href="https://github.com/shibing624/MedicalGPT/wiki">Wiki</a></td>
+<td>FAQ、数据集说明、训练参数文档</td>
+</tr>
+<tr>
+<td>数据集 Wiki</td>
+<td><a
+href="https://github.com/shibing624/MedicalGPT/wiki/%E6%95%B0%E6%8D%AE%E9%9B%86">数据集</a></td>
+<td>PT/SFT/RM/DPO 各阶段数据说明</td>
+</tr>
+<tr>
+<td>Colab DPO Pipeline</td>
+<td><a
+href="https://colab.research.google.com/github/shibing624/MedicalGPT/blob/main/run_training_dpo_pipeline.ipynb">Notebook</a></td>
+<td>15 分钟跑通 PT+SFT+DPO</td>
+</tr>
+<tr>
+<td>Colab PPO Pipeline</td>
+<td><a
+href="https://colab.research.google.com/github/shibing624/MedicalGPT/blob/main/run_training_ppo_pipeline.ipynb">Notebook</a></td>
+<td>20 分钟跑通 PT+SFT+RLHF</td>
+</tr>
+<tr>
+<td>HuggingFace 模型</td>
+<td><a href="https://huggingface.co/shibing624">Models</a></td>
+<td>项目发布的预训练模型权重</td>
+</tr>
+<tr>
+<td>医疗数据集</td>
+<td><a
+href="https://huggingface.co/datasets/shibing624/medical">Dataset</a></td>
+<td>240 万条中文医疗问答数据</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二github-优秀学习项目">二、GitHub 优秀学习项目</h2>
+<h3 id="大模型训练与微调">2.1 大模型训练与微调</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>项目</th>
+<th>Star</th>
+<th>说明</th>
+<th>推荐理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/jingyaogong/minimind">MiniMind</a></td>
+<td>45K+</td>
+<td>2 小时从零训练 64M 参数 GPT</td>
+<td>纯 PyTorch，极低成本，面试首选实战项目</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/hiyouga/LLaMA-Factory">LLaMA-Factory</a></td>
+<td>40K+</td>
+<td>一站式大模型微调框架</td>
+<td>支持 100+ 模型，工业级工具</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/hiyouga/ChatGLM-Efficient-Tuning">ChatGLM-Efficient-Tuning</a></td>
+<td>3K+</td>
+<td>ChatGLM 高效微调</td>
+<td>LoRA/P-Tuning 实践参考</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">Chinese-LLaMA-Alpaca</a></td>
+<td>18K+</td>
+<td>中文 LLaMA &amp; Alpaca</td>
+<td>中文增量预训练经典案例</td>
+</tr>
+</tbody>
+</table>
+<h3 id="医疗-ai-专项">2.2 医疗 AI 专项</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>项目</th>
+<th>Star</th>
+<th>说明</th>
+<th>推荐理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a
+href="https://github.com/FreedomIntelligence/HuatuoGPT">HuatuoGPT</a></td>
+<td>1K+</td>
+<td>华佗 GPT 医疗大模型</td>
+<td>RLHF 医疗场景落地</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/Kent0n-Li/ChatDoctor">ChatDoctor</a></td>
+<td>3K+</td>
+<td>医疗对话模型</td>
+<td>LLaMA 医疗微调典型案例</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/xionghonglin/DoctorGLM">DoctorGLM</a></td>
+<td>1K+</td>
+<td>基于 ChatGLM 的医疗模型</td>
+<td>中文医疗 SFT 参考</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/SCIR-HI/Huatuo-Llama-Med-Chinese">BenTsao
+(本草)</a></td>
+<td>2K+</td>
+<td>中文医疗 LLaMA</td>
+<td>医疗知识图谱 + LLM</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2305.09617">Med-PaLM</a></td>
+<td>—</td>
+<td>Google 医疗大模型论文</td>
+<td>医疗评测标杆</td>
+</tr>
+</tbody>
+</table>
+<h3 id="大模型知识体系">2.3 大模型知识体系</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>项目</th>
+<th>Star</th>
+<th>说明</th>
+<th>推荐理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/RUCAIBox/LLMSurvey">LLMSurvey</a></td>
+<td>12K+</td>
+<td>大模型综述论文配套</td>
+<td>系统性理解 LLM 全貌</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/liguodongiot/llm-action">LLM-Action</a></td>
+<td>10K+</td>
+<td>大模型实战笔记</td>
+<td>训练、推理、评测实操</td>
+</tr>
+<tr>
+<td><a
+href="https://github.com/Hannibal046/Awesome-LLM">awesome-LLM</a></td>
+<td>18K+</td>
+<td>LLM 资源大全</td>
+<td>论文、框架、数据集一站式</td>
+</tr>
+<tr>
+<td><a href="https://github.com/karpathy/LLM101n">LLM101n</a></td>
+<td>30K+</td>
+<td>Karpathy 从零造 LLM</td>
+<td>大神手把手教学</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/DeepSpeed">DeepSpeed</a></td>
+<td>36K+</td>
+<td>微软分布式训练框架</td>
+<td>MedicalGPT 底层依赖</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="三技术博客与教程文章">三、技术博客与教程文章</h2>
+<h3 id="medicalgpt-专项">3.1 MedicalGPT 专项</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>文章标题</th>
+<th>平台</th>
+<th>链接</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中文医疗大模型训练全流程源码剖析</td>
+<td>微信公众号</td>
+<td><a
+href="https://mp.weixin.qq.com/s/DTHIxyDb9vG793hAKGLt2g">阅读</a></td>
+<td>PT/SFT/RM/RL 四阶段源码解析</td>
+</tr>
+<tr>
+<td>MedicalGPT 入门指南</td>
+<td>懂AI</td>
+<td><a
+href="https://www.dongaigc.com/a/medicalgpt-introduction-guide-chatgpt-training">阅读</a></td>
+<td>项目架构与快速上手</td>
+</tr>
+<tr>
+<td>MedicalGPT 全参微调技术解析</td>
+<td>GitCode</td>
+<td><a
+href="https://blog.gitcode.com/c7b1a162cb201a90682ecb5c65da9822.html">阅读</a></td>
+<td>全参数微调参数与实践</td>
+</tr>
+<tr>
+<td>MedicalGPT 大规模模型训练与长文本处理</td>
+<td>GitCode</td>
+<td><a
+href="https://blog.gitcode.com/5092aa02b07d46484fc2d3688d3aea65.html">阅读</a></td>
+<td>67B 模型分布式训练</td>
+</tr>
+<tr>
+<td>医疗大模型实战 MedicalGPT 项目记录</td>
+<td>CSDN</td>
+<td><a
+href="https://blog.csdn.net/Wzxdecsdn/article/details/135489341">阅读</a></td>
+<td>实战踩坑记录</td>
+</tr>
+<tr>
+<td>MedicalGPT 模型训练教程</td>
+<td>魔乐社区</td>
+<td><a
+href="https://modelers.csdn.net/69a6881c7bbde9200b9c59f8.html">阅读</a></td>
+<td>配置参数详解</td>
+</tr>
+</tbody>
+</table>
+<h3 id="大模型面试八股文">3.2 大模型面试八股文</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>文章标题</th>
+<th>平台</th>
+<th>链接</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大模型面试 100 问：训练与优化篇</td>
+<td>80AJ</td>
+<td><a
+href="https://www.80aj.com/2026/01/04/llm-interview-training-optimization/">阅读</a></td>
+<td>100 题系统覆盖</td>
+</tr>
+<tr>
+<td>RLHF 夺命连环 17 问</td>
+<td>CSDN/DeepSeek 社区</td>
+<td><a
+href="https://deepseek.csdn.net/67b53c5c4d0686499adf4e1d.html">阅读</a></td>
+<td>RLHF 深度追问</td>
+</tr>
+<tr>
+<td>RLHF 八股总结</td>
+<td>牛客网</td>
+<td><a
+href="https://www.nowcoder.com/feed/main/detail/20e8f456d0c5418cad2b46b39c0d0f61">阅读</a></td>
+<td>面经实录</td>
+</tr>
+<tr>
+<td>DPO vs RLHF 对齐之争</td>
+<td>CSDN</td>
+<td><a
+href="https://blog.csdn.net/sinat_37574187/article/details/145964594">阅读</a></td>
+<td>对齐方法深度对比</td>
+</tr>
+</tbody>
+</table>
+<h3 id="大模型通用教程">3.3 大模型通用教程</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>文章标题</th>
+<th>平台</th>
+<th>链接</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State of GPT</td>
+<td>Karpathy</td>
+<td><a href="https://karpathy.ai/stateofgpt.pdf">PDF</a></td>
+<td>RLHF Pipeline 经典演讲</td>
+</tr>
+<tr>
+<td>LoRA 原论文</td>
+<td>arXiv</td>
+<td><a href="https://arxiv.org/abs/2106.09685">论文</a></td>
+<td>LoRA 核心原理</td>
+</tr>
+<tr>
+<td>DPO 原论文</td>
+<td>arXiv</td>
+<td><a href="https://arxiv.org/abs/2305.18290">论文</a></td>
+<td>直接偏好优化</td>
+</tr>
+<tr>
+<td>DeepSeek R1 技术报告</td>
+<td>DeepSeek</td>
+<td><a href="https://arxiv.org/abs/2501.12948">论文</a></td>
+<td>2025 前沿：GRPO + 推理</td>
+</tr>
+<tr>
+<td>ORPO 原论文</td>
+<td>arXiv</td>
+<td><a href="https://arxiv.org/abs/2403.07691">论文</a></td>
+<td>无参考模型偏好优化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四视频教程">四、视频教程</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>视频</th>
+<th>平台</th>
+<th>时长</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Andrej Karpathy: Let’s build GPT</td>
+<td>YouTube</td>
+<td>2h</td>
+<td>从零搭建 GPT，理解 Transformer</td>
+</tr>
+<tr>
+<td>李沐 Transformer 论文精读</td>
+<td>B 站</td>
+<td>1h</td>
+<td>中文最佳 Transformer 讲解</td>
+</tr>
+<tr>
+<td>RLHF 从入门到精通</td>
+<td>B 站</td>
+<td>3h</td>
+<td>PPO/DPO 系列讲解</td>
+</tr>
+<tr>
+<td>MiniMind 从零训练 LLM 全流程</td>
+<td>B 站</td>
+<td>2h</td>
+<td>配合 MiniMind 项目实操</td>
+</tr>
+<tr>
+<td>DeepSpeed 实战教程</td>
+<td>B 站</td>
+<td>1.5h</td>
+<td>分布式训练配置详解</td>
+</tr>
+<tr>
+<td>HuggingFace TRL 微调教程</td>
+<td>YouTube</td>
+<td>1h</td>
+<td>SFT/DPO/PPO 一站式微调</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五核心论文清单面试必读">五、核心论文清单（面试必读）</h2>
+<p>按优先级排序，面试重点标注 <strong>[必读]</strong>：</p>
+<h3 id="基础架构">5.1 基础架构</h3>
+<ol type="1">
+<li><strong>[必读]</strong> Attention Is All You Need (2017) —
+Transformer 架构</li>
+<li><strong>[必读]</strong> BERT / GPT / GPT-2 / GPT-3 系列 —
+预训练范式演进</li>
+<li>Language Models are Few-Shot Learners (GPT-3) — In-context
+Learning</li>
+</ol>
+<h3 id="训练方法">5.2 训练方法</h3>
+<ol start="4" type="1">
+<li><strong>[必读]</strong> LoRA: Low-Rank Adaptation (2021) —
+高效微调</li>
+<li><strong>[必读]</strong> QLoRA: Efficient Finetuning (2023) — 4-bit
+量化微调</li>
+<li>Training Language Models to Follow Instructions (InstructGPT) — RLHF
+流程</li>
+</ol>
+<h3 id="对齐技术">5.3 对齐技术</h3>
+<ol start="7" type="1">
+<li><strong>[必读]</strong> DPO: Direct Preference Optimization (2023) —
+简化对齐</li>
+<li><strong>[必读]</strong> RLHF: Learning from Human Feedback —
+强化学习对齐</li>
+<li>ORPO (2024) — 无参考模型优化</li>
+<li>GRPO (DeepSeek, 2025) — 分组相对策略优化</li>
+</ol>
+<h3 id="推理与部署">5.4 推理与部署</h3>
+<ol start="11" type="1">
+<li><strong>[必读]</strong> vLLM: PagedAttention (2023) — 高效推理</li>
+<li>FlashAttention (2022/2023) — 显存优化注意力</li>
+<li>Speculative Decoding — 投机解码加速</li>
+</ol>
+<h3 id="医疗-ai">5.5 医疗 AI</h3>
+<ol start="14" type="1">
+<li>Med-PaLM 2 (Google, 2023) — 医疗问答 SOTA</li>
+<li>PMC-LLaMA (2023) — 医学预训练</li>
+<li>ChatDoctor (2023) — 医疗对话微调</li>
+</ol>
+<hr />
+<h2 id="六学习路径推荐">六、学习路径推荐</h2>
+<h3 id="路径-a零基础入门4-周">路径 A：零基础入门（4 周）</h3>
+<pre><code>第 1 周：基础概念
+├── 看 Karpathy Let&#39;s build GPT 视频
+├── 读 L01-L04 课程
+└── 克隆 MedicalGPT 仓库，跑通 Gradio Demo
+
+第 2 周：训练核心
+├── 精读 L05-L07（PT/SFT/LoRA）
+├── Colab 跑通 DPO Pipeline
+└── 对照源码理解 pretraining.py / supervised_finetuning.py
+
+第 3 周：对齐与工程
+├── 精读 L08-L11（RM/PPO/DPO/ORPO/GRPO）
+├── 精读 L12-L15（数据/分布式/部署）
+└── 跑通 MiniMind 全流程（预训练+SFT+DPO）
+
+第 4 周：面试冲刺
+├── 精读 L19-L20 + interview/ 速查
+├── 背熟 cheatsheets/ 速查表
+└── 模拟面试 3-5 轮</code></pre>
+<h3 id="路径-b有基础速通2-周">路径 B：有基础速通（2 周）</h3>
+<pre><code>第 1 周：核心内容
+├── L04 全景 → L05-L11 训练Pipeline
+├── Colab 实战 → MiniMind 实战
+└── 精读 MedicalGPT 源码（L18）
+
+第 2 周：面试突击
+├── L19 简历包装 + L20 面试通关
+├── interview/ 150+ 题速查
+└── 模拟面试 + 查漏补缺</code></pre>
+<h3 id="路径-c面试突击5-天">路径 C：面试突击（5 天）</h3>
+<pre><code>Day 1: L04 全景 + L19 简历包装
+Day 2: interview/ 速查 + cheatsheets/
+Day 3: L20 面试通关 80 题详解（上）
+Day 4: L20 面试通关 80 题详解（下）+ 前沿技术
+Day 5: 模拟面试 + 薄弱点查漏</code></pre>
+<hr />
+<h2 id="七工具与环境">七、工具与环境</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PyTorch</td>
+<td>深度学习框架</td>
+<td><a href="https://pytorch.org">pytorch.org</a></td>
+</tr>
+<tr>
+<td>HuggingFace Transformers</td>
+<td>模型加载与微调</td>
+<td><a
+href="https://huggingface.co/docs/transformers">huggingface.co</a></td>
+</tr>
+<tr>
+<td>HuggingFace TRL</td>
+<td>SFT/DPO/PPO 训练</td>
+<td><a href="https://huggingface.co/docs/trl">TRL</a></td>
+</tr>
+<tr>
+<td>PEFT</td>
+<td>LoRA/QLoRA 微调</td>
+<td><a href="https://huggingface.co/docs/peft">PEFT</a></td>
+</tr>
+<tr>
+<td>DeepSpeed</td>
+<td>分布式训练</td>
+<td><a href="https://www.deepspeed.ai/">deepspeed.ai</a></td>
+</tr>
+<tr>
+<td>vLLM</td>
+<td>高效推理引擎</td>
+<td><a href="https://docs.vllm.ai/">vllm.ai</a></td>
+</tr>
+<tr>
+<td>Gradio</td>
+<td>Web Demo 搭建</td>
+<td><a href="https://www.gradio.app/">gradio.app</a></td>
+</tr>
+<tr>
+<td>Weights &amp; Biases</td>
+<td>实验追踪</td>
+<td><a href="https://wandb.ai">wandb.ai</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p>提示：资源在精不在多。建议先完成本仓库 20
+课体系，遇到不懂再查阅上述资源。面试前重点刷 interview/ 和
+cheatsheets/。</p>
+</blockquote>
+<hr />
+<h1
+id="医疗大模型岗位市场与面试经验2025-2026">医疗大模型岗位市场与面试经验（2025-2026）</h1>
+<blockquote>
+<p>本页面整理了医疗大模型/AI
+相关岗位的市场需求、面试经验和技能要求，帮助你有针对性地准备面试。</p>
+</blockquote>
+<hr />
+<h2 id="一岗位需求总览">一、岗位需求总览</h2>
+<h3 id="医疗大模型算法工程师-典型-jd-分析">1.1 医疗大模型算法工程师 —
+典型 JD 分析</h3>
+<blockquote>
+<p>数据来源：Boss 直聘、猎聘、智联招聘、拉勾（2025-2026 年招聘信息）</p>
+</blockquote>
+<h4 id="代表企业与岗位">代表企业与岗位</h4>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>企业</th>
+<th>岗位</th>
+<th>薪资范围</th>
+<th>经验要求</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>阿里达摩院</td>
+<td>医疗 AI 算法工程师</td>
+<td>30-60K</td>
+<td>3-5 年</td>
+<td>Boss 直聘</td>
+</tr>
+<tr>
+<td>东软医疗</td>
+<td>大模型算法工程师（校招）</td>
+<td>13-18K</td>
+<td>应届</td>
+<td>拉勾</td>
+</tr>
+<tr>
+<td>爱尔眼科</td>
+<td>医疗 AI 大模型算法工程师</td>
+<td>20-40K</td>
+<td>2-5 年</td>
+<td>智联</td>
+</tr>
+<tr>
+<td>北京精医和生</td>
+<td>大模型深度学习工程师（微调优化）</td>
+<td>25-45K</td>
+<td>3-5 年</td>
+<td>智联</td>
+</tr>
+<tr>
+<td>医渡科技</td>
+<td>医学 NLP 算法工程师</td>
+<td>25-45K</td>
+<td>2-5 年</td>
+<td>Boss 直聘</td>
+</tr>
+<tr>
+<td>全诊医学</td>
+<td>医疗 AI 产品经理</td>
+<td>15-30K</td>
+<td>3-5 年</td>
+<td>Boss 直聘</td>
+</tr>
+</tbody>
+</table>
+<h4 id="核心技能要求矩阵">核心技能要求矩阵</h4>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>维度</th>
+<th>必备技能</th>
+<th>加分技能</th>
+<th>面试考察频率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>基础理论</strong></td>
+<td>Transformer 架构、注意力机制、损失函数</td>
+<td>数学推导（反向传播、交叉熵）</td>
+<td>每场必问</td>
+</tr>
+<tr>
+<td><strong>训练微调</strong></td>
+<td>SFT 流程、LoRA/QLoRA、数据处理</td>
+<td>全参微调、Adapter、P-Tuning</td>
+<td>高频</td>
+</tr>
+<tr>
+<td><strong>对齐技术</strong></td>
+<td>RLHF 流程、DPO 原理</td>
+<td>PPO 细节、GRPO、ORPO</td>
+<td>高频</td>
+</tr>
+<tr>
+<td><strong>框架工具</strong></td>
+<td>PyTorch、HuggingFace Transformers</td>
+<td>DeepSpeed、FSDP、TRL</td>
+<td>中高频</td>
+</tr>
+<tr>
+<td><strong>部署推理</strong></td>
+<td>模型量化（INT8/FP8）、vLLM</td>
+<td>Triton、TensorRT、ONNX</td>
+<td>中频</td>
+</tr>
+<tr>
+<td><strong>分布式</strong></td>
+<td>数据并行、ZeRO 概念</td>
+<td>ZeRO-3 实操、流水线并行</td>
+<td>中频</td>
+</tr>
+<tr>
+<td><strong>医疗领域</strong></td>
+<td>医疗数据合规、电子病历理解</td>
+<td>医学知识图谱、临床 NLP</td>
+<td>医疗岗必问</td>
+</tr>
+<tr>
+<td><strong>编程能力</strong></td>
+<td>Python、Linux、Git</td>
+<td>Docker、FastAPI、CI/CD</td>
+<td>每场必考</td>
+</tr>
+<tr>
+<td><strong>算法题</strong></td>
+<td>LeetCode 中等难度</td>
+<td>手撕 Attention、LoRA 前向</td>
+<td>多数场次</td>
+</tr>
+</tbody>
+</table>
+<h4 id="学历与经验要求">学历与经验要求</h4>
+<pre><code>校招/应届：
+  - 硕士及以上（计算机/AI/NLP/生物医学工程）
+  - 顶会论文或开源项目经验加分
+  - 实习经验要求：1-2 段大模型相关实习
+
+社招 1-3 年：
+  - 硕士优先，优秀本科可
+  - 至少 1 个完整的大模型训练/微调项目
+  - 熟悉至少一种对齐方法（RLHF/DPO）
+
+社招 3-5 年：
+  - 硕士及以上
+  - 大模型从预训练到部署的全链路经验
+  - 分布式训练实操经验
+  - 医疗 AI 项目落地经验</code></pre>
+<hr />
+<h2 id="二牛客网面试经验整理">二、牛客网面试经验整理</h2>
+<h3 id="小红书-大模型应用算法工程师一面45min">2.1 小红书 —
+大模型应用算法工程师（一面，45min）</h3>
+<p><strong>八股文部分：</strong> - Transformer
+的计算复杂度是多少？写出伪代码 - 多头注意力 vs
+单头注意力的区别？为什么要多头？ - DeepSeek R1
+的创新点和优化点有哪些？</p>
+<p><strong>项目经验部分：</strong> - 实习经历和论文讲解（15min） -
+提示工程的方法和优化技巧 - LLM 微调的具体步骤、数据量配比 - SFT
+和强化学习的优缺点及应用场景 - 大模型生成内容的评测方式 -
+如何确保大模型输出一致性</p>
+<p><strong>代码题：</strong> - 手撕 sqrt(x)，保留 6 位小数（二分法）</p>
+<p><strong>面试官风格：</strong>
+节奏快，追问细节，喜欢让候选人手写伪代码</p>
+<hr />
+<h3 id="大厂-大模型算法面经汇总牛客热帖">2.2 大厂 —
+大模型算法面经汇总（牛客热帖）</h3>
+<p><strong>RLHF 高频追问（17 连问）：</strong></p>
+<ol type="1">
+<li>RLHF 的核心作用是什么？</li>
+<li>为什么需要 4 个模型？分别是什么？</li>
+<li>PPO 中 KL 散度的作用？如何设置系数？</li>
+<li>奖励破解（Reward Hacking）是什么？怎么防？</li>
+<li>为什么不直接用 RM 的 loss 微调 LM？</li>
+<li>RM 的训练数据怎么标注？成本多少？</li>
+<li>PPO 的 clip 机制原理？</li>
+<li>RLHF 的 4 个模型各占多少显存？</li>
+<li>能否只用 2 个模型做 RLHF？</li>
+<li>DPO 和 PPO 哪个效果好？</li>
+<li>DPO 的 beta 参数怎么调？</li>
+<li>RLHF 训练不稳定怎么办？</li>
+<li>什么是模式坍塌？怎么检测和缓解？</li>
+<li>RLHF 和 RLAIF 的区别？</li>
+<li>GRPO 为什么不需要 Critic？</li>
+<li>在线 vs 离线对齐方法的优劣？</li>
+<li>如果资源有限，选 DPO 还是 PPO？</li>
+</ol>
+<p><strong>LoRA 高频追问：</strong></p>
+<ol type="1">
+<li>LoRA 的数学原理？为什么 W = W₀ + BA？</li>
+<li>r 和 alpha 怎么选？有什么经验法则？</li>
+<li>LoRA 应用在哪些层？为什么不是所有层？</li>
+<li>A 和 B 矩阵初始化方式？为什么一个全零？</li>
+<li>QLoRA 的三大创新是什么？</li>
+<li>多个 LoRA 适配器如何切换？</li>
+<li>LoRA 合并后能否继续微调？</li>
+</ol>
+<hr />
+<h3 id="面试真题集锦2025-2026-牛客小红书精选">2.3
+面试真题集锦（2025-2026 牛客/小红书精选）</h3>
+<h4 id="基础理论题">基础理论题</h4>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 25%" />
+<col style="width: 37%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>出现频率</th>
+<th>难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Transformer 中 Self-Attention 的时间复杂度？如何优化？</td>
+<td>极高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>2</td>
+<td>为什么用 Layer Norm 而不是 Batch Norm？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>3</td>
+<td>位置编码为什么用正弦/余弦？RoPE 的优势？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Pre-Norm vs Post-Norm 的区别和优劣？</td>
+<td>中</td>
+<td>中</td>
+</tr>
+<tr>
+<td>5</td>
+<td>KV Cache 的原理？为什么能加速推理？</td>
+<td>极高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>6</td>
+<td>FlashAttention 的核心思想？</td>
+<td>高</td>
+<td>高</td>
+</tr>
+<tr>
+<td>7</td>
+<td>MHA vs GQA vs MQA 的区别？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h4 id="训练微调题">训练微调题</h4>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>出现频率</th>
+<th>难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>SFT 时只算 assistant 部分的 loss，为什么？</td>
+<td>极高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>9</td>
+<td>全参微调 vs LoRA 各需要多少显存？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>10</td>
+<td>SFT 数据量多少合适？过多会怎样？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>11</td>
+<td>增量预训练和 SFT 有什么区别？</td>
+<td>极高</td>
+<td>低</td>
+</tr>
+<tr>
+<td>12</td>
+<td>灾难性遗忘是什么？如何缓解？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>13</td>
+<td>混合精度训练的原理？FP16 vs BF16？</td>
+<td>中</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h4 id="对齐技术题">对齐技术题</h4>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>出现频率</th>
+<th>难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td>DPO vs PPO 的本质区别？</td>
+<td>极高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>15</td>
+<td>DPO 的 beta 参数作用？太大太小会怎样？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>16</td>
+<td>RLHF 需要几个模型？各自作用？</td>
+<td>极高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>17</td>
+<td>GRPO 的核心创新是什么？</td>
+<td>中</td>
+<td>高</td>
+</tr>
+<tr>
+<td>18</td>
+<td>偏好数据标注的要求和难点？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h4 id="工程部署题">工程部署题</h4>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>出现频率</th>
+<th>难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>19</td>
+<td>ZeRO-1/2/3 各切分了什么？显存节约多少？</td>
+<td>极高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>20</td>
+<td>vLLM 的 PagedAttention 原理？</td>
+<td>高</td>
+<td>高</td>
+</tr>
+<tr>
+<td>21</td>
+<td>模型量化 INT8/INT4 对效果的影响？</td>
+<td>中</td>
+<td>中</td>
+</tr>
+<tr>
+<td>22</td>
+<td>如何计算一个模型的显存占用？</td>
+<td>高</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="三面试技能树按-jd-维度">三、面试技能树（按 JD 维度）</h2>
+<h3 id="基础能力层">3.1 基础能力层</h3>
+<pre><code>Python 编程 ────────────────── [必须精通]
+├── NumPy / Pandas 基础
+├── OOP 设计模式
+└── 多进程/异步编程
+
+PyTorch 深度学习 ───────────── [必须精通]
+├── Tensor 操作
+├── 自定义 Module / Dataset / DataLoader
+├── 梯度计算与反向传播
+├── 混合精度训练（AMP）
+└── 分布式训练 API（DDP）
+
+Linux 基础 ─────────────────── [需要熟练]
+├── Shell 脚本
+├── GPU 监控（nvidia-smi / gpustat）
+├── tmux / screen
+└── Docker 容器化</code></pre>
+<h3 id="大模型核心层">3.2 大模型核心层</h3>
+<pre><code>模型架构 ───────────────────── [必须掌握]
+├── Transformer（Encoder/Decoder/Decoder-only）
+├── Attention（MHA/GQA/MQA/MLA）
+├── 位置编码（Sinusoidal/RoPE/ALiBi）
+├── 归一化（LayerNorm/RMSNorm）
+└── FFN（SwiGLU/GeGLU）
+
+训练方法 ───────────────────── [必须掌握]
+├── 增量预训练（PT/CPT）
+├── 有监督微调（SFT）
+├── 高效微调（LoRA/QLoRA/Adapter/P-Tuning）
+└── 全参数微调
+
+对齐技术 ───────────────────── [必须掌握]
+├── RLHF（RM → PPO）
+├── DPO / IPO / KTO
+├── ORPO / GRPO / DAPO
+└── RLAIF（AI 反馈）
+
+数据工程 ───────────────────── [需要掌握]
+├── 数据清洗与质量评估
+├── Tokenizer（BPE/SentencePiece）
+├── 指令数据构造（Alpaca/ShareGPT 格式）
+└── 偏好数据标注</code></pre>
+<h3 id="工程进阶层">3.3 工程进阶层</h3>
+<pre><code>分布式训练 ─────────────────── [需要了解]
+├── 数据并行（DP/DDP）
+├── ZeRO-1/2/3
+├── 流水线并行（PP）
+├── 张量并行（TP）
+└── DeepSpeed 配置
+
+推理部署 ───────────────────── [需要了解]
+├── vLLM / TGI
+├── 量化（GPTQ/AWQ/GGUF）
+├── KV Cache 管理
+├── Continuous Batching
+└── FastAPI / Triton 服务化
+
+评估与监控 ─────────────────── [需要了解]
+├── 自动评测（BLEU/ROUGE/Perplexity）
+├── 人工评测框架
+├── W&amp;B / TensorBoard 实验追踪
+└── A/B 测试</code></pre>
+<h3 id="医疗专项层">3.4 医疗专项层</h3>
+<pre><code>医疗领域知识 ────────────────── [医疗岗必须]
+├── 电子病历（EMR）结构与 NLP
+├── 医学术语体系（ICD/SNOMED）
+├── 医疗数据合规（HIPAA/个保法）
+├── 临床决策支持系统（CDSS）
+└── 医学知识图谱
+
+医疗 AI 应用 ───────────────── [了解即可]
+├── 医学影像 AI
+├── 药物发现
+├── 医疗问答与分诊
+└── 病历结构化</code></pre>
+<hr />
+<h2 id="四薪资参考2025-2026">四、薪资参考（2025-2026）</h2>
+<h3 id="按经验分层">4.1 按经验分层</h3>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>经验</th>
+<th>月薪范围</th>
+<th>年薪范围</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>校招应届</td>
+<td>0 年</td>
+<td>13-20K</td>
+<td>18-28W</td>
+<td>硕士起步，985/211 优先</td>
+</tr>
+<tr>
+<td>初级</td>
+<td>1-3 年</td>
+<td>20-35K</td>
+<td>28-50W</td>
+<td>需 1+ 完整项目</td>
+</tr>
+<tr>
+<td>中级</td>
+<td>3-5 年</td>
+<td>30-50K</td>
+<td>42-70W</td>
+<td>需训练+部署经验</td>
+</tr>
+<tr>
+<td>高级</td>
+<td>5+ 年</td>
+<td>40-80K</td>
+<td>56-112W</td>
+<td>需带队经验</td>
+</tr>
+</tbody>
+</table>
+<h3 id="城市差异">4.2 城市差异</h3>
+<table>
+<thead>
+<tr>
+<th>城市</th>
+<th>溢价倍数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>北京</td>
+<td>1.0x</td>
+<td>基准，岗位最多</td>
+</tr>
+<tr>
+<td>上海</td>
+<td>0.95x</td>
+<td>医疗 AI 企业集中</td>
+</tr>
+<tr>
+<td>杭州</td>
+<td>0.9x</td>
+<td>阿里系生态</td>
+</tr>
+<tr>
+<td>深圳</td>
+<td>0.95x</td>
+<td>腾讯/华为体系</td>
+</tr>
+<tr>
+<td>成都/武汉</td>
+<td>0.7x</td>
+<td>新一线，性价比高</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五面试准备-checklist">五、面试准备 Checklist</h2>
+<h3 id="面试前1-周">面试前（1 周）</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />通读本仓库 L04 全景 + L19 简历 + L20
+面试题</label></li>
+<li><label><input type="checkbox" />背熟 cheatsheets/
+速查表</label></li>
+<li><label><input type="checkbox" />准备 30 秒 / 1 分钟 / 3
+分钟项目介绍</label></li>
+<li><label><input type="checkbox" />用 STAR 法则准备 5
+个项目经验故事</label></li>
+<li><label><input type="checkbox" />刷 LeetCode 中等题 20
+道（字符串/数组/二分）</label></li>
+<li><label><input type="checkbox" />手撕 Attention
+计算过程（纸上能写出来）</label></li>
+</ul>
+<h3 id="面试中">面试中</h3>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />先听清问题，不懂就请面试官重复</label></li>
+<li><label><input
+type="checkbox" />答题结构化：先说结论，再说原因，最后举例</label></li>
+<li><label><input type="checkbox" />项目介绍用 STAR 法则</label></li>
+<li><label><input
+type="checkbox" />被追问不会时：诚实说”这部分我还没深入研究，但我理解的是…”</label></li>
+<li><label><input type="checkbox" />反问环节准备 2-3
+个有质量的问题</label></li>
+</ul>
+<h3 id="面试后">面试后</h3>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />记录面试题目和自己的回答</label></li>
+<li><label><input type="checkbox" />查漏补缺，更新知识盲区</label></li>
+<li><label><input type="checkbox" />感谢邮件（可选但加分）</label></li>
+</ul>
+<hr />
+<blockquote>
+<p>提示：面试的核心不是背答案，而是展现你对技术的理解深度和项目的实操经验。用
+MedicalGPT + MiniMind
+两个项目，覆盖「知道怎么用」和「知道怎么做」两个层次。</p>
+</blockquote>
+<hr />
+<h1 id="面试速查手册-150-题全覆盖关键词版">面试速查手册 — 150+
+题全覆盖（关键词版）</h1>
+<blockquote>
+<p><strong>用途</strong>：面试前 30～60 分钟快速过一遍；每题
+<strong>不超过 3 行</strong>。细节与口播全文见 <strong><a
+href="../lessons/L20-面试通关高频考点/README.md">L20
+核心题库详解</a></strong>。</p>
+<p>2026 年更新：新增 DeepSeek
+R1/MLA/MTP、GRPO/DAPO、vLLM/PagedAttention、系统设计、手撕算法等板块。</p>
+</blockquote>
+<hr />
+<h2 id="导航">导航</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>链接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../README.md">← 返回课程总览</a></td>
+<td>Learn MedicalGPT 主页</td>
+</tr>
+<tr>
+<td><a href="../lessons/L20-面试通关高频考点/README.md">L20
+面试通关高频考点（完整详解）</a></td>
+<td>本题库的完整版</td>
+</tr>
+<tr>
+<td><a href="../lessons/L19-简历包装与项目描述/README.md">L19
+简历包装与项目描述</a></td>
+<td>STAR + 简历模板</td>
+</tr>
+<tr>
+<td><a href="../cheatsheets/README.md">核心概念速查表</a></td>
+<td>一页纸概念与命令</td>
+</tr>
+<tr>
+<td><a href="../minimind/06-面试问答100题.md">MiniMind 面试 100
+题</a></td>
+<td>MiniMind 专项面试题</td>
+</tr>
+<tr>
+<td><a href="../job-market/README.md">岗位市场与面经</a></td>
+<td>JD 分析 + 真实面经</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="一项目概述类10-题">一、项目概述类（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>中文医疗<strong>领域适配</strong>；<strong>PT→SFT→DPO/RLHF</strong>；<strong>LoRA/QLoRA</strong>
++ 自建 <strong>N 条</strong> 测
+<strong>指标↑x%</strong>（内部集）。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>动词+产出</strong>：数据 JSONL/清洗、训练配置与
+ckpt、评测报告；写清 <strong>个人边界</strong>（与部署/产品交接）。</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>中文+医疗+License+生态</strong>；<strong>同数据 A/B
+pilot</strong>；补一句 <strong>代价</strong>（显存/延迟）。</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>数据层/训练层/评估层/服务层</strong>；契约：<strong>schema +
+YAML + manifest + chat_template 一致</strong>。</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>来源+合规（脱敏/授权）+规模（GB/万条/千对）+质控（去重/抽检）</strong>。</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>脚本+配置+权重+评测报告+版本说明</strong>；可选
+<strong>镜像/API</strong>；验收 <strong>阈值+回归集</strong>。</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>同</strong>：阶段划分+HF
+生态；<strong>异</strong>：数据域/基座/超参/评测/RAG；点到
+<strong>读过哪几个脚本</strong>（据实）。</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>钉版本</strong>：torch/transformers/DS/CUDA；<strong>git+数据
+hash+命令行</strong>；分布式 <strong>趋势复现</strong> 即可说明。</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>合规+幻觉+工程</strong> 各 1
+条；缓解：<strong>免责/拦截、RAG+拒答、ckpt+过滤抽检</strong>。</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>补课（CPT）+纠偏（对齐）</strong>；内部 <strong>N
+条</strong> <strong>指标+x%</strong>；不说「超 GPT」。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二预训练类10-题">二、预训练类（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11</td>
+<td><strong>PT</strong>：纯文本 <strong>CLM</strong>
+补分布/知识；<strong>SFT</strong>：指令对话、常 <strong>mask 仅
+assistant</strong>。</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>必要</strong>：域弱+语料多；<strong>不必</strong>：基座强只缺指令→<strong>直
+SFT</strong> 或 <strong>RAG</strong>。</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>去重→质量→合规→切块/packing→shuffle</strong>；医疗
+<strong>PII+分层采样</strong>。</td>
+</tr>
+<tr>
+<td>14</td>
+<td>报 <strong>真实 epoch + seen tokens</strong>；常
+<strong>1～3</strong>；看 <strong>域内 PPL + 通用集遗忘</strong>。</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>会遗忘</strong>；<strong>混合通用语料、小 LR、短
+CPT、后续混合 SFT</strong>。</td>
+</tr>
+<tr>
+<td>16</td>
+<td>CPT 常 <strong>更保守 LR</strong> +
+<strong>warmup+余弦</strong>；防扰动基座。</td>
+</tr>
+<tr>
+<td>17</td>
+<td>CPT <strong>一般无 chat 模板</strong>；<strong>SFT 必须统一
+chat_template</strong>。</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>域内 PPL↓</strong> + <strong>探测任务↑</strong> +
+<strong>同量 SFT 消融</strong> 至少两条。</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>packing</strong>：多样本拼到 max_len，减 padding 浪费；注意
+<strong>attention mask 隔离</strong>。</td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>Tokenizer 扩词表</strong>：加医疗术语 → embedding 层扩充 →
+新 token 初始化（均值/随机） → 短 warmup。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="三sft-微调类12-题">三、SFT 微调类（12 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21</td>
+<td><strong>Alpaca</strong>（instruction/input/output）或
+<strong>ShareGPT</strong> 多轮；与 <strong>chat_template</strong>
+严格一致。</td>
+</tr>
+<tr>
+<td>22</td>
+<td>报 <strong>条数+覆盖</strong>；<strong>质&gt;量</strong>；LoRA 常见
+<strong>万～十万级</strong>（以你验证为准）。</td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>Chat</strong>：省事；<strong>Base</strong>：可塑强需更多
+SFT；说明 <strong>你选法+pilot</strong>。</td>
+</tr>
+<tr>
+<td>24</td>
+<td>遗忘：<strong>通用掉点/僵化/过度拒答</strong>；<strong>replay
+通用指令、降 LR/epoch、LoRA</strong>。</td>
+</tr>
+<tr>
+<td>25</td>
+<td>多轮列表；<strong>截断与线上一致</strong>；loss 常 <strong>只在
+assistant</strong>。</td>
+</tr>
+<tr>
+<td>26</td>
+<td><strong>非全 token</strong>；<strong>mask user/system</strong>，只算
+<strong>assistant CE</strong>。</td>
+</tr>
+<tr>
+<td>27</td>
+<td>常 <strong>1～5
+epoch</strong>；<strong>早停</strong>；<strong>盲评选 ckpt</strong>
+勿死记最后一步。</td>
+</tr>
+<tr>
+<td>28</td>
+<td>LoRA <strong>1e-4～1e-3 扫</strong>；<strong>累积
+batch</strong>；<strong>warmup+余弦</strong>；<strong>grad
+clip</strong>；<strong>bf16</strong>。</td>
+</tr>
+<tr>
+<td>29</td>
+<td>模板错→<strong>分布偏移/角色乱</strong>；<strong>训练=推理模板</strong>
++ <strong>编解码单测</strong>。</td>
+</tr>
+<tr>
+<td>30</td>
+<td><strong>reference 用 SFT</strong>；<strong>prompt
+分布覆盖</strong>；<strong>SFT 差则 DPO 难救</strong>。</td>
+</tr>
+<tr>
+<td>31</td>
+<td><strong>数据增强</strong>：GPT-4 改写、回译、few-shot
+生成；<strong>关键</strong>：人工校验比例 ≥10%。</td>
+</tr>
+<tr>
+<td>32</td>
+<td><strong>多任务
+SFT</strong>：问答+摘要+实体抽取混训；<strong>比例控制</strong>防偏+<strong>任务标签</strong>前缀。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四lora-qlora-类10-题">四、LoRA / QLoRA 类（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>33</td>
+<td>冻结 <strong>W</strong>，<strong>ΔW=BA</strong> 低秩；缩放
+<strong>α/r</strong>；近似子空间更新。</td>
+</tr>
+<tr>
+<td>34</td>
+<td><strong>8/16/32/64 扫</strong>；<strong>r↑显存↑</strong>；看
+<strong>val+生成</strong>。</td>
+</tr>
+<tr>
+<td>35</td>
+<td>常 <strong>α=2r 或 r</strong>；与 <strong>r、LR 联调</strong>。</td>
+</tr>
+<tr>
+<td>36</td>
+<td>常挂 <strong>q/v</strong>；可扩 <strong>k/o/MLP</strong>；紧则先
+<strong>q/v</strong>。</td>
+</tr>
+<tr>
+<td>37</td>
+<td><strong>4bit 基座（NF4）+ fp16/bf16 LoRA</strong>；降
+<strong>基座</strong>显存。</td>
+</tr>
+<tr>
+<td>38</td>
+<td>LoRA：<strong>省显存、快迭代、遗忘轻</strong>；全参：<strong>上限高、成本高</strong>。</td>
+</tr>
+<tr>
+<td>39</td>
+<td><strong>merge 单文件</strong> 或 <strong>动态
+adapter</strong>；多租户 <strong>热切换</strong>。</td>
+</tr>
+<tr>
+<td>40</td>
+<td><strong>量化误差、bnb/驱动兼容、超参重标定</strong>；先
+<strong>小数据 sanity check</strong>。</td>
+</tr>
+<tr>
+<td>41</td>
+<td><strong>LoRA+ / rsLoRA /
+DoRA</strong>：改进缩放/分解方向；面试点到名字+核心改动即可。</td>
+</tr>
+<tr>
+<td>42</td>
+<td><strong>A 矩阵高斯初始化、B 矩阵全零</strong>；确保训练开始时
+ΔW=0，不扰动预训练权重。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五rlhf-dpo-对齐类14-题">五、RLHF / DPO / 对齐类（14 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>43</td>
+<td><strong>SFT→RM→PPO+KL</strong>；防 <strong>分布偏移/reward
+hacking</strong>。</td>
+</tr>
+<tr>
+<td>44</td>
+<td><strong>Policy、Reference、RM、Value(Critic)</strong>（实现可共享骨干）。</td>
+</tr>
+<tr>
+<td>45</td>
+<td><strong>直接偏好优化</strong>；<strong>省 RM 在线+PPO
+环</strong>；<strong>数据噪声敏感</strong>。</td>
+</tr>
+<tr>
+<td>46</td>
+<td>拉大 <strong>chosen vs rejected</strong>
+相对似然；<strong>β</strong> 控离 reference 距离。</td>
+</tr>
+<tr>
+<td>47</td>
+<td><strong>ORPO</strong>：偏好目标更联合、少分阶段（<strong>以论文/实现为准</strong>）。</td>
+</tr>
+<tr>
+<td>48</td>
+<td><strong>GRPO</strong>：<strong>组内相对排名</strong>、无 Critic
+模型、同 prompt 多次采样比较（DeepSeek）。</td>
+</tr>
+<tr>
+<td>49</td>
+<td>同 prompt
+<strong>两回答</strong>；多温度/多模型/人工；<strong>去隐私、去平局、防长度偏见</strong>。</td>
+</tr>
+<tr>
+<td>50</td>
+<td><strong>Pairwise ranking</strong>；<strong>chosen
+分&gt;rejected</strong>；<strong>长度归一/截断/近长对</strong>。</td>
+</tr>
+<tr>
+<td>51</td>
+<td><strong>KL</strong>：防 hacking、平衡 <strong>提升 vs 贴近
+reference</strong>。</td>
+</tr>
+<tr>
+<td>52</td>
+<td>查 <strong>LR/clip/KL/reward scale</strong>；<strong>RM
+过拟合</strong>；<strong>净数据+归一化</strong>。</td>
+</tr>
+<tr>
+<td>53</td>
+<td><strong>要 SFT</strong>：底座+reference；主流
+<strong>SFT→DPO</strong>。</td>
+</tr>
+<tr>
+<td>54</td>
+<td><strong>安全/合规/标注专业性</strong>；高风险
+<strong>拒答+引用+免责声明+人工复核</strong>。</td>
+</tr>
+<tr>
+<td>55</td>
+<td><strong>DAPO</strong>：动态采样策略+自适应偏好优化；<strong>CISPO</strong>：约束满足的偏好优化。</td>
+</tr>
+<tr>
+<td>56</td>
+<td><strong>在线 vs 离线对齐</strong>：在线（PPO/GRPO）实时采样更新 →
+效果上限高但贵；离线（DPO）用固定数据 → 简单但受数据分布限制。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="六数据类10-题">六、数据类（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>57</td>
+<td><strong>公开+合成（校验）+授权私有</strong>；诚实
+<strong>比例与合规</strong>。</td>
+</tr>
+<tr>
+<td>58</td>
+<td><strong>去重、字段校验、角色修复、PII、抽检</strong>。</td>
+</tr>
+<tr>
+<td>59</td>
+<td><strong>统计+PPL/小模型过滤+分层人工抽检</strong>。</td>
+</tr>
+<tr>
+<td>60</td>
+<td><strong>科室偏、长尾弱</strong>；<strong>重采样+对抗评测集</strong>。</td>
+</tr>
+<tr>
+<td>61</td>
+<td><strong>错误累积/塌缩</strong>；<strong>混合真实+强校验+多样
+prompt</strong>。</td>
+</tr>
+<tr>
+<td>62</td>
+<td><strong>投票过滤、保守 β/LR、置信加权（若有）</strong>。</td>
+</tr>
+<tr>
+<td>63</td>
+<td><strong>manifest+hash+data_version</strong>；与
+<strong>ckpt</strong> 绑定。</td>
+</tr>
+<tr>
+<td>64</td>
+<td><strong>术语/中英混写/缩写/指南更新</strong>；<strong>术语表+RAG/更新流程</strong>。</td>
+</tr>
+<tr>
+<td>65</td>
+<td><strong>数据飞轮</strong>：部署 → 收集真实问答 → 标注 → 回训练 →
+模型迭代；关键：<strong>人工质控闭环</strong>。</td>
+</tr>
+<tr>
+<td>66</td>
+<td><strong>脱敏流程</strong>：正则 + NER 识别姓名/身份证/手机号 →
+替换/哈希 → 人工抽检覆盖率。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="七工程与部署类10-题">七、工程与部署类（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>67</td>
+<td><strong>DDP</strong>；<strong>ZeRO/FSDP</strong>；超大
+<strong>张量/流水线并行</strong>。</td>
+</tr>
+<tr>
+<td>68</td>
+<td><strong>Z1 优化器；Z2+梯度；Z3+参数</strong>；Z3
+<strong>通信更重</strong>。</td>
+</tr>
+<tr>
+<td>69</td>
+<td><strong>checkpointing、bf16、QLoRA、累积、截断、FlashAttn、offload</strong>。</td>
+</tr>
+<tr>
+<td>70</td>
+<td><strong>合并→vLLM/TGI→批/并发→监控</strong>；医疗
+<strong>审计+过滤</strong>。</td>
+</tr>
+<tr>
+<td>71</td>
+<td><strong>PagedAttention、连续批、高吞吐</strong>（单请求低延迟另评）。</td>
+</tr>
+<tr>
+<td>72</td>
+<td><strong>Trainer resume / DeepSpeed ckpt</strong>；注意
+<strong>优化器状态</strong>。</td>
+</tr>
+<tr>
+<td>73</td>
+<td><strong>loss+grad norm+吞吐+定期解码样例</strong>；<strong>NaN
+告警</strong>。</td>
+</tr>
+<tr>
+<td>74</td>
+<td><strong>带宽/延迟</strong>；调 <strong>micro-batch、拓扑、ZeRO
+阶段</strong>。</td>
+</tr>
+<tr>
+<td>75</td>
+<td><strong>梯度累积原理</strong>：多个 micro-batch 累加 grad，等效大
+batch；注意 <strong>LR 线性缩放</strong>。</td>
+</tr>
+<tr>
+<td>76</td>
+<td><strong>显存估算公式</strong>：参数量 × 字节 + 优化器状态 + 激活值 +
+KV Cache；7B FP16 ≈ 14GB 纯参数。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="八算法深度追问类12-题">八、算法深度追问类（12 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>77</td>
+<td>Self-Attn
+<strong>O(n²d)</strong>；长序列瓶颈→<strong>Flash/稀疏/线性注意力</strong>。</td>
+</tr>
+<tr>
+<td>78</td>
+<td><strong>前快后慢</strong>；后期小 LR <strong>精细收敛</strong>；常配
+<strong>warmup</strong>。</td>
+</tr>
+<tr>
+<td>79</td>
+<td><strong>限 grad norm</strong>；防爆 <strong>NaN</strong>；RL
+也常用。</td>
+</tr>
+<tr>
+<td>80</td>
+<td><strong>分块 softmax</strong>；减 <strong>HBM</strong>、SRAM
+算；<strong>数值等价</strong>（标准 FA）。</td>
+</tr>
+<tr>
+<td>81</td>
+<td><strong>LN：减均值除方差</strong>；<strong>RMSNorm：仅 RMS
+缩放</strong>。</td>
+</tr>
+<tr>
+<td>82</td>
+<td><strong>旋转相对位置</strong>；外推
+<strong>缩放/NTK</strong>（点到为止）。</td>
+</tr>
+<tr>
+<td>83</td>
+<td>看 <strong>验证集</strong>；小数据可 <strong>减 dropout</strong> +
+<strong>weight decay</strong>。</td>
+</tr>
+<tr>
+<td>84</td>
+<td><strong>AdamW 解耦 weight decay</strong>；抑过大权重。</td>
+</tr>
+<tr>
+<td>85</td>
+<td><strong>BN 依赖 batch 统计</strong>；LLM <strong>LN/RMSNorm</strong>
+更稳。</td>
+</tr>
+<tr>
+<td>86</td>
+<td><strong>fp16 要 loss scale</strong>；<strong>bf16
+动态范围</strong>常更稳。</td>
+</tr>
+<tr>
+<td>87</td>
+<td><strong>SwiGLU</strong>：Swish 门控 + 线性投影；比 ReLU/GELU
+<strong>表达力更强</strong>，代价多 50% 参数。</td>
+</tr>
+<tr>
+<td>88</td>
+<td><strong>Softmax 数值稳定性</strong>：减去 max 防溢出；<strong>在线
+softmax</strong> 单遍扫描更高效。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="九前沿技术专题2025-2026-新增16-题">九、前沿技术专题（2025-2026
+新增，16 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>89</td>
+<td><strong>DeepSeek R1 核心</strong>：纯
+RL（GRPO）训练推理能力；冷启动数据 → GRPO → 拒绝采样 SFT → RL
+迭代。</td>
+</tr>
+<tr>
+<td>90</td>
+<td><strong>MLA（Multi-Latent Attention）</strong>：KV
+投影到低维潜空间，推理时 KV Cache
+大幅压缩（5-13x），同时保持多头表达力。</td>
+</tr>
+<tr>
+<td>91</td>
+<td><strong>MTP（Multi-Token Prediction）</strong>：一次前向预测多个未来
+token；加速推理（投机解码变体）+ 训练时提供更密集信号。</td>
+</tr>
+<tr>
+<td>92</td>
+<td><strong>Mixture of Experts（MoE）</strong>：总参数大但每 token
+只激活部分专家；<strong>路由策略</strong>（Top-K / Expert Choice）+
+<strong>负载均衡 loss</strong>。</td>
+</tr>
+<tr>
+<td>93</td>
+<td><strong>GRPO vs PPO</strong>：GRPO 省掉 Critic/Value 模型，同 prompt
+多次采样取组内相对奖励 → 显存/复杂度大降。</td>
+</tr>
+<tr>
+<td>94</td>
+<td><strong>DAPO</strong>：动态采样 + 自适应 KL 惩罚；解决 GRPO
+中奖励分布不均匀问题；DeepSeek 后续改进。</td>
+</tr>
+<tr>
+<td>95</td>
+<td><strong>RLAIF</strong>：用 AI
+代替人类标注偏好；<strong>Constitutional
+AI</strong>（Anthropic）；降本但需 <strong>防循环偏差</strong>。</td>
+</tr>
+<tr>
+<td>96</td>
+<td><strong>投机解码</strong>：小模型快速生成候选 → 大模型验证接受/拒绝
+→ 保证分布一致性，加速 2-3x。</td>
+</tr>
+<tr>
+<td>97</td>
+<td><strong>PagedAttention</strong>：将 KV Cache
+分页管理（类操作系统虚拟内存）；消除碎片，支持动态 batch。</td>
+</tr>
+<tr>
+<td>98</td>
+<td><strong>Continuous Batching</strong>：不等整个 batch
+完成再插入新请求 → 吞吐提升 2-5x（vLLM / TGI）。</td>
+</tr>
+<tr>
+<td>99</td>
+<td><strong>长上下文扩展</strong>：RoPE 频率缩放 / NTK-aware / YaRN /
+Ring Attention；训练短推理长。</td>
+</tr>
+<tr>
+<td>100</td>
+<td><strong>RAG vs 长上下文</strong>：RAG
+精准召回+可溯源，但延迟高；长上下文端到端，但注意力发散。<strong>互补使用</strong>。</td>
+</tr>
+<tr>
+<td>101</td>
+<td><strong>Agent / Tool Use</strong>：LLM
+调用外部工具（搜索/计算/API）；<strong>ReAct</strong>
+框架；训练数据格式。</td>
+</tr>
+<tr>
+<td>102</td>
+<td><strong>模型蒸馏</strong>：大模型 → 小模型；<strong>KL 散度 loss +
+hard label loss</strong> 加权；温度 T 调节平滑度。</td>
+</tr>
+<tr>
+<td>103</td>
+<td><strong>对比解码 / Contrastive
+Decoding</strong>：用弱模型输出作对比，增强强模型的区分度。</td>
+</tr>
+<tr>
+<td>104</td>
+<td><strong>Test-Time Compute</strong>：推理时增加计算（多次采样 + 验证
+/ 搜索）换取更好结果；DeepSeek R1 思路。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十医疗合规与安全专题8-题">十、医疗合规与安全专题（8 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>105</td>
+<td><strong>医疗 AI
+三条红线</strong>：不替代诊断、不泄露隐私、不误导用药；<strong>免责声明</strong>必须有。</td>
+</tr>
+<tr>
+<td>106</td>
+<td><strong>HIPAA（美）/
+个保法+数安法（中）</strong>：患者数据脱敏、授权使用、最小必要原则。</td>
+</tr>
+<tr>
+<td>107</td>
+<td><strong>医疗幻觉控制</strong>：RAG 增强 + 拒答机制 + 置信度阈值 +
+人工复核 + 引用溯源。</td>
+</tr>
+<tr>
+<td>108</td>
+<td><strong>安全对齐</strong>：拒绝危险医疗建议（自杀/自残/非法用药）；<strong>安全分类器
++ 规则引擎 + RLHF 安全标注</strong>。</td>
+</tr>
+<tr>
+<td>109</td>
+<td><strong>医疗评测指标</strong>：准确率/召回率之外 →
+<strong>临床一致性、专家盲评、安全性评估、USMLE 分数</strong>。</td>
+</tr>
+<tr>
+<td>110</td>
+<td><strong>数据合规流程</strong>：获取授权 → 脱敏处理 → 安全存储 →
+使用审计 → 定期销毁；全程<strong>日志可追溯</strong>。</td>
+</tr>
+<tr>
+<td>111</td>
+<td><strong>模型上线审批</strong>：内部评审 → 安全测试 → 合规审查 →
+灰度发布 → 持续监控 → 应急回滚。</td>
+</tr>
+<tr>
+<td>112</td>
+<td><strong>对抗攻击防御</strong>：prompt 注入/越狱 → 输入过滤 +
+输出检测 + 多层防护 + 定期红队测试。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十一系统设计题8-题">十一、系统设计题（8 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>113</td>
+<td><strong>设计医疗问诊大模型系统</strong>：用户层(前端) →
+网关(鉴权/限流) → RAG检索 → LLM推理 → 安全过滤 →
+响应；加<strong>审计日志+人工复核通道</strong>。</td>
+</tr>
+<tr>
+<td>114</td>
+<td><strong>设计大模型训练平台</strong>：数据管理 → 任务调度(Slurm/K8s)
+→ 训练引擎(DeepSpeed) → 模型仓库 → 评测系统 → 部署管道。</td>
+</tr>
+<tr>
+<td>115</td>
+<td><strong>设计偏好数据标注系统</strong>：任务分发 → 标注界面(对比展示)
+→ 多人标注+一致性检测 → 质量审核 → 数据导出(DPO格式)。</td>
+</tr>
+<tr>
+<td>116</td>
+<td><strong>大模型推理服务扩缩容</strong>：vLLM 集群 → 负载均衡 →
+自动扩缩(基于 QPS/延迟) → KV Cache 复用 → 降级策略。</td>
+</tr>
+<tr>
+<td>117</td>
+<td><strong>医疗知识库更新系统</strong>：新指南发布 → 自动抽取 →
+向量化入库 → RAG 验证 → 触发模型更新/微调。</td>
+</tr>
+<tr>
+<td>118</td>
+<td><strong>多模型 A/B 测试平台</strong>：流量分流 → 同 query 并行推理 →
+结果采集 → 人工/自动评测 → 显著性检验 → 决策。</td>
+</tr>
+<tr>
+<td>119</td>
+<td><strong>设计 LoRA 多租户服务</strong>：共享基座模型 → 动态加载不同
+LoRA 权重 → KV Cache 隔离 → 按需切换 → 资源池化。</td>
+</tr>
+<tr>
+<td>120</td>
+<td><strong>端到端医疗报告生成系统</strong>：检查结果输入 → 结构化解析 →
+模板填充 + LLM 润色 → 医生审核 → 签发。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十二手撕算法题10-题">十二、手撕算法题（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>题目</th>
+<th>考察点</th>
+<th>关键思路</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>121</td>
+<td><strong>手写 Self-Attention</strong></td>
+<td>Transformer 核心</td>
+<td>Q=XWq, K=XWk, V=XWv → scores=QK^T/√d → softmax → ×V</td>
+</tr>
+<tr>
+<td>122</td>
+<td><strong>手写 Multi-Head Attention</strong></td>
+<td>多头拆分</td>
+<td>split → 并行 attention → concat → linear</td>
+</tr>
+<tr>
+<td>123</td>
+<td><strong>手写 LoRA 前向传播</strong></td>
+<td>低秩适配</td>
+<td>h = W₀x + (α/r)·B·A·x；A∈R^(r×d_in), B∈R^(d_out×r)</td>
+</tr>
+<tr>
+<td>124</td>
+<td><strong>手写 RoPE 位置编码</strong></td>
+<td>旋转编码</td>
+<td>复数旋转：(q₂ᵢ+iq₂ᵢ₊₁)·e<sup>(iθ·pos)；θᵢ=10000</sup>(-2i/d)</td>
+</tr>
+<tr>
+<td>125</td>
+<td><strong>手写 DPO Loss</strong></td>
+<td>偏好优化</td>
+<td>L=-log σ(β·(log π(y_w|x)/π_ref(y_w|x) - log
+π(y_l|x)/π_ref(y_l|x)))</td>
+</tr>
+<tr>
+<td>126</td>
+<td><strong>手写 Beam Search</strong></td>
+<td>解码策略</td>
+<td>维护 top-k 候选序列；每步扩展+剪枝；返回最高分序列</td>
+</tr>
+<tr>
+<td>127</td>
+<td><strong>手写 BPE Tokenizer</strong></td>
+<td>分词</td>
+<td>统计相邻 pair 频率 → 合并最高频 → 重复直到词表满</td>
+</tr>
+<tr>
+<td>128</td>
+<td><strong>手写 KV Cache 推理</strong></td>
+<td>推理优化</td>
+<td>首次全序列计算 KV → 后续只算新 token 的 Q，复用历史 KV</td>
+</tr>
+<tr>
+<td>129</td>
+<td><strong>手写交叉熵 Loss</strong></td>
+<td>基础</td>
+<td>L = -Σ yᵢ log(ŷᵢ)；label smoothing 变体</td>
+</tr>
+<tr>
+<td>130</td>
+<td><strong>实现 Top-p (nucleus) 采样</strong></td>
+<td>解码策略</td>
+<td>按概率降序排列 → 累积概率达 p 截断 → 在截断集中采样</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十三开放性问题10-题">十三、开放性问题（10 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>131</td>
+<td><strong>项目最大挑战</strong>：每条跟 STAR
+故事；<strong>数据质量→清洗流水线、训练不稳定→排查流程、效果不达标→消融实验</strong>。</td>
+</tr>
+<tr>
+<td>132</td>
+<td>按
+ROI：<strong>数据校验+RAG</strong>、<strong>评测平台化</strong>、<strong>vLLM+监控</strong>（三选三讲清）。</td>
+</tr>
+<tr>
+<td>133</td>
+<td><strong>幻觉、安全、时效、合规、评测贵</strong>；<strong>人机协同</strong>
+兜底。</td>
+</tr>
+<tr>
+<td>134</td>
+<td><strong>SFT+DPO+RAG+拒答</strong>；产品
+<strong>复核</strong>；不承诺 100%。</td>
+</tr>
+<tr>
+<td>135</td>
+<td><strong>域内准、评测贴业务、私有化成本</strong>；不贬低通用模型。</td>
+</tr>
+<tr>
+<td>136</td>
+<td><strong>评测自动化、工具调用、多模态、合规审计</strong>（结合应聘公司）。</td>
+</tr>
+<tr>
+<td>137</td>
+<td><strong>如果从头再做这个项目，你会改什么？</strong> →
+数据质量投入更多、早期引入自动评测、选择更轻的对齐方法。</td>
+</tr>
+<tr>
+<td>138</td>
+<td><strong>你怎么看大模型的未来发展？</strong> → Scaling Law 放缓 →
+数据质量/合成数据 → 推理优化(o1/R1) → 多模态 → Agent。</td>
+</tr>
+<tr>
+<td>139</td>
+<td><strong>为什么选择医疗方向？</strong> →
+高价值+强壁垒+数据稀缺带来的技术挑战；注意合规与责任。</td>
+</tr>
+<tr>
+<td>140</td>
+<td><strong>团队协作中的技术分歧怎么处理？</strong> → 数据说话（A/B
+实验）→ 技术调研文档 → 小范围验证 → 团队评审。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十四minimind-项目专题10-题">十四、MiniMind 项目专题（10
+题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>141</td>
+<td><strong>为什么选 MiniMind</strong>：64M 参数、3 元成本、纯
+PyTorch、覆盖 PT→SFT→DPO→LoRA→RLHF 全流程。</td>
+</tr>
+<tr>
+<td>142</td>
+<td><strong>MiniMind 架构</strong>：Decoder-only Transformer；RMSNorm +
+RoPE + SwiGLU + GQA；对齐 Qwen3 生态。</td>
+</tr>
+<tr>
+<td>143</td>
+<td><strong>预训练数据</strong>：pretrain_hq.jsonl（1.6GB）中文高质量文本；CLM
+next-token prediction。</td>
+</tr>
+<tr>
+<td>144</td>
+<td><strong>SFT 阶段</strong>：sft_mini_512.jsonl；Alpaca
+格式指令数据；仅算 assistant loss。</td>
+</tr>
+<tr>
+<td>145</td>
+<td><strong>DPO 实现</strong>：dpo.jsonl 偏好对数据；直接对比
+chosen/rejected log prob；β 控制偏离 reference 程度。</td>
+</tr>
+<tr>
+<td>146</td>
+<td><strong>MoE 变体</strong>：minimind-3-moe，198M 总参/64M 激活；Top-2
+路由 + 负载均衡 loss。</td>
+</tr>
+<tr>
+<td>147</td>
+<td><strong>与 MedicalGPT
+对比</strong>：MiniMind=从零搭建理解原理；MedicalGPT=工业级微调框架。互补不冲突。</td>
+</tr>
+<tr>
+<td>148</td>
+<td><strong>训练优化</strong>：混合精度 + 梯度累积 + 梯度裁剪；单卡 3090
+即可全流程。</td>
+</tr>
+<tr>
+<td>149</td>
+<td><strong>MiniMind 部署</strong>：兼容 transformers / vllm /
+ollama；OpenAI API 兼容接口。</td>
+</tr>
+<tr>
+<td>150</td>
+<td><strong>从 MiniMind 学到了什么</strong>：Attention
+从零实现、训练不稳定排查、数据质量对小模型的影响更敏感。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十五补充高频追问5-题">十五、补充高频追问（5 题）</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 87%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>关键词答案（≤3 行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>151</td>
+<td><strong>为什么 Decoder-only 成为主流？</strong>
+自回归生成天然适配；统一预训练+生成；KV Cache 高效。</td>
+</tr>
+<tr>
+<td>152</td>
+<td><strong>GQA 是什么？为什么比 MHA 好？</strong> 多个 Query head 共享
+KV head → KV Cache 减少 → 推理速度快且效果接近。</td>
+</tr>
+<tr>
+<td>153</td>
+<td><strong>如何处理训练中的 loss spike？</strong> 检查数据质量 → 降 LR
+→ 加 grad clip → 回退 ckpt → 排除 NaN 样本。</td>
+</tr>
+<tr>
+<td>154</td>
+<td><strong>Tokenizer 选型考量？</strong> BPE vs SentencePiece vs
+Unigram；中文需要足够词表（32K-64K）；压缩率影响推理效率。</td>
+</tr>
+<tr>
+<td>155</td>
+<td><strong>怎么评估对齐效果？</strong> 人工盲评 + 自动指标（win rate /
+reward score） + 安全测试 + 边界 case 覆盖率。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="使用建议">使用建议</h2>
+<ol type="1">
+<li>表格从上往下扫一遍，<strong>卡壳的题立刻跳回 L20
+对应章节</strong>看口播全文</li>
+<li>面试前一天：<strong>遮住右列自测</strong>，只看题号复述关键词</li>
+<li>所有 <strong>【N】【x%】</strong>
+必须与你简历一致，避免临场对不上</li>
+<li><strong>新增题目</strong>（89-155）重点关注前沿技术和系统设计，这是
+2026 年面试的高频新增方向</li>
+<li>手撕算法题（121-130）建议在纸上练习 3 遍以上</li>
+</ol>
+<hr />
+<h1 id="minimind-项目全景-从零理解大模型">MiniMind 项目全景 —
+从零理解大模型</h1>
+<blockquote>
+<p>本章帮助你在 30 分钟内理解 MiniMind
+项目的全貌，为什么它适合写进简历，以及它和 MedicalGPT 的关系。</p>
+</blockquote>
+<figure>
+<img src="../comics/comic-04-minimind.png"
+alt="MiniMind 漫画 — 3元训练大模型" />
+<figcaption aria-hidden="true">MiniMind 漫画 —
+3元训练大模型</figcaption>
+</figure>
+<hr />
+<h2 id="一minimind-是什么">一、MiniMind 是什么？</h2>
+<p>MiniMind 是一个完全开源的 <strong>从零训练大语言模型</strong>
+项目，由 jingyaogong 创建，GitHub 上获得 <strong>45K+
+Star</strong>。</p>
+<h3 id="核心卖点">核心卖点</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>维度</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>参数量</td>
+<td>64M（Dense）/ 198M（MoE，激活 64M）</td>
+</tr>
+<tr>
+<td>训练成本</td>
+<td>约 3 元人民币（GPU 租用）</td>
+</tr>
+<tr>
+<td>训练时间</td>
+<td>约 2 小时（单卡 3090）</td>
+</tr>
+<tr>
+<td>模型体积</td>
+<td>GPT-3 的 1/2700</td>
+</tr>
+<tr>
+<td>实现方式</td>
+<td>纯 PyTorch，零第三方高层抽象</td>
+</tr>
+<tr>
+<td>覆盖流程</td>
+<td>PT → SFT → LoRA → DPO → RLHF(PPO/GRPO/CISPO) → 蒸馏 → Tool Use</td>
+</tr>
+</tbody>
+</table>
+<h3 id="一句话定位">一句话定位</h3>
+<blockquote>
+<p><strong>MiniMind = 大模型的「Hello World」</strong></p>
+<p>用最小的成本、最少的代码，让你亲手跑通大模型训练的每一个环节。</p>
+</blockquote>
+<hr />
+<h2 id="二为什么-minimind-适合面试">二、为什么 MiniMind 适合面试？</h2>
+<h3 id="面试官视角">2.1 面试官视角</h3>
+<p>面试官想看到的不是「用了 LLaMA-Factory 点了几下按钮」，而是：</p>
+<ol type="1">
+<li><strong>你是否理解底层原理</strong> — MiniMind 纯 PyTorch
+实现，每一行代码都可以解释</li>
+<li><strong>你是否有动手能力</strong> —
+从零搭建比调参更能体现工程能力</li>
+<li><strong>你是否理解训练全流程</strong> — PT/SFT/DPO/LoRA
+每个阶段都走过</li>
+<li><strong>你是否能独立排查问题</strong> —
+小模型训练中遇到的问题与大模型一样</li>
+</ol>
+<h3 id="和-medicalgpt-形成互补">2.2 和 MedicalGPT 形成互补</h3>
+<pre><code>MedicalGPT（工业级框架）          MiniMind（从零实现）
+├── 基于 HuggingFace TRL          ├── 纯 PyTorch 原生
+├── 支持 7B-70B 大模型             ├── 64M 小模型
+├── 医疗领域适配                   ├── 通用语言模型
+├── 展示「怎么用」                 ├── 展示「怎么做」
+└── 工程经验                       └── 原理理解</code></pre>
+<p><strong>面试策略</strong>：先用 MiniMind 展示你对原理的理解，再用
+MedicalGPT 展示你的工程实战能力。</p>
+<hr />
+<h2 id="三项目架构总览">三、项目架构总览</h2>
+<h3 id="整体架构">3.1 整体架构</h3>
+<pre><code>MiniMind 项目架构
+=================
+
+输入层                    模型层                      输出层
+──────                   ──────                     ──────
+                   ┌──────────────────┐
+ 文本输入 ──────&gt;  │  Tokenizer       │
+                   │  (自训练 BPE)     │
+                   └────────┬─────────┘
+                            │
+                   ┌────────▼─────────┐
+                   │  Embedding       │
+                   │  + RoPE 位置编码  │
+                   └────────┬─────────┘
+                            │
+                   ┌────────▼─────────┐
+                   │  N × Transformer │
+                   │  Decoder Block   │  ×16 层
+                   │  ┌─────────────┐ │
+                   │  │ RMSNorm     │ │
+                   │  │ GQA Attn    │ │
+                   │  │ RMSNorm     │ │
+                   │  │ SwiGLU FFN  │ │
+                   │  └─────────────┘ │
+                   └────────┬─────────┘
+                            │
+                   ┌────────▼─────────┐
+                   │  RMSNorm         │
+                   │  + Linear Head   │ ──────&gt;  下一个 Token
+                   └──────────────────┘</code></pre>
+<h3 id="关键组件对齐minimind-vs-qwen3">3.2 关键组件对齐（MiniMind vs
+Qwen3）</h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>MiniMind-3</th>
+<th>Qwen3</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>归一化</td>
+<td>RMSNorm</td>
+<td>RMSNorm</td>
+<td>相同</td>
+</tr>
+<tr>
+<td>位置编码</td>
+<td>RoPE</td>
+<td>RoPE</td>
+<td>相同</td>
+</tr>
+<tr>
+<td>注意力</td>
+<td>GQA</td>
+<td>GQA</td>
+<td>相同，MiniMind 4 KV head</td>
+</tr>
+<tr>
+<td>FFN</td>
+<td>SwiGLU</td>
+<td>SwiGLU</td>
+<td>相同</td>
+</tr>
+<tr>
+<td>激活函数</td>
+<td>SiLU</td>
+<td>SiLU</td>
+<td>相同</td>
+</tr>
+<tr>
+<td>词表大小</td>
+<td>6400</td>
+<td>151936</td>
+<td>MiniMind 精简词表</td>
+</tr>
+<tr>
+<td>层数</td>
+<td>16</td>
+<td>32-80</td>
+<td>MiniMind 更少层</td>
+</tr>
+<tr>
+<td>隐藏维度</td>
+<td>512</td>
+<td>2048-8192</td>
+<td>MiniMind 更小</td>
+</tr>
+</tbody>
+</table>
+<h3 id="训练流程全景">3.3 训练流程全景</h3>
+<pre><code>阶段一：预训练 (PT)                阶段二：监督微调 (SFT)
+─────────────────                ──────────────────
+pretrain_hq.jsonl ──&gt;             sft_mini_512.jsonl ──&gt;
+train_pretrain.py                 train_sft.py
+│                                 │
+│  next-token prediction          │  instruction following
+│  ~1-1.5 小时                     │  ~30 分钟
+│                                 │
+▼                                 ▼
+
+阶段三：偏好对齐                    阶段四：进阶（可选）
+──────────────                    ─────────────────
+dpo.jsonl ──&gt;                     LoRA 微调
+train_dpo.py                      RLHF (PPO/GRPO/CISPO)
+│                                 模型蒸馏
+│  preference alignment           Tool Use / Agentic RL
+│  ~20 分钟                        多模态 (MiniMind-V)
+│
+▼
+
+部署推理
+──────
+eval_model.py / web_server.py
+兼容 transformers / vllm / ollama</code></pre>
+<hr />
+<h2 id="四核心文件清单">四、核心文件清单</h2>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+<th>面试重要性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model/model.py</code></td>
+<td>模型架构定义（Attention、FFN、TransformerBlock）</td>
+<td>极高</td>
+</tr>
+<tr>
+<td><code>model/model_moe.py</code></td>
+<td>MoE 变体模型</td>
+<td>高</td>
+</tr>
+<tr>
+<td><code>train_pretrain.py</code></td>
+<td>预训练脚本</td>
+<td>高</td>
+</tr>
+<tr>
+<td><code>train_sft.py</code></td>
+<td>SFT 微调脚本</td>
+<td>高</td>
+</tr>
+<tr>
+<td><code>train_dpo.py</code></td>
+<td>DPO 对齐脚本</td>
+<td>高</td>
+</tr>
+<tr>
+<td><code>train_lora.py</code></td>
+<td>LoRA 微调脚本</td>
+<td>高</td>
+</tr>
+<tr>
+<td><code>train_rl.py</code></td>
+<td>强化学习训练（PPO/GRPO/CISPO）</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>train_distill.py</code></td>
+<td>知识蒸馏</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>tokenizer/train_tokenizer.py</code></td>
+<td>Tokenizer 训练</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>eval_model.py</code></td>
+<td>模型评估</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>web_server.py</code></td>
+<td>OpenAI API 兼容服务</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>config.py</code></td>
+<td>超参数配置</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五面试30秒速讲">五、面试30秒速讲</h2>
+<blockquote>
+<p>「我从零实现了一个 64M 参数的语言模型 MiniMind，基于纯 PyTorch
+原生代码，不依赖 HuggingFace 高层封装。项目覆盖了 Tokenizer
+训练、预训练、SFT 微调、DPO 偏好对齐和 LoRA 高效微调全流程。模型架构对齐
+Qwen3，使用 RMSNorm + RoPE + GQA + SwiGLU。整个训练过程在单卡 3090 上 2
+小时完成，成本约 3
+元。通过这个项目，我深入理解了大模型训练的每一个环节，从 Attention
+计算到 DPO Loss 推导都可以从代码层面解释。」</p>
+</blockquote>
+<hr />
+<h2 id="六与本仓库其他内容的关系">六、与本仓库其他内容的关系</h2>
+<pre><code>本仓库学习路径
+=============
+
+MedicalGPT 体系（L01-L20）         MiniMind 体系（本目录）
+├── 理论知识                        ├── 动手实现
+├── 工业级框架使用                   ├── 从零搭建
+├── 医疗领域适配                    ├── 通用模型原理
+└── 面试八股文答案                  └── 代码级面试回答
+
+                    ↓ 结合使用 ↓
+
+              面试时展示两个维度：
+              1. 原理理解（MiniMind）
+              2. 工程实战（MedicalGPT）</code></pre>
+<hr />
+<blockquote>
+<p><strong>下一章</strong>：<a
+href="./02-从零搭建.md">02-从零搭建.md</a> — 手把手教你跑通 MiniMind
+全流程</p>
+</blockquote>
+<hr />
+<h1 id="minimind-从零搭建指南-小白也能跑通">MiniMind 从零搭建指南 —
+小白也能跑通</h1>
+<blockquote>
+<p>本章手把手教你从环境准备到模型部署，全流程跑通 MiniMind。预计耗时 3-4
+小时（含下载时间）。</p>
+</blockquote>
+<figure>
+<img src="../comics/comic-02-training-pipeline.png"
+alt="训练流程漫画 — PT → SFT → DPO" />
+<figcaption aria-hidden="true">训练流程漫画 — PT → SFT →
+DPO</figcaption>
+</figure>
+<hr />
+<h2 id="一环境准备">一、环境准备</h2>
+<h3 id="硬件要求">1.1 硬件要求</h3>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>最低要求</th>
+<th>推荐配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU</td>
+<td>GTX 1080 (8GB)</td>
+<td>RTX 3090 (24GB)</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>16GB</td>
+<td>32GB</td>
+</tr>
+<tr>
+<td>硬盘</td>
+<td>20GB 可用空间</td>
+<td>50GB SSD</td>
+</tr>
+<tr>
+<td>CUDA</td>
+<td>11.8+</td>
+<td>12.1+</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>没有 GPU？可以使用 AutoDL / Vast.ai 等 GPU 租用平台，3090 约 1-2
+元/小时。</p>
+</blockquote>
+<h3 id="软件环境">1.2 软件环境</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 创建 conda 环境</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> minimind python=3.10 <span class="at">-y</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate minimind</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 安装 PyTorch（根据 CUDA 版本选择）</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># CUDA 12.1</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install torch torchvision torchaudio <span class="at">--index-url</span> https://download.pytorch.org/whl/cu121</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 克隆项目</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/jingyaogong/minimind.git</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> minimind</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 安装依赖</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h3 id="验证环境">1.3 验证环境</h3>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;PyTorch version: </span><span class="sc">{</span>torch<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;CUDA available: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>is_available()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;GPU: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>get_device_name(<span class="dv">0</span>)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;GPU Memory: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>get_device_properties(<span class="dv">0</span>)<span class="sc">.</span>total_mem <span class="op">/</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span><span class="sc">:.1f}</span><span class="ss"> GB&quot;</span>)</span></code></pre></div>
+<hr />
+<h2 id="二数据准备">二、数据准备</h2>
+<h3 id="下载数据集">2.1 下载数据集</h3>
+<p>从 ModelScope 或 HuggingFace 下载：</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ModelScope（国内更快）</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 预训练数据</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://modelscope.cn/datasets/jingyaogong/minimind_dataset/resolve/master/pretrain_hq.jsonl</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># SFT 数据</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://modelscope.cn/datasets/jingyaogong/minimind_dataset/resolve/master/sft_mini_512.jsonl</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># DPO 数据</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://modelscope.cn/datasets/jingyaogong/minimind_dataset/resolve/master/dpo.jsonl</span></code></pre></div>
+<h3 id="数据格式说明">2.2 数据格式说明</h3>
+<p><strong>预训练数据</strong>（pretrain_hq.jsonl）：</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;一段连续的中文文本...&quot;</span><span class="fu">}</span></span></code></pre></div>
+<p><strong>SFT 数据</strong>（sft_mini_512.jsonl）：</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;conversations&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;user&quot;</span><span class="fu">,</span> <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;什么是感冒？&quot;</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;assistant&quot;</span><span class="fu">,</span> <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;感冒是一种常见的上呼吸道感染...&quot;</span><span class="fu">}</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>DPO 数据</strong>（dpo.jsonl）：</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;prompt&quot;</span><span class="fu">:</span> <span class="st">&quot;解释什么是高血压&quot;</span><span class="fu">,</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;chosen&quot;</span><span class="fu">:</span> <span class="st">&quot;高血压是指动脉血压持续升高的慢性病...&quot;</span><span class="fu">,</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;rejected&quot;</span><span class="fu">:</span> <span class="st">&quot;高血压就是血压高了，吃点药就好了...&quot;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<hr />
+<h2 id="三第一步预训练约-1-1.5-小时">三、第一步：预训练（约 1-1.5
+小时）</h2>
+<h3 id="理解预训练">3.1 理解预训练</h3>
+<p>预训练的目标是让模型学会「读」文本 — 给定前面的词，预测下一个词（Next
+Token Prediction）。</p>
+<pre><code>输入：  今天 天气 真
+目标：  天气 真   好
+损失：  CrossEntropyLoss(预测, 目标)</code></pre>
+<h3 id="配置参数">3.2 配置参数</h3>
+<p>核心参数在 <code>config.py</code> 中：</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 模型结构参数</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">512</span>             <span class="co"># 隐藏层维度</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>n_layers <span class="op">=</span> <span class="dv">16</span>         <span class="co"># Transformer 层数</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>n_heads <span class="op">=</span> <span class="dv">8</span>           <span class="co"># 注意力头数</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>n_kv_heads <span class="op">=</span> <span class="dv">4</span>        <span class="co"># KV 头数（GQA）</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>vocab_size <span class="op">=</span> <span class="dv">6400</span>     <span class="co"># 词表大小</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>max_seq_len <span class="op">=</span> <span class="dv">512</span>     <span class="co"># 最大序列长度</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 训练参数</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">5e-4</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>epochs <span class="op">=</span> <span class="dv">2</span></span></code></pre></div>
+<h3 id="开始训练">3.3 开始训练</h3>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train_pretrain.py</span></code></pre></div>
+<h3 id="观察训练日志">3.4 观察训练日志</h3>
+<p>正常的训练日志应该是这样的：</p>
+<pre><code>Epoch 1/2, Step 100/5000, Loss: 7.823, LR: 0.000125
+Epoch 1/2, Step 200/5000, Loss: 6.451, LR: 0.000250
+Epoch 1/2, Step 500/5000, Loss: 4.872, LR: 0.000500
+...
+Epoch 2/2, Step 5000/5000, Loss: 3.156, LR: 0.000050</code></pre>
+<p><strong>关键指标</strong>： - Loss
+应该稳步下降（不一定单调，但趋势向下） - 如果 Loss 突然变成 NaN → 检查
+LR 是否太大 - 如果 Loss 下降很慢 → 检查数据是否正确加载</p>
+<h3 id="常见问题排查">3.5 常见问题排查</h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>原因</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUDA out of memory</td>
+<td>显存不足</td>
+<td>减小 batch_size 或 max_seq_len</td>
+</tr>
+<tr>
+<td>Loss 不下降</td>
+<td>LR 太小或数据问题</td>
+<td>检查数据格式，调大 LR</td>
+</tr>
+<tr>
+<td>Loss = NaN</td>
+<td>LR 太大或梯度爆炸</td>
+<td>减小 LR，加 grad_clip</td>
+</tr>
+<tr>
+<td>训练很慢</td>
+<td>数据加载瓶颈</td>
+<td>增加 num_workers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四第二步监督微调-sft约-30-分钟">四、第二步：监督微调 SFT（约 30
+分钟）</h2>
+<h3 id="理解-sft">4.1 理解 SFT</h3>
+<p>SFT 是教模型「回答问题」。预训练后的模型只会续写文本，SFT
+让它学会理解指令并生成有用的回答。</p>
+<pre><code>[预训练后]
+输入: &quot;什么是感冒？&quot;
+输出: &quot;什么是流感？什么是发烧？...&quot;  (只会联想，不会回答)
+
+[SFT 后]
+输入: &quot;什么是感冒？&quot;
+输出: &quot;感冒是一种常见的上呼吸道感染，主要由病毒引起...&quot;  (学会回答)</code></pre>
+<h3 id="关键技术点">4.2 关键技术点</h3>
+<ul>
+<li><strong>只计算 assistant 部分的 loss</strong>：user
+的输入是已知的，只需要学习怎么回答</li>
+<li><strong>Chat
+Template</strong>：训练和推理必须使用一致的对话模板</li>
+<li><strong>数据质量 &gt; 数量</strong>：1 万条高质量数据 &gt; 10
+万条低质量数据</li>
+</ul>
+<h3 id="开始训练-1">4.3 开始训练</h3>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train_sft.py</span></code></pre></div>
+<h3 id="验证-sft-效果">4.4 验证 SFT 效果</h3>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> eval_model.py</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 或者启动交互式对话</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> web_server.py</span></code></pre></div>
+<p>试试这些测试问题： - “你好，请介绍一下你自己” - “什么是人工智能？” -
+“1+1等于几？”</p>
+<hr />
+<h2 id="五第三步dpo-偏好对齐约-20-分钟">五、第三步：DPO 偏好对齐（约 20
+分钟）</h2>
+<h3 id="理解-dpo">5.1 理解 DPO</h3>
+<p>DPO
+是教模型分辨「好回答」和「坏回答」。通过对比学习，让模型更倾向于生成人类偏好的回答。</p>
+<pre><code>同一个问题的两个回答：
+  ✓ Chosen（好）: &quot;高血压是指动脉血压持续高于正常值...&quot;
+  ✗ Rejected（坏）: &quot;就是血压高了呗...&quot;
+
+DPO 让模型学会：生成 Chosen 风格的回答，避免 Rejected 风格</code></pre>
+<h3 id="dpo-loss-直觉">5.2 DPO Loss 直觉</h3>
+<pre><code>L = -log σ(β × (log P(好回答) - log P_ref(好回答) - log P(坏回答) + log P_ref(坏回答)))
+
+翻译成人话：
+- 增大「好回答」的概率
+- 减小「坏回答」的概率
+- 但不要偏离原始模型太远（β 控制）</code></pre>
+<h3 id="开始训练-2">5.3 开始训练</h3>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train_dpo.py</span></code></pre></div>
+<h3 id="对比效果">5.4 对比效果</h3>
+<p>DPO 前后对同一问题的回答对比：</p>
+<pre><code>问题: &quot;头疼怎么办？&quot;
+
+DPO 前: &quot;头疼可以吃止痛药。&quot; (简单粗暴)
+
+DPO 后: &quot;头疼的原因有很多，建议您：
+        1. 先充分休息，保证睡眠
+        2. 如果持续不缓解，建议就医检查
+        3. 避免自行用药，特别是频繁使用止痛药
+        请注意：如果伴有视力模糊、呕吐等症状，请立即就医。&quot;
+        (更安全、更详细、更负责)</code></pre>
+<hr />
+<h2 id="六进阶lora-微调">六、进阶：LoRA 微调</h2>
+<h3 id="为什么用-lora">6.1 为什么用 LoRA</h3>
+<p>全参数微调需要存储完整的梯度和优化器状态，显存占用大。LoRA
+只训练两个小矩阵，显存节省 80%+。</p>
+<h3 id="实操">6.2 实操</h3>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train_lora.py</span></code></pre></div>
+<h3 id="lora-关键参数">6.3 LoRA 关键参数</h3>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lora_r <span class="op">=</span> <span class="dv">8</span>          <span class="co"># 秩，越大越强但越耗显存</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>lora_alpha <span class="op">=</span> <span class="dv">16</span>     <span class="co"># 缩放系数，常设为 2r</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>target_modules <span class="op">=</span> [<span class="st">&quot;q_proj&quot;</span>, <span class="st">&quot;v_proj&quot;</span>]  <span class="co"># 应用到哪些层</span></span></code></pre></div>
+<hr />
+<h2 id="七进阶强化学习rlhf">七、进阶：强化学习（RLHF）</h2>
+<h3 id="ppo-grpo-cispo">7.1 PPO / GRPO / CISPO</h3>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train_rl.py <span class="at">--method</span> grpo  <span class="co"># 或 ppo / cispo</span></span></code></pre></div>
+<p>MiniMind 支持三种强化学习方法： -
+<strong>PPO</strong>：经典方法，需要 Critic 模型 -
+<strong>GRPO</strong>：DeepSeek 提出，无需 Critic，组内相对排名 -
+<strong>CISPO</strong>：约束满足的偏好优化</p>
+<hr />
+<h2 id="八部署与推理">八、部署与推理</h2>
+<h3 id="本地推理">8.1 本地推理</h3>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> eval_model.py</span></code></pre></div>
+<h3 id="启动-api-服务">8.2 启动 API 服务</h3>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> web_server.py</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 兼容 OpenAI API 格式</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># curl http://localhost:8000/v1/chat/completions -d &#39;...&#39;</span></span></code></pre></div>
+<h3 id="使用-transformers-加载">8.3 使用 transformers 加载</h3>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(<span class="st">&quot;jingyaogong/MiniMind-3&quot;</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">&quot;jingyaogong/MiniMind-3&quot;</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(<span class="st">&quot;你好&quot;</span>, return_tensors<span class="op">=</span><span class="st">&quot;pt&quot;</span>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(<span class="op">**</span>inputs, max_new_tokens<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenizer.decode(outputs[<span class="dv">0</span>]))</span></code></pre></div>
+<hr />
+<h2 id="九完整训练时间表">九、完整训练时间表</h2>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时间</th>
+<th>产出</th>
+<th>面试价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>环境搭建</td>
+<td>30min</td>
+<td>conda 环境 + 项目克隆</td>
+<td>-</td>
+</tr>
+<tr>
+<td>数据下载</td>
+<td>15min</td>
+<td>3 个 jsonl 文件</td>
+<td>理解数据格式</td>
+</tr>
+<tr>
+<td>预训练</td>
+<td>60-90min</td>
+<td>base 模型</td>
+<td>理解 CLM</td>
+</tr>
+<tr>
+<td>SFT</td>
+<td>30min</td>
+<td>chat 模型</td>
+<td>理解指令微调</td>
+</tr>
+<tr>
+<td>DPO</td>
+<td>20min</td>
+<td>aligned 模型</td>
+<td>理解偏好对齐</td>
+</tr>
+<tr>
+<td>LoRA（可选）</td>
+<td>15min</td>
+<td>LoRA 权重</td>
+<td>理解高效微调</td>
+</tr>
+<tr>
+<td>RL（可选）</td>
+<td>30min</td>
+<td>RL 模型</td>
+<td>理解强化学习</td>
+</tr>
+<tr>
+<td><strong>总计</strong></td>
+<td><strong>3-4h</strong></td>
+<td><strong>完整训练流水线</strong></td>
+<td><strong>全流程可讲</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="十训练过程中的关键观察点面试素材">十、训练过程中的关键观察点（面试素材）</h2>
+<p>训练过程中记录以下数据，面试时可以作为具体案例：</p>
+<ol type="1">
+<li><strong>预训练 Loss 曲线</strong>：从 ~8 降到
+~3，说明模型在学习语言规律</li>
+<li><strong>SFT 前后对比</strong>：同一问题的回答质量变化</li>
+<li><strong>DPO 前后对比</strong>：回答的安全性和详细度提升</li>
+<li><strong>LoRA vs 全参</strong>：显存对比（记录具体数字）</li>
+<li><strong>训练中遇到的问题</strong>：OOM、Loss 不降、生成乱码等 →
+怎么解决的</li>
+</ol>
+<hr />
+<blockquote>
+<p><strong>下一章</strong>：<a
+href="./03-源码精读.md">03-源码精读.md</a> — 逐行理解 MiniMind
+的核心代码</p>
+</blockquote>
+<hr />
+<h1 id="minimind-源码精读-逐行理解核心代码">MiniMind 源码精读 —
+逐行理解核心代码</h1>
+<blockquote>
+<p>本章带你深入 MiniMind
+的核心代码，理解每一个组件的实现。面试中被问到「你能解释一下 Attention
+的实现吗？」时，你能从代码层面回答。</p>
+</blockquote>
+<hr />
+<h2 id="一模型架构总览">一、模型架构总览</h2>
+<p>MiniMind 的模型定义在 <code>model/model.py</code>
+中，核心结构如下：</p>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MiniMindModel:</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    Embedding(vocab_size, dim)           <span class="co"># 词嵌入</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    layers <span class="op">=</span> [TransformerBlock] × n_layers   <span class="co"># N 个 Transformer 块</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    norm <span class="op">=</span> RMSNorm(dim)                  <span class="co"># 最终归一化</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> Linear(dim, vocab_size)     <span class="co"># 输出投影</span></span></code></pre></div>
+<hr />
+<h2 id="二rmsnorm-归一化">二、RMSNorm — 归一化</h2>
+<h3 id="代码解析">2.1 代码解析</h3>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RMSNorm:</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dim, eps<span class="op">=</span><span class="fl">1e-6</span>):</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.eps <span class="op">=</span> eps</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weight <span class="op">=</span> nn.Parameter(torch.ones(dim))</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 计算 RMS（均方根）</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>        rms <span class="op">=</span> torch.sqrt(torch.mean(x <span class="op">**</span> <span class="dv">2</span>, dim<span class="op">=-</span><span class="dv">1</span>, keepdim<span class="op">=</span><span class="va">True</span>) <span class="op">+</span> <span class="va">self</span>.eps)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 归一化并缩放</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x <span class="op">/</span> rms <span class="op">*</span> <span class="va">self</span>.weight</span></code></pre></div>
+<h3 id="面试要点">2.2 面试要点</h3>
+<ul>
+<li><strong>vs LayerNorm</strong>：RMSNorm 省去了减均值的步骤，只做 RMS
+归一化，计算量更少</li>
+<li><strong>为什么有效</strong>：LLM
+训练中，减均值的贡献很小，去掉不影响效果</li>
+<li><strong>eps 的作用</strong>：防止除零错误</li>
+<li><strong>weight
+参数</strong>：可学习的缩放因子，让模型决定每个维度的重要性</li>
+</ul>
+<hr />
+<h2 id="三rope-旋转位置编码">三、RoPE — 旋转位置编码</h2>
+<h3 id="核心思想">3.1 核心思想</h3>
+<p>RoPE 把位置信息编码为「旋转」——位置 m 的向量被旋转了 m×θ 度。两个
+token 之间的注意力只取决于它们的相对距离。</p>
+<h3 id="代码解析-1">3.2 代码解析</h3>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> precompute_freqs_cis(dim, max_seq_len, theta<span class="op">=</span><span class="fl">10000.0</span>):</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 计算频率：θ_i = 10000^(-2i/d)</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    freqs <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> (theta <span class="op">**</span> (torch.arange(<span class="dv">0</span>, dim, <span class="dv">2</span>).<span class="bu">float</span>() <span class="op">/</span> dim))</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 位置索引 × 频率 = 角度</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> torch.arange(max_seq_len)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    freqs <span class="op">=</span> torch.outer(t, freqs)  <span class="co"># (seq_len, dim/2)</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 转为复数形式：e^(iθ) = cos(θ) + i·sin(θ)</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    freqs_cis <span class="op">=</span> torch.polar(torch.ones_like(freqs), freqs)</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> freqs_cis</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apply_rotary_emb(xq, xk, freqs_cis):</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 将 q, k 视为复数</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    xq_complex <span class="op">=</span> torch.view_as_complex(xq.reshape(<span class="op">*</span>xq.shape[:<span class="op">-</span><span class="dv">1</span>], <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    xk_complex <span class="op">=</span> torch.view_as_complex(xk.reshape(<span class="op">*</span>xk.shape[:<span class="op">-</span><span class="dv">1</span>], <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 复数乘法 = 旋转</span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>    xq_out <span class="op">=</span> torch.view_as_real(xq_complex <span class="op">*</span> freqs_cis).flatten(<span class="op">-</span><span class="dv">2</span>)</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    xk_out <span class="op">=</span> torch.view_as_real(xk_complex <span class="op">*</span> freqs_cis).flatten(<span class="op">-</span><span class="dv">2</span>)</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xq_out, xk_out</span></code></pre></div>
+<h3 id="面试要点-1">3.3 面试要点</h3>
+<ul>
+<li><strong>相对位置编码</strong>：q·k
+的点积只依赖相对位置差，不依赖绝对位置</li>
+<li><strong>旋转直觉</strong>：把向量在 2D
+平面上旋转，不同频率对应不同”分辨率”</li>
+<li><strong>外推性</strong>：通过频率缩放（NTK-aware）可以推广到更长序列</li>
+<li><strong>为什么比正弦编码好</strong>：可学习性更强，且天然支持相对位置</li>
+</ul>
+<hr />
+<figure>
+<img src="../comics/comic-03-lora.png"
+alt="LoRA 原理漫画 — 只贴便签纸" />
+<figcaption aria-hidden="true">LoRA 原理漫画 — 只贴便签纸</figcaption>
+</figure>
+<h2 id="四gqa-attention-分组查询注意力">四、GQA Attention —
+分组查询注意力</h2>
+<h3 id="代码解析-2">4.1 代码解析</h3>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Attention:</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dim, n_heads, n_kv_heads):</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_heads <span class="op">=</span> n_heads       <span class="co"># Query 头数，如 8</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_kv_heads <span class="op">=</span> n_kv_heads <span class="co"># KV 头数，如 4（分组）</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_rep <span class="op">=</span> n_heads <span class="op">//</span> n_kv_heads  <span class="co"># 每个 KV 头服务几个 Q 头</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head_dim <span class="op">=</span> dim <span class="op">//</span> n_heads</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wq <span class="op">=</span> nn.Linear(dim, n_heads <span class="op">*</span> <span class="va">self</span>.head_dim, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wk <span class="op">=</span> nn.Linear(dim, n_kv_heads <span class="op">*</span> <span class="va">self</span>.head_dim, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wv <span class="op">=</span> nn.Linear(dim, n_kv_heads <span class="op">*</span> <span class="va">self</span>.head_dim, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.wo <span class="op">=</span> nn.Linear(n_heads <span class="op">*</span> <span class="va">self</span>.head_dim, dim, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x, freqs_cis, mask<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>        bsz, seqlen, _ <span class="op">=</span> x.shape</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 线性投影</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> <span class="va">self</span>.wq(x)  <span class="co"># (B, S, n_heads * head_dim)</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> <span class="va">self</span>.wk(x)  <span class="co"># (B, S, n_kv_heads * head_dim)</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> <span class="va">self</span>.wv(x)  <span class="co"># (B, S, n_kv_heads * head_dim)</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 拆分多头</span></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> q.view(bsz, seqlen, <span class="va">self</span>.n_heads, <span class="va">self</span>.head_dim)</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> k.view(bsz, seqlen, <span class="va">self</span>.n_kv_heads, <span class="va">self</span>.head_dim)</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> v.view(bsz, seqlen, <span class="va">self</span>.n_kv_heads, <span class="va">self</span>.head_dim)</span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 应用 RoPE（只对 Q 和 K）</span></span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>        q, k <span class="op">=</span> apply_rotary_emb(q, k, freqs_cis)</span>
+<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># GQA: 重复 KV 头以匹配 Q 头数量</span></span>
+<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> k.repeat_interleave(<span class="va">self</span>.n_rep, dim<span class="op">=</span><span class="dv">2</span>)  <span class="co"># (B, S, n_heads, head_dim)</span></span>
+<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> v.repeat_interleave(<span class="va">self</span>.n_rep, dim<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 转置用于矩阵乘法</span></span>
+<span id="cb46-34"><a href="#cb46-34" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> q.transpose(<span class="dv">1</span>, <span class="dv">2</span>)  <span class="co"># (B, n_heads, S, head_dim)</span></span>
+<span id="cb46-35"><a href="#cb46-35" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> k.transpose(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb46-36"><a href="#cb46-36" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> v.transpose(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb46-37"><a href="#cb46-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-38"><a href="#cb46-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 计算注意力分数</span></span>
+<span id="cb46-39"><a href="#cb46-39" aria-hidden="true" tabindex="-1"></a>        scores <span class="op">=</span> torch.matmul(q, k.transpose(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)) <span class="op">/</span> math.sqrt(<span class="va">self</span>.head_dim)</span>
+<span id="cb46-40"><a href="#cb46-40" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-41"><a href="#cb46-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 因果 mask（下三角）</span></span>
+<span id="cb46-42"><a href="#cb46-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> mask <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb46-43"><a href="#cb46-43" aria-hidden="true" tabindex="-1"></a>            scores <span class="op">=</span> scores <span class="op">+</span> mask  <span class="co"># mask 中 -inf 的位置被屏蔽</span></span>
+<span id="cb46-44"><a href="#cb46-44" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-45"><a href="#cb46-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Softmax + 加权求和</span></span>
+<span id="cb46-46"><a href="#cb46-46" aria-hidden="true" tabindex="-1"></a>        attn <span class="op">=</span> F.softmax(scores, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb46-47"><a href="#cb46-47" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> torch.matmul(attn, v)  <span class="co"># (B, n_heads, S, head_dim)</span></span>
+<span id="cb46-48"><a href="#cb46-48" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-49"><a href="#cb46-49" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 合并多头</span></span>
+<span id="cb46-50"><a href="#cb46-50" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> output.transpose(<span class="dv">1</span>, <span class="dv">2</span>).contiguous().view(bsz, seqlen, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb46-51"><a href="#cb46-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.wo(output)</span></code></pre></div>
+<h3 id="面试要点-2">4.2 面试要点</h3>
+<ul>
+<li><strong>GQA vs MHA vs MQA</strong>：
+<ul>
+<li>MHA：每个 Q 头有独立的 K、V 头（8Q+8K+8V）</li>
+<li>MQA：所有 Q 头共享一组 K、V（8Q+1K+1V）→ 太极端</li>
+<li>GQA：折中，多个 Q 头共享一组 K、V（8Q+4K+4V）→ 推理时 KV Cache
+减半</li>
+</ul></li>
+<li><strong>为什么 GQA 好</strong>：减少 KV Cache
+显存（推理时极重要），效果损失极小</li>
+<li><strong>因果 mask</strong>：确保位置 i 只能看到 ≤i
+的位置（自回归特性）</li>
+<li><strong>缩放因子 √d</strong>：防止点积过大导致 softmax 饱和</li>
+</ul>
+<hr />
+<h2 id="五swiglu-ffn-前馈网络">五、SwiGLU FFN — 前馈网络</h2>
+<h3 id="代码解析-3">5.1 代码解析</h3>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FeedForward:</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dim, hidden_dim, multiple_of<span class="op">=</span><span class="dv">64</span>):</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 隐藏层维度通常是 dim 的 8/3 倍，对齐到 multiple_of</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>        hidden_dim <span class="op">=</span> <span class="bu">int</span>(<span class="dv">2</span> <span class="op">*</span> hidden_dim <span class="op">/</span> <span class="dv">3</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        hidden_dim <span class="op">=</span> multiple_of <span class="op">*</span> ((hidden_dim <span class="op">+</span> multiple_of <span class="op">-</span> <span class="dv">1</span>) <span class="op">//</span> multiple_of)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w1 <span class="op">=</span> nn.Linear(dim, hidden_dim, bias<span class="op">=</span><span class="va">False</span>)  <span class="co"># gate 投影</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w2 <span class="op">=</span> nn.Linear(hidden_dim, dim, bias<span class="op">=</span><span class="va">False</span>)   <span class="co"># down 投影</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.w3 <span class="op">=</span> nn.Linear(dim, hidden_dim, bias<span class="op">=</span><span class="va">False</span>)   <span class="co"># up 投影</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># SwiGLU: w2(SiLU(w1(x)) * w3(x))</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.w2(F.silu(<span class="va">self</span>.w1(x)) <span class="op">*</span> <span class="va">self</span>.w3(x))</span></code></pre></div>
+<h3 id="面试要点-3">5.2 面试要点</h3>
+<ul>
+<li><strong>SwiGLU
+公式</strong>：<code>FFN(x) = W₂ · (SiLU(W₁·x) ⊙ W₃·x)</code></li>
+<li><strong>为什么比 ReLU
+好</strong>：门控机制让模型学习「哪些维度该激活」，表达力更强</li>
+<li><strong>参数代价</strong>：3 个矩阵 vs 传统 FFN 的 2
+个矩阵，但隐藏维度缩小到 2/3 补偿</li>
+<li><strong>SiLU = x × sigmoid(x)</strong>：平滑的 ReLU 变体</li>
+</ul>
+<hr />
+<h2 id="六transformer-block-完整一层">六、Transformer Block —
+完整一层</h2>
+<h3 id="代码解析-4">6.1 代码解析</h3>
+<div class="sourceCode" id="cb48"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TransformerBlock:</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, layer_id, dim, n_heads, n_kv_heads):</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.attention <span class="op">=</span> Attention(dim, n_heads, n_kv_heads)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.feed_forward <span class="op">=</span> FeedForward(dim, <span class="dv">4</span> <span class="op">*</span> dim)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.attention_norm <span class="op">=</span> RMSNorm(dim)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ffn_norm <span class="op">=</span> RMSNorm(dim)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x, freqs_cis, mask):</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Pre-Norm + 残差连接</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>        h <span class="op">=</span> x <span class="op">+</span> <span class="va">self</span>.attention(<span class="va">self</span>.attention_norm(x), freqs_cis, mask)</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> h <span class="op">+</span> <span class="va">self</span>.feed_forward(<span class="va">self</span>.ffn_norm(h))</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> out</span></code></pre></div>
+<h3 id="面试要点-4">6.2 面试要点</h3>
+<ul>
+<li><strong>Pre-Norm vs Post-Norm</strong>：Pre-Norm
+训练更稳定（梯度流更好），是现代 LLM 的标准选择</li>
+<li><strong>残差连接</strong>：<code>output = input + sublayer(norm(input))</code>，防止梯度消失</li>
+<li><strong>两个子层</strong>：Attention（跨 token 交互）+ FFN（token
+内变换）</li>
+</ul>
+<hr />
+<h2 id="七训练循环关键代码">七、训练循环关键代码</h2>
+<h3 id="预训练循环">7.1 预训练循环</h3>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 简化的训练循环</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch <span class="kw">in</span> dataloader:</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>        input_ids <span class="op">=</span> batch[:, :<span class="op">-</span><span class="dv">1</span>]   <span class="co"># 输入：去掉最后一个 token</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>        targets <span class="op">=</span> batch[:, <span class="dv">1</span>:]      <span class="co"># 目标：去掉第一个 token（右移一位）</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> model(input_ids)   <span class="co"># 前向传播</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> F.cross_entropy(</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>            logits.view(<span class="op">-</span><span class="dv">1</span>, vocab_size), </span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>            targets.view(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>        loss.backward()             <span class="co"># 反向传播</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>        scheduler.step()</span></code></pre></div>
+<h3 id="sft-训练只算-assistant-loss">7.2 SFT 训练——只算 assistant
+loss</h3>
+<div class="sourceCode" id="cb50"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SFT 的关键区别：用 loss_mask 屏蔽 user 部分</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> F.cross_entropy(logits.view(<span class="op">-</span><span class="dv">1</span>, vocab_size), targets.view(<span class="op">-</span><span class="dv">1</span>), reduction<span class="op">=</span><span class="st">&#39;none&#39;</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> (loss <span class="op">*</span> loss_mask.view(<span class="op">-</span><span class="dv">1</span>)).<span class="bu">sum</span>() <span class="op">/</span> loss_mask.<span class="bu">sum</span>()</span></code></pre></div>
+<h3 id="dpo-训练">7.3 DPO 训练</h3>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DPO Loss 核心实现</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dpo_loss(policy_chosen_logps, policy_rejected_logps,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>             reference_chosen_logps, reference_rejected_logps, beta):</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    chosen_rewards <span class="op">=</span> beta <span class="op">*</span> (policy_chosen_logps <span class="op">-</span> reference_chosen_logps)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    rejected_rewards <span class="op">=</span> beta <span class="op">*</span> (policy_rejected_logps <span class="op">-</span> reference_rejected_logps)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> <span class="op">-</span>F.logsigmoid(chosen_rewards <span class="op">-</span> rejected_rewards).mean()</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code></pre></div>
+<hr />
+<h2 id="八tokenizer-训练">八、Tokenizer 训练</h2>
+<h3 id="代码解析-5">8.1 代码解析</h3>
+<div class="sourceCode" id="cb52"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tokenizer/train_tokenizer.py 简化版</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentencepiece <span class="im">import</span> SentencePieceTrainer</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>SentencePieceTrainer.train(</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span><span class="op">=</span><span class="st">&#39;training_text.txt&#39;</span>,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    model_prefix<span class="op">=</span><span class="st">&#39;minimind_tokenizer&#39;</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    vocab_size<span class="op">=</span><span class="dv">6400</span>,</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    model_type<span class="op">=</span><span class="st">&#39;bpe&#39;</span>,            <span class="co"># 使用 BPE 算法</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    character_coverage<span class="op">=</span><span class="fl">0.9995</span>,   <span class="co"># 字符覆盖率</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    pad_id<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    unk_id<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    bos_id<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    eos_id<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<h3 id="面试要点-5">8.2 面试要点</h3>
+<ul>
+<li><strong>BPE
+算法</strong>：从字符开始，不断合并最频繁的相邻对，直到词表满</li>
+<li><strong>词表大小 6400</strong>：极小（GPT-4 用 100K+），因为
+MiniMind 是教学项目</li>
+<li><strong>character_coverage</strong>：覆盖多少比例的字符，剩余归为
+UNK</li>
+<li><strong>为什么不用更大词表</strong>：词表大 → Embedding 层大 →
+小模型参数浪费</li>
+</ul>
+<hr />
+<h2 id="九moe-变体model_moe.py">九、MoE 变体（model_moe.py）</h2>
+<h3 id="核心代码">9.1 核心代码</h3>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MoEFeedForward:</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dim, hidden_dim, n_experts, top_k):</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.gate <span class="op">=</span> nn.Linear(dim, n_experts, bias<span class="op">=</span><span class="va">False</span>)  <span class="co"># 路由器</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.experts <span class="op">=</span> nn.ModuleList([</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>            FeedForward(dim, hidden_dim) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_experts)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.top_k <span class="op">=</span> top_k  <span class="co"># 每次激活 top_k 个专家</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 路由：选择 top_k 个专家</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>        gate_scores <span class="op">=</span> <span class="va">self</span>.gate(x)              <span class="co"># (B, S, n_experts)</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>        topk_scores, topk_idx <span class="op">=</span> gate_scores.topk(<span class="va">self</span>.top_k, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>        topk_weights <span class="op">=</span> F.softmax(topk_scores, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 只计算被选中专家的输出</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> torch.zeros_like(x)</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="va">self</span>.top_k):</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>            expert_idx <span class="op">=</span> topk_idx[:, :, i]</span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>            expert_weight <span class="op">=</span> topk_weights[:, :, i]</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.experts)):</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>                mask <span class="op">=</span> (expert_idx <span class="op">==</span> j)</span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> mask.<span class="bu">any</span>():</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>                    expert_out <span class="op">=</span> <span class="va">self</span>.experts[j](x[mask])</span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>                    output[mask] <span class="op">+=</span> expert_weight[mask].unsqueeze(<span class="op">-</span><span class="dv">1</span>) <span class="op">*</span> expert_out</span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> output</span></code></pre></div>
+<h3 id="面试要点-6">9.2 面试要点</h3>
+<ul>
+<li><strong>MoE 核心</strong>：总参数大（198M），但每个 token
+只激活部分专家（64M）</li>
+<li><strong>路由器</strong>：简单的 Linear
+层，根据输入决定激活哪些专家</li>
+<li><strong>负载均衡</strong>：加辅助 loss 防止所有 token
+都选同一个专家</li>
+<li><strong>优势</strong>：在不增加推理计算量的情况下提升模型容量</li>
+</ul>
+<hr />
+<h2 id="十代码阅读路线图">十、代码阅读路线图</h2>
+<p>建议按以下顺序阅读源码：</p>
+<pre><code>第 1 遍（理解架构，1 小时）：
+config.py → model/model.py（从上到下通读）
+
+第 2 遍（理解训练，1 小时）：
+train_pretrain.py → train_sft.py → train_dpo.py
+
+第 3 遍（理解细节，1 小时）：
+RMSNorm → RoPE → Attention → SwiGLU → 逐个深入
+
+第 4 遍（进阶，可选）：
+model_moe.py → train_rl.py → train_distill.py</code></pre>
+<hr />
+<blockquote>
+<p><strong>下一章</strong>：<a
+href="./04-简历包装.md">04-简历包装.md</a> — 如何把 MiniMind
+项目写进简历</p>
+</blockquote>
+<hr />
+<h1 id="minimind-简历包装-让面试官眼前一亮">MiniMind 简历包装 —
+让面试官眼前一亮</h1>
+<blockquote>
+<p>本章教你用 STAR 法则把 MiniMind
+项目写进简历，提供初级/中级/高级三个版本。</p>
+</blockquote>
+<hr />
+<h2 id="一star-法则回顾">一、STAR 法则回顾</h2>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>含义</th>
+<th>简历中的体现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong>ituation</td>
+<td>背景/情境</td>
+<td>为什么做这个项目</td>
+</tr>
+<tr>
+<td><strong>T</strong>ask</td>
+<td>任务/目标</td>
+<td>你的具体职责</td>
+</tr>
+<tr>
+<td><strong>A</strong>ction</td>
+<td>行动/方法</td>
+<td>用了什么技术、怎么做的</td>
+</tr>
+<tr>
+<td><strong>R</strong>esult</td>
+<td>结果/成效</td>
+<td>量化的成果数据</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二三个版本的简历描述">二、三个版本的简历描述</h2>
+<h3 id="版本一初级版应届实习">版本一：初级版（应届/实习）</h3>
+<pre><code>项目名称：MiniMind — 从零训练小参数语言模型
+时间：2026.01 - 2026.03
+
+[S] 为深入理解大模型训练全流程，选择从零实现一个轻量级语言模型
+[T] 独立完成模型架构设计、训练流水线搭建、偏好对齐全流程
+[A] 
+• 基于 PyTorch 原生实现 64M 参数的 Decoder-only Transformer，采用
+  RMSNorm + RoPE + GQA + SwiGLU 架构，对齐 Qwen3 设计
+• 完成预训练（CLM）、监督微调（SFT）、DPO 偏好对齐三阶段训练
+• 实现 LoRA 高效微调，在 target_modules=[q,v] 上训练，参数量减少 99%
+[R]
+• 单卡 3090 上 2 小时完成全流程训练，成本约 3 元
+• SFT 后模型在中文问答任务上的回答相关性提升约 40%
+• DPO 对齐后回答安全性和详细度显著改善</code></pre>
+<h3 id="版本二中级版1-3-年经验">版本二：中级版（1-3 年经验）</h3>
+<pre><code>项目名称：从零训练轻量级语言模型 &amp; 医疗领域大模型微调
+时间：2025.09 - 2026.03
+
+[S] 团队需要理解大模型训练原理并落地医疗领域，我负责从底层搭建到
+    领域适配的全链路工作
+[T] 搭建从零到一的训练框架，并将方法论迁移到医疗领域大模型微调
+[A]
+• 纯 PyTorch 实现 64M 参数 Transformer（RMSNorm/RoPE/GQA/SwiGLU），
+  覆盖 PT→SFT→DPO→LoRA→GRPO 全流程
+• 设计数据清洗流水线，处理 1.6GB 预训练语料和 50K 条 SFT 指令数据
+• 基于 MedicalGPT 框架对 Qwen2-7B 进行医疗领域增量预训练和 LoRA SFT，
+  使用 DeepSpeed ZeRO-2 实现 4 卡 A100 分布式训练
+• 构建偏好数据标注流程，完成 3000 对医疗问答 DPO 数据标注与训练
+[R]
+• MiniMind 训练 Pipeline 可复现率 100%，已开源并获得社区验证
+• 医疗领域模型在内部评测集上准确率提升 18%，安全性评测通过率 95%+
+• 训练成本较全参微调降低 75%（LoRA + QLoRA 方案）
+• 推理部署基于 vLLM，QPS 达到 50+，P99 延迟 &lt; 2s</code></pre>
+<h3 id="版本三高级版3-5-年经验">版本三：高级版（3-5 年经验）</h3>
+<pre><code>项目名称：医疗大模型训练平台 — 从原型到生产
+时间：2025.06 - 2026.03
+
+[S] 公司计划构建医疗领域专用大模型，需要搭建端到端的训练与部署平台
+[T] 作为技术负责人，主导模型训练架构设计、数据工程、对齐优化与生产部署
+[A]
+• 设计并实现大模型训练平台，支持 PT/SFT/DPO/RLHF/GRPO 全阶段，
+  覆盖 7B-70B 参数规模
+• 主导数据工程：构建 240 万条医疗语料清洗流水线，设计 PII 脱敏模块
+  （正则 + NER + 人工抽检），脱敏覆盖率 99.8%
+• 优化分布式训练：DeepSpeed ZeRO-3 + 流水线并行，8×A100 训练 7B
+  模型效率提升 2.3x；引入 FlashAttention 2 降低显存 40%
+• 设计对齐方案：从 RLHF（PPO）迁移到 DPO+GRPO 混合方案，标注成本
+  降低 60%，对齐效果持平
+• 部署优化：vLLM + INT8 量化 + LoRA 多租户热切换，单机服务 3 个
+  科室的差异化模型
+[R]
+• 模型在 USMLE 中文改编版评测中得分 72%，超过 GPT-3.5 基线（65%）
+• 医疗问答安全性评测：危险回答拦截率 99.2%
+• 推理成本较初始方案降低 65%，延迟 P99 &lt; 1.5s
+• 平台已支撑 3 个业务线、日均 10 万次调用</code></pre>
+<hr />
+<h2 id="三关键数字提炼">三、关键数字提炼</h2>
+<p>面试中数字是最有说服力的。确保你能说出这些数字：</p>
+<h3 id="minimind-相关">MiniMind 相关</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>参数量</td>
+<td>64M</td>
+<td>Dense 模型</td>
+</tr>
+<tr>
+<td>MoE 参数</td>
+<td>198M / 激活 64M</td>
+<td>MoE 变体</td>
+</tr>
+<tr>
+<td>训练时间</td>
+<td>~2h</td>
+<td>单卡 3090 全流程</td>
+</tr>
+<tr>
+<td>训练成本</td>
+<td>~3 元</td>
+<td>GPU 租用</td>
+</tr>
+<tr>
+<td>词表大小</td>
+<td>6400</td>
+<td>自训练 BPE</td>
+</tr>
+<tr>
+<td>层数</td>
+<td>16</td>
+<td>Transformer 层</td>
+</tr>
+<tr>
+<td>隐藏维度</td>
+<td>512</td>
+<td></td>
+</tr>
+<tr>
+<td>注意力头</td>
+<td>8 Q + 4 KV</td>
+<td>GQA</td>
+</tr>
+<tr>
+<td>预训练数据</td>
+<td>1.6GB</td>
+<td>pretrain_hq.jsonl</td>
+</tr>
+<tr>
+<td>SFT 数据</td>
+<td>~50K 条</td>
+<td>sft_mini_512.jsonl</td>
+</tr>
+<tr>
+<td>预训练 Loss</td>
+<td>8 → 3</td>
+<td>收敛曲线</td>
+</tr>
+</tbody>
+</table>
+<h3 id="medicalgpt-相关根据你的实际经验填充">MedicalGPT
+相关（根据你的实际经验填充）</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>模板</th>
+<th>你的数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基座模型</td>
+<td>Qwen2-7B / LLaMA-3-8B</td>
+<td>______</td>
+</tr>
+<tr>
+<td>预训练数据量</td>
+<td>____GB / ____万条</td>
+<td>______</td>
+</tr>
+<tr>
+<td>SFT 数据量</td>
+<td>____万条</td>
+<td>______</td>
+</tr>
+<tr>
+<td>DPO 数据量</td>
+<td>____千对</td>
+<td>______</td>
+</tr>
+<tr>
+<td>准确率提升</td>
+<td>___%</td>
+<td>______</td>
+</tr>
+<tr>
+<td>训练 GPU</td>
+<td>___×A100/3090</td>
+<td>______</td>
+</tr>
+<tr>
+<td>推理 QPS</td>
+<td>___+</td>
+<td>______</td>
+</tr>
+<tr>
+<td>延迟 P99</td>
+<td>___s</td>
+<td>______</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四技能映射表">四、技能映射表</h2>
+<p>把项目经验映射到 JD 关键词：</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 38%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>JD 关键词</th>
+<th>MiniMind 对应经验</th>
+<th>MedicalGPT 对应经验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer 架构</td>
+<td>从零实现（model.py）</td>
+<td>理解 HF 封装</td>
+</tr>
+<tr>
+<td>预训练</td>
+<td>train_pretrain.py</td>
+<td>pretraining.py</td>
+</tr>
+<tr>
+<td>SFT 微调</td>
+<td>train_sft.py</td>
+<td>supervised_finetuning.py</td>
+</tr>
+<tr>
+<td>LoRA/QLoRA</td>
+<td>train_lora.py</td>
+<td>PEFT 配置</td>
+</tr>
+<tr>
+<td>DPO/RLHF</td>
+<td>train_dpo.py / train_rl.py</td>
+<td>dpo_training.py / ppo_training.py</td>
+</tr>
+<tr>
+<td>分布式训练</td>
+<td>-</td>
+<td>DeepSpeed ZeRO</td>
+</tr>
+<tr>
+<td>模型部署</td>
+<td>web_server.py</td>
+<td>vLLM / Gradio</td>
+</tr>
+<tr>
+<td>数据处理</td>
+<td>数据格式理解</td>
+<td>清洗流水线</td>
+</tr>
+<tr>
+<td>医疗 NLP</td>
+<td>-</td>
+<td>全流程</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五简历写作红线">五、简历写作红线</h2>
+<h3 id="绝对不能写">绝对不能写</h3>
+<ul>
+<li>「复现/跑通了 MiniMind 项目」→ 太被动</li>
+<li>「超越了 GPT-4」→ 虚假宣传</li>
+<li>「独立完成所有工作」→ 如果是团队项目</li>
+<li>具体的公司内部数据 → 保密协议</li>
+</ul>
+<h3 id="应该这样写">应该这样写</h3>
+<ul>
+<li>「基于 PyTorch 原生实现了 64M 参数的 Transformer 模型」→
+主动，技术明确</li>
+<li>「在内部评测集上准确率提升 18%」→ 量化但不涉密</li>
+<li>「负责 XX 模块的设计与实现」→ 明确边界</li>
+</ul>
+<h3 id="面试时的补充说明">面试时的补充说明</h3>
+<p>简历上写的每一个数字和技术点，你都必须能展开解释 3
+分钟。不确定的不要写。</p>
+<hr />
+<h2 id="六简历模板">六、简历模板</h2>
+<pre><code>───────────────────────────────────────────────
+[姓名]  ｜ [手机] ｜ [邮箱] ｜ [GitHub]
+───────────────────────────────────────────────
+
+教育背景
+  [学校] [专业] [学历] [时间]
+
+技术技能
+  语言：Python（精通）、C++（熟悉）
+  框架：PyTorch、HuggingFace Transformers/TRL/PEFT
+  工具：DeepSpeed、vLLM、Docker、Git、Linux
+  领域：大模型训练(PT/SFT/RLHF/DPO)、NLP、医疗AI
+
+项目经验
+
+  ▶ MiniMind — 从零训练轻量级语言模型        2026.01 - 2026.03
+    • [粘贴上面的版本一/二/三]
+
+  ▶ 医疗领域大模型微调（基于 MedicalGPT）     2025.09 - 2026.01
+    • [根据实际经验撰写]
+
+实习/工作经历
+  [如有]
+
+竞赛/论文/开源
+  [如有]
+───────────────────────────────────────────────</code></pre>
+<hr />
+<blockquote>
+<p><strong>下一章</strong>：<a
+href="./05-STAR面试稿.md">05-STAR面试稿.md</a> — 准备面试口述稿</p>
+</blockquote>
+<hr />
+<h1 id="minimind-star-面试稿-面试口述模板">MiniMind STAR 面试稿 —
+面试口述模板</h1>
+<blockquote>
+<p>本章提供多个版本的项目介绍和 STAR
+格式的面试回答模板，练熟这些稿子，面试时自信从容。</p>
+</blockquote>
+<figure>
+<img src="../comics/comic-05-interview.png"
+alt="面试场景漫画 — STAR 法回答" />
+<figcaption aria-hidden="true">面试场景漫画 — STAR 法回答</figcaption>
+</figure>
+<hr />
+<h2 id="一项目介绍三个版本">一、项目介绍（三个版本）</h2>
+<h3 id="秒版电梯演讲">1.1 30 秒版（电梯演讲）</h3>
+<blockquote>
+<p>「我做了一个从零训练语言模型的项目叫 MiniMind。用纯 PyTorch
+实现了一个 64M 参数的 Decoder-only Transformer，架构对齐
+Qwen3，覆盖了预训练、SFT、DPO 偏好对齐和 LoRA 微调全流程。在单卡 3090 上
+2 小时就能完成全部训练。通过这个项目，我对大模型从 Attention
+计算到对齐优化的每个环节都有了代码级的理解。」</p>
+</blockquote>
+<h3 id="分钟版标准版">1.2 1 分钟版（标准版）</h3>
+<blockquote>
+<p>「我的核心项目是 MiniMind，一个从零训练的轻量级语言模型。</p>
+<p>背景是这样的：主流框架像 HuggingFace TRL
+封装太深，用起来方便但不利于理解底层原理。所以我选择从零开始，用纯
+PyTorch 实现整个训练流水线。</p>
+<p>模型架构是 Decoder-only Transformer，64M 参数，16 层，512
+维隐藏层。用了 RMSNorm 归一化、RoPE 旋转位置编码、GQA 分组查询注意力和
+SwiGLU 前馈网络，这些都是和 Qwen3、LLaMA 一样的现代架构组件。</p>
+<p>训练流程覆盖了三个阶段：预训练阶段用 1.6GB 中文语料做 next-token
+prediction；SFT 阶段用 5 万条指令数据微调，只算 assistant 部分的
+loss；DPO 阶段用偏好对数据做对齐，让模型回答更安全更详细。</p>
+<p>最终在单卡 3090 上 2 小时完成全流程，成本约 3 元。我还额外实现了 LoRA
+微调和 GRPO
+强化学习。这个项目让我对大模型训练有了从理论到代码的完整理解。」</p>
+</blockquote>
+<h3 id="分钟版深度版">1.3 3 分钟版（深度版）</h3>
+<blockquote>
+<p>「这个项目的全名是
+MiniMind，核心目标是通过从零搭建来深入理解大模型训练的每一个环节。</p>
+<p><strong>为什么做这个项目？</strong>
+我在学习大模型的过程中发现一个问题：用 LLaMA-Factory
+等工具微调模型很方便，但面试时被问到 Attention 怎么实现的、DPO 的 Loss
+怎么推导的，就答不好。所以我决定从零实现一个小模型，把每个组件都吃透。</p>
+<p><strong>模型架构方面</strong>，我实现了一个 64M 参数的 Decoder-only
+Transformer。具体来说： - 归一化用 RMSNorm，比 LayerNorm
+省去了减均值的操作 - 位置编码用
+RoPE，通过旋转矩阵编码相对位置，支持长度外推 - 注意力机制用 GQA，8 个
+Query 头共享 4 个 KV 头，推理时 KV Cache 减半 - 前馈网络用
+SwiGLU，门控机制让模型学习选择性激活</p>
+<p><strong>训练流程方面</strong>，我跑了三个阶段： - 预训练：1.6GB
+中文语料，CLM 目标，Loss 从 8 降到 3 - SFT：5 万条指令数据，只在
+assistant 部分算 CrossEntropy Loss，训练后模型能正确理解和回答问题 -
+DPO：偏好对数据，Loss 公式是 -log σ(β·(Δlog_prob_chosen -
+Δlog_prob_rejected))，β 设为 0.1 控制偏离程度</p>
+<p><strong>遇到的挑战</strong>：预训练时碰到过 Loss 突然 spike
+的问题，排查发现是某批数据包含大量特殊字符导致的，通过加强数据清洗解决。SFT
+时模型出现过度拒答的问题，通过混合通用指令数据缓解灾难性遗忘。</p>
+<p><strong>进阶工作</strong>：还实现了 LoRA 微调（r=8, α=16），只在
+q_proj 和 v_proj 上训练，参数量从 64M 降到约 60K 可训练参数，显存降低
+80%。也实现了 GRPO 强化学习，无需 Critic
+模型，通过组内相对排名计算奖励。</p>
+<p><strong>结合 MedicalGPT</strong>：在理解了底层原理后，我用 MedicalGPT
+框架对 7B
+模型做了医疗领域微调，效果明显好于直接用框架——因为知道每个超参数背后的含义，调参更有方向性。」</p>
+</blockquote>
+<hr />
+<h2 id="二10-个-star-面试回答模板">二、10 个 STAR 面试回答模板</h2>
+<h3 id="star-1项目动机">STAR 1：项目动机</h3>
+<p><strong>Q：为什么选择 MiniMind 这个项目？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>学习大模型过程中，发现用高层框架微调模型时，对底层原理理解不够深入</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>需要一个能从零开始、代码可读性强的项目来系统学习整个训练流程</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>选择 MiniMind 因为它纯 PyTorch 实现、64M
+参数成本低、覆盖全流程；从模型架构到训练脚本逐行阅读并复现</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>对 Attention、RoPE、SwiGLU
+等组件有了代码级理解；面试中能从公式推导到代码实现完整解释</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-2技术难点-loss-spike">STAR 2：技术难点 — Loss Spike</h3>
+<p><strong>Q：训练过程中遇到过什么问题？怎么解决的？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>预训练进行到约第 3000 步时，Loss 突然从 3.5 跳到 8.0 并持续不降</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>需要快速定位原因并恢复训练</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. 先回退到 spike 前的 checkpoint 继续训练，确认不是随机噪声 2.
+检查该批次数据，发现包含大量 HTML 标签和特殊字符 3.
+加入数据清洗步骤过滤异常文本 4. 增加 gradient clipping
+(max_norm=1.0)</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>清洗后 Loss 回归正常下降趋势；之后加入了训练过程中的 Loss
+异常检测告警</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-3技术选择-gqa-vs-mha">STAR 3：技术选择 — GQA vs MHA</h3>
+<p><strong>Q：为什么用 GQA 而不是 MHA？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>设计模型架构时，需要在推理效率和模型表达力之间做权衡</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>选择一种注意力机制，在小模型上也能体现现代架构的优势</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>对比了三种方案：MHA（8Q+8KV，标准但 KV Cache
+大）、MQA（8Q+1KV，太极端可能损失精度）、GQA（8Q+4KV，折中方案）。在验证集上做了消融实验</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>GQA 相比 MHA，KV Cache 减少 50%，推理速度提升
+25%，生成质量几乎无差异</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-4数据处理">STAR 4：数据处理</h3>
+<p><strong>Q：你是怎么处理训练数据的？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>预训练数据
+1.6GB，包含网络爬取的中文文本，存在质量参差不齐的问题</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>设计数据清洗流程，确保训练数据质量</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. 长度过滤：去除过短（&lt;50 字符）和过长的文本 2. 去重：MinHash +
+LSH 近似去重 3. 质量过滤：基于 PPL 过滤低质量文本 4.
+特殊字符清理：正则去除 HTML/URL 5. 分层抽检：人工验证 1% 样本</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>清洗后数据量从 1.6GB 精简到 1.2GB，但训练效果反而提升——最终 Loss
+降低约 0.3</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-5dpo-偏好对齐">STAR 5：DPO 偏好对齐</h3>
+<p><strong>Q：讲讲你做 DPO 的经验？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>SFT
+后模型能回答问题，但回答质量不稳定，偶尔出现不安全或过于简单的回答</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>通过偏好对齐提升回答的安全性、详细度和一致性</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. 构建偏好数据：同一问题生成多个回答，人工标注 chosen/rejected 2.
+实现 DPO Loss：-log σ(β·(Δ_chosen - Δ_rejected))，β=0.1 3. 用 SFT
+模型作为 reference model 4. 训练约 20 分钟</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>DPO 后安全性问题减少约 70%，回答平均长度从 50 字增加到 120
+字（更详细），人工盲评偏好率从 50% 提升到 68%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-6lora-微调优化">STAR 6：LoRA 微调优化</h3>
+<p><strong>Q：说说 LoRA 的实现和调参经验？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>全参数微调 64M 模型虽然可行，但想验证 LoRA
+在小模型上是否同样有效</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>实现 LoRA 微调并对比全参微调的效果和效率</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. 实现 LoRA：W’ = W + α/r · B·A，A 高斯初始化，B 全零 2.
+参数搜索：r∈{4,8,16,32}，target_modules 从 [q,v] 扩展到 [q,k,v,o] 3.
+最终选择 r=8, α=16, target=[q_proj, v_proj]</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>可训练参数从 64M 降到约 60K（减少 99.9%），训练速度快 3
+倍，效果与全参微调差距 &lt; 2%（在验证集上）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-7模型对比与选型">STAR 7：模型对比与选型</h3>
+<p><strong>Q：MiniMind 和 MedicalGPT
+有什么区别？你怎么结合使用的？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>需要同时展示原理理解（从零实现）和工程实战（工业级框架）</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>用 MiniMind 打基础理解原理，用 MedicalGPT 做领域落地</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>MiniMind：纯 PyTorch，64M，教学级，理解 Attention/RoPE/DPO
+等原理。MedicalGPT：基于 HF TRL，支持 7B-70B，工业级，做医疗微调。先读
+MiniMind 源码理解原理，再用 MedicalGPT 框架高效微调</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>两个项目互补：面试基础题用 MiniMind 案例回答，项目经验题用
+MedicalGPT 案例回答</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-8部署优化">STAR 8：部署优化</h3>
+<p><strong>Q：模型训练好之后怎么部署的？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>训练好的模型需要提供 API 服务，要求低延迟和高可用</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>搭建推理服务，实现 OpenAI API 兼容接口</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. MiniMind 自带 web_server.py，兼容 OpenAI API 格式 2. 也可以用
+transformers 加载和 vLLM 部署 3. 对于 MedicalGPT 的 7B 模型，用 vLLM +
+INT8 量化部署 4. 加入流式输出（streaming）提升用户体验</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>MiniMind API 延迟 &lt; 100ms，MedicalGPT 7B 量化后单卡推理 QPS
+50+，P99 &lt; 2s</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-9学习方法论">STAR 9：学习方法论</h3>
+<p><strong>Q：你是怎么学习大模型技术的？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>大模型技术栈复杂，概念多、工具多、论文多，需要高效的学习路径</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>建立系统化的学习方法，在 3 个月内从入门到面试水平</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. 先看 Karpathy Let’s Build GPT 视频建立直觉 2. 读 MiniMind
+源码理解实现细节 3. 动手跑通全流程（PT→SFT→DPO） 4. 用 MedicalGPT
+做领域实战 5. 整理面试题库反复自测</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>3 个月系统学习后，能从原理到代码解释大模型训练全流程</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="star-10团队协作">STAR 10：团队协作</h3>
+<p><strong>Q：在项目中你怎么和团队配合的？</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要素</th>
+<th>回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong></td>
+<td>医疗大模型项目涉及数据标注、模型训练、后端部署、产品设计多个角色</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>我负责模型训练与评测，需要和数据团队、后端、产品紧密配合</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>1. 和数据团队定义清洗规范和标注指南 2. 和后端定义模型输入输出 schema
+3. 和产品定义安全红线和拒答策略 4. 每周评测报告同步给全组，用 W&amp;B
+做实验追踪</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>跨角色沟通顺畅，从数据到上线 2 个月完成，迭代 3 个版本</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="三追问应对策略">三、追问应对策略</h2>
+<h3 id="万能追问模式">3.1 万能追问模式</h3>
+<p>面试官追问通常有三个方向：</p>
+<pre><code>1. &quot;为什么这样做？&quot; → 回答技术选型的原因和权衡
+2. &quot;还有别的方案吗？&quot; → 对比替代方案的优劣
+3. &quot;出了问题怎么办？&quot; → 回答排查思路和解决方案</code></pre>
+<h3 id="不会时的应对">3.2 不会时的应对</h3>
+<pre><code>诚实但不空白：
+✓ &quot;这个方向我还没有深入研究，但据我了解...&quot;
+✓ &quot;我在项目中没有遇到这个问题，但如果遇到，我会...&quot;
+✓ &quot;这个我知道概念，具体实现细节需要再查阅一下&quot;
+
+绝对避免：
+✗ &quot;我不知道&quot;（太干）
+✗ &quot;这个不重要&quot;（态度问题）
+✗ 编造答案（被发现很减分）</code></pre>
+<h3 id="高频追问及应对">3.3 高频追问及应对</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>追问</th>
+<th>简要应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>如果数据量翻 10 倍怎么办？</td>
+<td>分布式训练 + 数据分片 + DeepSpeed ZeRO</td>
+</tr>
+<tr>
+<td>模型效果不好怎么排查？</td>
+<td>数据质量 → 超参 → 模型结构 → 训练流程逐步排查</td>
+</tr>
+<tr>
+<td>为什么不直接用大模型？</td>
+<td>成本考量 + 定制化需求 + 数据安全 + 推理延迟</td>
+</tr>
+<tr>
+<td>量化会损失多少效果？</td>
+<td>INT8 通常 &lt; 1% 效果损失，INT4 需要仔细评估</td>
+</tr>
+<tr>
+<td>LoRA 的 r 怎么选？</td>
+<td>从小到大搜索，看验证集效果 + 显存预算权衡</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四面试前一天-checklist">四、面试前一天 Checklist</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />30
+秒版项目介绍能流利说出</label></li>
+<li><label><input type="checkbox" />1 分钟版本不需要看稿</label></li>
+<li><label><input type="checkbox" />10 个 STAR
+故事都记住了关键数字</label></li>
+<li><label><input type="checkbox" />能在纸上写出 Attention
+计算过程</label></li>
+<li><label><input type="checkbox" />能在纸上写出 DPO Loss
+公式</label></li>
+<li><label><input type="checkbox" />能解释 GQA / RoPE / SwiGLU / RMSNorm
+的原理</label></li>
+<li><label><input type="checkbox" />准备了 2-3
+个反问面试官的问题</label></li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>下一章</strong>：<a
+href="./06-面试问答100题.md">06-面试问答100题.md</a> — MiniMind
+面试可能被问到的所有问题</p>
+</blockquote>
+<hr />
+<h1 id="minimind-面试问答-100-题-star-格式详尽版">MiniMind 面试问答 100
+题 — STAR 格式详尽版</h1>
+<blockquote>
+<p>覆盖 MiniMind 项目可能被问到的所有问题，每题含 30 秒要点、详细解答和
+STAR 回答模板。</p>
+</blockquote>
+<hr />
+<h2 id="第一章项目动机与选型10-题">第一章：项目动机与选型（10 题）</h2>
+<h3 id="q1minimind-项目是做什么的">Q1：MiniMind 项目是做什么的？</h3>
+<p><strong>30 秒要点</strong>：从零训练 64M 参数的 GPT，纯 PyTorch，覆盖
+PT→SFT→DPO→LoRA→RLHF 全流程。</p>
+<p><strong>详细解答</strong>： MiniMind
+是一个教学导向的大模型训练项目。目标不是训练一个能用的产品模型，而是通过极简的代码和极低的成本，让学习者理解大模型训练的每一个环节。模型架构对齐
+Qwen3（RMSNorm + RoPE + GQA + SwiGLU），参数量仅 64M，在单卡 3090 上 2
+小时完成全部训练。</p>
+<p><strong>STAR 回答</strong>： -
+S：学习大模型时发现高层框架封装太深，理解不够 -
+T：需要一个从零实现的项目来系统学习 - A：选择
+MiniMind，逐行阅读源码并完整复现全流程 -
+R：对每个技术组件都有了代码级理解</p>
+<hr />
+<h3
+id="q2为什么选择从零实现而不是直接用框架">Q2：为什么选择从零实现而不是直接用框架？</h3>
+<p><strong>30
+秒要点</strong>：框架封装太深，面试时被追问底层原理答不上来。</p>
+<p><strong>详细解答</strong>： 用 LLaMA-Factory 或 HuggingFace TRL
+微调模型，只需要写配置文件，几行代码就能跑通。但面试官会问：Attention
+怎么计算的？DPO Loss 怎么推导的？LoRA 为什么 B
+矩阵初始化为零？这些问题如果没从零实现过，很难准确回答。MiniMind
+的优势在于：每一行核心代码都是原生 PyTorch，没有隐藏的魔法。</p>
+<hr />
+<h3 id="q364m-参数太小了有实际意义吗">Q3：64M
+参数太小了，有实际意义吗？</h3>
+<p><strong>30
+秒要点</strong>：小模型和大模型的训练原理完全一致，区别只在规模和效果。</p>
+<p><strong>详细解答</strong>： 64M 和 7B/70B
+的模型在训练流程上完全一致：同样的 Attention 机制、同样的 Loss
+函数、同样的优化器、同样的训练阶段。区别只在：层数更少、维度更小、效果更弱。但学习原理不需要效果强，需要的是「能跑通、能理解、能解释」。就像学汽车原理不需要真的造一辆跑车。</p>
+<hr />
+<h3 id="q4minimind-和-nanogpt-llm101n-有什么区别">Q4：MiniMind 和
+nanoGPT / LLM101n 有什么区别？</h3>
+<p><strong>30 秒要点</strong>：MiniMind 覆盖更全（含
+DPO/RLHF/LoRA/MoE），且对齐现代架构。</p>
+<p><strong>详细解答</strong>： - nanoGPT
+(Karpathy)：专注预训练，架构较老（标准 Transformer），不含 SFT/DPO/LoRA
+- LLM101n：更侧重教学理论，代码实现不够完整 - MiniMind：覆盖
+PT→SFT→DPO→LoRA→RLHF→蒸馏→MoE→Tool Use，架构对齐 Qwen3</p>
+<hr />
+<h3 id="q5项目中你负责了什么">Q5：项目中你负责了什么？</h3>
+<p><strong>30
+秒要点</strong>：独立阅读源码、复现全流程、优化数据处理、总结面试材料。</p>
+<p><strong>STAR 回答</strong>： - S：需要系统学习大模型训练以应对面试 -
+T：完整理解并复现 MiniMind 全流程 - A：阅读全部核心源码，独立跑通
+PT/SFT/DPO/LoRA，优化数据清洗流程，记录训练过程关键指标 -
+R：对模型架构和训练流程有代码级理解，能独立排查训练问题</p>
+<hr />
+<h3 id="q6这个项目花了多长时间">Q6：这个项目花了多长时间？</h3>
+<p><strong>30 秒要点</strong>：源码阅读 1 周 + 训练复现 3-4 小时 +
+文档整理 1 周。</p>
+<hr />
+<h3 id="q7如果让你改进-minimind你会做什么">Q7：如果让你改进
+MiniMind，你会做什么？</h3>
+<p><strong>30
+秒要点</strong>：扩大数据规模、加入更多评测维度、支持多模态。</p>
+<p><strong>详细解答</strong>： 1. 数据方面：预训练数据从 1.6GB 扩展到
+10GB+，加入更多高质量中文语料 2. 评测方面：加入 C-Eval / MMLU
+等标准化评测，而不仅是人工观察 3. 架构方面：实验 MLA (Multi-Latent
+Attention) 等更新的架构 4. 多模态：扩展到图文理解（MiniMind-V
+已有初步支持） 5. 工程方面：加入 DDP 支持多卡训练，实现
+FlashAttention</p>
+<hr />
+<h3 id="q8你从这个项目中学到了什么">Q8：你从这个项目中学到了什么？</h3>
+<p><strong>STAR 回答</strong>： -
+S：大模型技术快速发展，需要建立扎实的基础理解 -
+T：通过动手实践深入理解每个技术环节 - A：逐行阅读 Attention/RoPE/SwiGLU
+实现，对比论文公式与代码；手动调试训练过程中的问题 - R：三个核心收获——1)
+数据质量比模型架构更重要 2) 小模型能复现大模型的所有训练问题 3)
+从零实现比调框架学到的多 10 倍</p>
+<hr />
+<h3
+id="q9这个项目对你的职业发展有什么帮助">Q9：这个项目对你的职业发展有什么帮助？</h3>
+<p><strong>30
+秒要点</strong>：建立了大模型全栈能力，从理论到实现到部署。</p>
+<hr />
+<h3
+id="q10如果面试官说这只是跑了个-demo你怎么回应">Q10：如果面试官说「这只是跑了个
+demo」，你怎么回应？</h3>
+<p><strong>30
+秒要点</strong>：强调不是简单运行，而是深入理解每一行代码。</p>
+<p><strong>详细解答</strong>：
+「我理解您的顾虑。这个项目的价值不在于模型的效果——64M 当然比不了
+7B。价值在于：我能打开 model.py 解释每一行 Attention 代码的含义，能推导
+DPO Loss 的数学公式，能解释 RoPE 为什么用复数旋转。这些理解在使用
+MedicalGPT 等工业级框架微调 7B
+模型时，直接帮助我更准确地调参和排查问题。」</p>
+<hr />
+<h2 id="第二章模型架构15-题">第二章：模型架构（15 题）</h2>
+<h3 id="q11minimind-的模型架构是什么">Q11：MiniMind
+的模型架构是什么？</h3>
+<p><strong>30 秒要点</strong>：Decoder-only Transformer，16 层，512
+维，RMSNorm+RoPE+GQA+SwiGLU。</p>
+<hr />
+<h3 id="q12什么是-decoder-only-架构为什么现在主流都用它">Q12：什么是
+Decoder-only 架构？为什么现在主流都用它？</h3>
+<p><strong>30
+秒要点</strong>：只有解码器，自回归生成；统一预训练和生成任务，KV Cache
+高效。</p>
+<p><strong>详细解答</strong>： 三种 Transformer 架构： - Encoder-only
+(BERT)：适合理解任务，不擅长生成 - Encoder-Decoder (T5)：适合翻译等
+seq2seq 任务 - Decoder-only (GPT)：自回归生成，每一步只看前面的
+token</p>
+<p>Decoder-only 成为主流因为：1) 统一预训练目标（next token
+prediction）和生成任务；2) 推理时 KV Cache 复用高效；3) scaling law
+表现好。</p>
+<hr />
+<h3 id="q13rmsnorm-和-layernorm-有什么区别">Q13：RMSNorm 和 LayerNorm
+有什么区别？</h3>
+<p><strong>30 秒要点</strong>：RMSNorm 只做 RMS
+缩放，不减均值，计算更快。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>LayerNorm: y = (x - mean) / sqrt(var + eps) * γ + β
+RMSNorm:   y = x / sqrt(mean(x²) + eps) * γ</code></pre>
+<p>区别：1) 省去减均值和加偏置 2) 实验表明减均值对 LLM 帮助很小 3)
+计算量减少约 10-15%。</p>
+<hr />
+<h3 id="q14rope-位置编码的原理">Q14：RoPE 位置编码的原理？</h3>
+<p><strong>30
+秒要点</strong>：用旋转矩阵编码位置，使得注意力分数只依赖相对距离。</p>
+<p><strong>详细解答</strong>： 核心思想：在复数空间中，位置 m
+的向量被旋转 m×θ 度。当计算两个位置的 QK
+点积时，旋转角度相减，只留下相对距离信息。</p>
+<p>数学：<code>q_m · k_n = Re[(q_m ⊙ e^{imθ}) · conj(k_n ⊙ e^{inθ})]</code>，最终只依赖
+(m-n)。</p>
+<p>优势：1) 天然支持相对位置 2) 通过频率缩放可外推到更长序列 3)
+不增加额外参数。</p>
+<hr />
+<h3 id="q15gqa-是什么和-mhamqa-的区别">Q15：GQA 是什么？和 MHA、MQA
+的区别？</h3>
+<p><strong>30 秒要点</strong>：GQA 让多个 Q 头共享 KV 头，折中方案。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>MHA: 8个Q头 + 8个KV头 → 表达力强但KV Cache大
+MQA: 8个Q头 + 1个KV头 → KV Cache最小但可能损失精度
+GQA: 8个Q头 + 4个KV头 → 折中，KV Cache减半，精度几乎不损</code></pre>
+<p>MiniMind 用 8Q+4KV，每 2 个 Q 头共享 1 组 KV。推理时 KV Cache 比 MHA
+小 50%。</p>
+<hr />
+<h3 id="q16swiglu-是什么为什么比-relugelu-好">Q16：SwiGLU
+是什么？为什么比 ReLU/GELU 好？</h3>
+<p><strong>30 秒要点</strong>：门控线性单元，用 Swish
+函数做门控选择性激活。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>ReLU FFN:  W₂ · ReLU(W₁ · x)        → 2个矩阵
+SwiGLU:    W₂ · (SiLU(W₁·x) ⊙ W₃·x) → 3个矩阵，但隐藏维度缩到 2/3</code></pre>
+<p>SwiGLU
+的门控机制让模型学习「哪些特征该通过，哪些该屏蔽」，实验表明在同等参数量下效果明显优于
+ReLU/GELU。LLaMA/Qwen/MiniMind 均采用。</p>
+<hr />
+<h3 id="q17为什么-attention-要除以-d">Q17：为什么 Attention 要除以
+√d？</h3>
+<p><strong>30 秒要点</strong>：防止点积过大导致 softmax 梯度消失。</p>
+<p><strong>详细解答</strong>： QK^T 的点积结果随维度 d
+增大而增大（方差约为 d）。除以 √d 将方差归一化到 1，防止 softmax
+输入值过大导致输出趋近 one-hot，梯度几乎为零。</p>
+<hr />
+<h3 id="q18因果-mask-是什么为什么需要">Q18：因果 Mask
+是什么？为什么需要？</h3>
+<p><strong>30 秒要点</strong>：下三角
+mask，确保每个位置只能看到自己和之前的 token。</p>
+<p><strong>详细解答</strong>： 自回归生成要求位置 i 的输出只依赖位置
+1..i 的输入（不能看到未来）。训练时通过 causal mask
+实现：<code>mask[i][j] = 0 if j&lt;=i else -inf</code>。加到 attention
+scores 上后，未来位置的分数变为 -inf，softmax 后为 0。</p>
+<hr />
+<h3 id="q19minimind-的参数量怎么计算">Q19：MiniMind
+的参数量怎么计算？</h3>
+<p><strong>30 秒要点</strong>：Embedding + 16层×(Attention+FFN+2×Norm) +
+输出层。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>Embedding:  6400 × 512 = 3.3M
+每层 Attention:
+  Q proj: 512 × 512 = 262K
+  K proj: 512 × 256 = 131K  (4个KV头)
+  V proj: 512 × 256 = 131K
+  O proj: 512 × 512 = 262K
+  Norm: 512 = 0.5K
+每层 FFN:
+  W1: 512 × 1365 = 699K  (hidden_dim ≈ 512×8/3)
+  W2: 1365 × 512 = 699K
+  W3: 512 × 1365 = 699K
+  Norm: 512 = 0.5K
+
+每层总计 ≈ 2.9M
+16 层总计 ≈ 46.4M
+最终 Norm + Output: 512 + 512×6400 = 3.3M
+
+总计 ≈ 53M (实际约64M取决于具体配置)</code></pre>
+<hr />
+<h3 id="q20embedding-层和-output-层可以共享权重吗">Q20：Embedding 层和
+Output 层可以共享权重吗？</h3>
+<p><strong>30 秒要点</strong>：可以，称为 weight
+tying，节省参数。MiniMind 有些版本实现了。</p>
+<hr />
+<h3 id="q21pre-norm-vs-post-norm">Q21：Pre-Norm vs Post-Norm？</h3>
+<p><strong>30 秒要点</strong>：Pre-Norm
+先归一化再做子层，训练更稳定，是现代 LLM 的标准。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>Pre-Norm:  x + Sublayer(Norm(x))  ← MiniMind / LLaMA / Qwen 用这个
+Post-Norm: Norm(x + Sublayer(x))  ← 原始 Transformer</code></pre>
+<p>Pre-Norm 优势：梯度直通残差连接，不经过归一化，训练更稳定。 Post-Norm
+优势：理论上表达力更强，但训练容易不稳定。</p>
+<hr />
+<h3 id="q22为什么不用-bias">Q22：为什么不用 bias？</h3>
+<p><strong>30 秒要点</strong>：实验表明去掉 bias
+不影响效果，反而减少参数和计算。</p>
+<hr />
+<h3 id="q23moe-版本的路由机制">Q23：MoE 版本的路由机制？</h3>
+<p><strong>30 秒要点</strong>：Linear 层做门控，Top-K
+选择激活专家，加负载均衡 loss。</p>
+<p><strong>详细解答</strong>： 路由器是一个简单的 Linear(dim,
+n_experts)，输出每个专家的得分。取 Top-K 个得分最高的专家，softmax
+归一化为权重，加权求和各专家的输出。额外加负载均衡 loss
+防止某些专家被过度使用。</p>
+<hr />
+<h3 id="q24minimind-的-hidden_dim-为什么是-dim-的-83-倍">Q24：MiniMind
+的 hidden_dim 为什么是 dim 的 8/3 倍？</h3>
+<p><strong>30 秒要点</strong>：SwiGLU 有 3
+个矩阵，为了保持总参数量与标准 FFN（4×dim，2 个矩阵）一致。</p>
+<hr />
+<h3 id="q25kv-cache-的原理和实现">Q25：KV Cache 的原理和实现？</h3>
+<p><strong>30 秒要点</strong>：缓存历史 token 的 K、V
+值，推理时只需计算新 token 的 Q。</p>
+<p><strong>详细解答</strong>： 自回归生成时，每个新 token 需要和所有历史
+token 做 attention。如果每次都重新计算所有 K、V，计算量为 O(n²)。KV
+Cache 将历史 K、V 缓存起来，每步只需计算新 token 的 Q、K、V，将新 K、V
+追加到缓存中，计算量降为 O(n)。</p>
+<p>缺点：显存占用随序列长度线性增长，GQA 可以缓解。</p>
+<hr />
+<h2 id="第三章预训练10-题">第三章：预训练（10 题）</h2>
+<h3 id="q26预训练的目标函数">Q26：预训练的目标函数？</h3>
+<p><strong>30 秒要点</strong>：Next Token Prediction，即 Causal Language
+Modeling (CLM)。</p>
+<p><strong>详细解答</strong>：
+<code>L = -Σ log P(x_t | x_1, ..., x_{t-1})</code> 给定前面所有
+token，预测下一个 token 的条件概率，用交叉熵 loss。</p>
+<hr />
+<h3 id="q27预训练数据怎么组织的">Q27：预训练数据怎么组织的？</h3>
+<p><strong>30 秒要点</strong>：每行一个 JSON，包含 text 字段，tokenize
+后切分为 max_len 的序列。</p>
+<hr />
+<h3 id="q28什么是-packing为什么要用">Q28：什么是
+packing？为什么要用？</h3>
+<p><strong>30 秒要点</strong>：将多个短文本拼接成一个 max_len 序列，减少
+padding 浪费。</p>
+<p><strong>详细解答</strong>： 如果 max_len=512 但大部分文本只有 100
+token，单独处理每个文本会浪费 80% 的计算。Packing 将多个文本拼在一起填满
+512，用特殊分隔符或 attention mask 隔离不同文本。</p>
+<hr />
+<h3 id="q29学习率调度策略">Q29：学习率调度策略？</h3>
+<p><strong>30 秒要点</strong>：Warmup + Cosine
+Decay，先线性升温再余弦衰减。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>1. Warmup 阶段：LR 从 0 线性增长到 max_lr（通常前 5-10% steps）
+2. Cosine Decay：从 max_lr 余弦衰减到 min_lr（通常为 max_lr 的 10%）</code></pre>
+<p>Warmup 防止训练初期参数更新过大；Cosine Decay 让后期精细调整。</p>
+<hr />
+<h3 id="q30预训练时-loss-从多少降到多少">Q30：预训练时 Loss
+从多少降到多少？</h3>
+<p><strong>30 秒要点</strong>：约从 8 降到 3（交叉熵，以 log
+为底）。</p>
+<hr />
+<h3 id="q31预训练需要多少数据">Q31：预训练需要多少数据？</h3>
+<p><strong>30 秒要点</strong>：MiniMind 用 1.6GB，通用模型需要 TB
+级别。</p>
+<p><strong>详细解答</strong>： Chinchilla scaling law 建议 token
+数约等于参数数的 20 倍。64M 模型理论上需要约 1.3B token（约 2-3GB
+文本）。MiniMind 用 1.6GB 略欠，但作为教学项目足够展示训练过程。</p>
+<hr />
+<h3 id="q32混合精度训练的原理">Q32：混合精度训练的原理？</h3>
+<p><strong>30 秒要点</strong>：FP16/BF16 做前向和反向，FP32
+做参数更新，减少显存加速计算。</p>
+<p><strong>详细解答</strong>：</p>
+<pre><code>前向/反向：FP16/BF16（速度快，显存小）
+Master 权重 + 优化器状态：FP32（精度高，防止累积误差）
+梯度：FP16 计算后转 FP32 更新</code></pre>
+<p>BF16 比 FP16 的优势：动态范围更大（和 FP32 一样的指数位），不需要
+loss scaling。</p>
+<hr />
+<h3 id="q33梯度裁剪的作用">Q33：梯度裁剪的作用？</h3>
+<p><strong>30 秒要点</strong>：限制梯度的最大范数，防止梯度爆炸导致
+NaN。</p>
+<p><strong>详细解答</strong>：
+<code>torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)</code>
+当梯度范数超过 max_norm
+时，按比例缩小所有梯度。这对训练稳定性至关重要，特别是 RL 阶段。</p>
+<hr />
+<h3 id="q34adamw-和-adam-的区别">Q34：AdamW 和 Adam 的区别？</h3>
+<p><strong>30 秒要点</strong>：AdamW 将 weight decay
+从梯度更新中解耦，正则效果更好。</p>
+<hr />
+<h3 id="q35怎么判断预训练是否成功">Q35：怎么判断预训练是否成功？</h3>
+<p><strong>30 秒要点</strong>：Loss 稳步下降 + 生成文本连贯 + PPL
+在验证集上正常。</p>
+<p><strong>详细解答</strong>： 1. Loss
+曲线：应该平滑下降（允许小幅波动） 2.
+生成质量：给模型一个开头，看续写是否通顺 3. 验证集 PPL：下降但不过拟合
+4. 梯度范数：稳定不爆炸</p>
+<hr />
+<h2 id="第四章sft-微调10-题">第四章：SFT 微调（10 题）</h2>
+<h3 id="q36sft-为什么只算-assistant-部分的-loss">Q36：SFT 为什么只算
+assistant 部分的 loss？</h3>
+<p><strong>30 秒要点</strong>：user
+的输入是已知的，只需要学习怎么回答。</p>
+<p><strong>详细解答</strong>： 如果计算全部 token 的
+loss，模型会花大量算力学习「预测 user 会说什么」，这不是我们的目标。只在
+assistant 部分算
+loss，让模型专注学习「给定用户输入，如何生成好的回答」。</p>
+<p>实现方式：用 loss_mask 将 user/system token 位置的 loss 设为 0。</p>
+<hr />
+<h3 id="q37alpaca-格式和-sharegpt-格式">Q37：Alpaca 格式和 ShareGPT
+格式？</h3>
+<p><strong>30 秒要点</strong>：Alpaca 是单轮指令格式，ShareGPT
+是多轮对话格式。</p>
+<div class="sourceCode" id="cb68"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="er">//</span> <span class="er">Alpaca</span> <span class="er">格式</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;instruction&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span> <span class="dt">&quot;input&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span> <span class="dt">&quot;output&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">}</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="er">//</span> <span class="er">ShareGPT</span> <span class="er">格式</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;conversations&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span><span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;user&quot;</span><span class="fu">,</span> <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span><span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;assistant&quot;</span><span class="fu">,</span> <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span><span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;user&quot;</span><span class="fu">,</span> <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span><span class="dt">&quot;role&quot;</span><span class="fu">:</span> <span class="st">&quot;assistant&quot;</span><span class="fu">,</span> <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">}</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+<hr />
+<h3 id="q38chat-template-为什么重要">Q38：Chat Template
+为什么重要？</h3>
+<p><strong>30
+秒要点</strong>：训练和推理必须用一致的模板，否则模型行为异常。</p>
+<hr />
+<h3 id="q39sft-数据多少合适">Q39：SFT 数据多少合适？</h3>
+<p><strong>30 秒要点</strong>：质量 &gt; 数量；LoRA 常见 1-10
+万条，全参可以更多。</p>
+<hr />
+<h3 id="q40sft-过拟合怎么判断">Q40：SFT 过拟合怎么判断？</h3>
+<p><strong>30 秒要点</strong>：训练集 loss 降但验证集 loss
+升，生成开始重复/僵化。</p>
+<hr />
+<h3 id="q41灾难性遗忘怎么缓解">Q41：灾难性遗忘怎么缓解？</h3>
+<p><strong>30 秒要点</strong>：混合通用数据、小 LR、少 epoch、用
+LoRA。</p>
+<hr />
+<h3 id="q42sft-后模型回答过于简短怎么办">Q42：SFT
+后模型回答过于简短怎么办？</h3>
+<p><strong>30
+秒要点</strong>：检查训练数据中回答的平均长度，补充高质量长回答数据。</p>
+<hr />
+<h3 id="q43多任务-sft-怎么做">Q43：多任务 SFT 怎么做？</h3>
+<p><strong>30
+秒要点</strong>：多种任务混合训练，控制比例，可加任务前缀。</p>
+<hr />
+<h3 id="q44sft-和预训练的学习率差异">Q44：SFT
+和预训练的学习率差异？</h3>
+<p><strong>30 秒要点</strong>：SFT 通常用更小的
+LR（1e-4~1e-5），避免破坏预训练知识。</p>
+<hr />
+<h3 id="q45如何评估-sft-效果">Q45：如何评估 SFT 效果？</h3>
+<p><strong>30 秒要点</strong>：人工盲评 + 自动指标（BLEU/ROUGE/PPL）+
+任务特定指标。</p>
+<hr />
+<h2 id="第五章dpo-对齐10-题">第五章：DPO / 对齐（10 题）</h2>
+<h3 id="q46dpo-的数学推导">Q46：DPO 的数学推导？</h3>
+<p><strong>30 秒要点</strong>：从 RLHF 目标函数出发，用闭式解替换 RL
+优化。</p>
+<p><strong>详细解答</strong>： RLHF
+目标：<code>max E[r(x,y)] - β·KL(π||π_ref)</code>
+闭式解：<code>π*(y|x) ∝ π_ref(y|x) · exp(r(x,y)/β)</code>
+反解奖励：<code>r(x,y) = β · log(π(y|x)/π_ref(y|x)) + const</code> 代入
+Bradley-Terry 偏好模型得到 DPO Loss：
+<code>L = -log σ(β·[log(π(y_w|x)/π_ref(y_w|x)) - log(π(y_l|x)/π_ref(y_l|x))])</code></p>
+<hr />
+<h3 id="q47dpo-的-β-参数怎么调">Q47：DPO 的 β 参数怎么调？</h3>
+<p><strong>30 秒要点</strong>：β 大 → 保守（贴近 reference），β 小 →
+激进（偏离更多）。</p>
+<p><strong>详细解答</strong>： - β = 0.1：常用起始值 - β
+太大（&gt;1）：模型几乎不动，对齐效果弱 - β
+太小（&lt;0.01）：模型偏离太多，可能性能退化 - 调参方法：从 0.1
+开始，观察 chosen/rejected 的 reward margin</p>
+<hr />
+<h3 id="q48dpo-数据质量的要求">Q48：DPO 数据质量的要求？</h3>
+<p><strong>30 秒要点</strong>：chosen 和 rejected
+差异要明显，且覆盖目标分布。</p>
+<hr />
+<h3 id="q49dpo-和-rlhf-的效果谁好">Q49：DPO 和 RLHF 的效果谁好？</h3>
+<p><strong>30 秒要点</strong>：理论上 RLHF 上限更高（在线学习），实际上
+DPO 更稳定、更易用。</p>
+<hr />
+<h3 id="q50什么情况下-dpo-效果不好">Q50：什么情况下 DPO 效果不好？</h3>
+<p><strong>30 秒要点</strong>：数据噪声大、分布偏移严重、SFT
+底座差。</p>
+<p><strong>详细解答</strong>： 1. 偏好数据标注不一致 → chosen/rejected
+边界模糊 2. 偏好数据分布和目标分布差距大 → 离线学习的固有问题 3. SFT
+模型本身太差 → DPO 只能在 SFT 基础上微调，SFT 差则 DPO 也差 4. 长度偏见
+→ 标注者倾向选择更长的回答</p>
+<hr />
+<h3 id="q51grpo-的原理">Q51：GRPO 的原理？</h3>
+<p><strong>30 秒要点</strong>：同一 prompt
+多次采样，组内相对排名作为奖励，不需要 Critic。</p>
+<p><strong>详细解答</strong>： GRPO (Group Relative Policy
+Optimization)，DeepSeek 提出： 1. 对同一 prompt 采样 G 个回答 2. 用
+reward model 给每个回答打分 3. 组内标准化分数作为 advantage 4. 用 PPO
+式的 clipped objective 更新策略</p>
+<p>优势：省去 Critic/Value 模型（节省约 30% 显存），训练更简单。</p>
+<hr />
+<h3 id="q52reference-model-的作用">Q52：Reference Model 的作用？</h3>
+<p><strong>30 秒要点</strong>：防止模型偏离太远，保持语言能力。</p>
+<hr />
+<h3 id="q53偏好数据怎么构建">Q53：偏好数据怎么构建？</h3>
+<p><strong>30 秒要点</strong>：同一 prompt 多温度采样 → 人工/AI 标注 →
+质量审核。</p>
+<hr />
+<h3 id="q54dpo-训练多少步合适">Q54：DPO 训练多少步合适？</h3>
+<p><strong>30 秒要点</strong>：通常 1 epoch，过多会过拟合偏好数据。</p>
+<hr />
+<h3 id="q55对齐税alignment-tax是什么">Q55：对齐税(Alignment
+Tax)是什么？</h3>
+<p><strong>30
+秒要点</strong>：对齐可能降低模型在某些任务上的能力，是效果的权衡。</p>
+<hr />
+<h2 id="第六章lora-微调10-题">第六章：LoRA 微调（10 题）</h2>
+<h3 id="q56lora-的数学原理">Q56：LoRA 的数学原理？</h3>
+<p><strong>30 秒要点</strong>：W’ = W₀ +
+(α/r)·B·A，低秩矩阵近似参数更新。</p>
+<p><strong>详细解答</strong>： 核心假设：微调时的权重更新 ΔW 是低秩的。
+用两个小矩阵表示：ΔW = B·A，其中 A∈R^(r×d_in), B∈R^(d_out×r)。 参数量从
+d_in × d_out 降为 r×(d_in + d_out)。 α/r 是缩放因子，保持不同 r
+下的更新幅度一致。</p>
+<hr />
+<h3 id="q57为什么-a-高斯初始化b-零初始化">Q57：为什么 A 高斯初始化、B
+零初始化？</h3>
+<p><strong>30 秒要点</strong>：确保训练开始时 ΔW = B·A =
+0，不扰动预训练权重。</p>
+<hr />
+<h3 id="q58r-怎么选">Q58：r 怎么选？</h3>
+<p><strong>30 秒要点</strong>：从 4/8
+开始，越大越强但越耗显存，看验证集效果。</p>
+<p><strong>详细解答</strong>： 经验法则： - r=4/8：大多数场景够用 -
+r=16/32：复杂任务可能需要 - r=64+：很少需要，接近全参效果 调参方法：从
+r=8 开始，如果效果不够再加倍，直到验证集不再提升。</p>
+<hr />
+<h3 id="q59lora-应用在哪些层效果最好">Q59：LoRA
+应用在哪些层效果最好？</h3>
+<p><strong>30 秒要点</strong>：q_proj 和 v_proj 是标配，扩展到全部
+Attention + MLP 效果更好。</p>
+<hr />
+<h3 id="q60lora-权重怎么合并到原模型">Q60：LoRA
+权重怎么合并到原模型？</h3>
+<p><strong>30 秒要点</strong>：直接做矩阵加法 W’ = W₀ +
+(α/r)·B·A，合并后无额外推理成本。</p>
+<hr />
+<h3 id="q61多个-lora-适配器怎么切换">Q61：多个 LoRA
+适配器怎么切换？</h3>
+<p><strong>30 秒要点</strong>：加载不同的 LoRA
+权重即可，基座模型不变。</p>
+<hr />
+<h3 id="q62qlora-的核心创新">Q62：QLoRA 的核心创新？</h3>
+<p><strong>30 秒要点</strong>：4-bit NF4 量化基座 + FP16 LoRA 训练 +
+分页优化器。</p>
+<p><strong>详细解答</strong>： 三大创新： 1. NF4
+量化：针对正态分布权重的最优 4-bit 量化类型 2. Double
+Quantization：量化量化常数本身，每参数再省 0.37 bits 3. Paged
+Optimizers：用 NVIDIA 统一内存处理 OOM，梯度 checkpoint 时自动换页</p>
+<p>效果：7B 模型从 ~14GB 降到 ~6GB 显存，效果损失 &lt; 1%。</p>
+<hr />
+<h3 id="q63lora-和全参微调的效果差多少">Q63：LoRA
+和全参微调的效果差多少？</h3>
+<p><strong>30 秒要点</strong>：通常差 1-3%，但成本低
+80%+，大多数场景可接受。</p>
+<hr />
+<h3 id="q64lora-训练时的学习率">Q64：LoRA 训练时的学习率？</h3>
+<p><strong>30 秒要点</strong>：通常比全参微调大，1e-4 ~ 1e-3
+范围搜索。</p>
+<hr />
+<h3 id="q65lora-和-dora-是什么">Q65：LoRA+ 和 DoRA 是什么？</h3>
+<p><strong>30 秒要点</strong>：LoRA+：A/B
+用不同学习率；DoRA：分解方向和大小分别调整。</p>
+<hr />
+<h2 id="第七章工程优化10-题">第七章：工程优化（10 题）</h2>
+<h3 id="q66训练中遇到-oom-怎么办">Q66：训练中遇到 OOM 怎么办？</h3>
+<p><strong>30 秒要点</strong>：减 batch → 梯度累积 → 减 max_len → QLoRA
+→ 梯度检查点 → offload。</p>
+<hr />
+<h3 id="q67梯度累积的原理">Q67：梯度累积的原理？</h3>
+<p><strong>30 秒要点</strong>：多个 micro-batch 的梯度累加，等效大 batch
+训练。</p>
+<p><strong>详细解答</strong>：</p>
+<div class="sourceCode" id="cb69"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, batch <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> model(batch) <span class="op">/</span> accumulation_steps</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> accumulation_steps <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span></code></pre></div>
+<p>注意：LR 应该按等效 batch size 线性缩放。</p>
+<hr />
+<h3 id="q68显存占用怎么估算">Q68：显存占用怎么估算？</h3>
+<p><strong>30 秒要点</strong>：参数 + 优化器状态 + 梯度 + 激活值 + KV
+Cache。</p>
+<p><strong>详细解答</strong>： 以 64M FP16 模型为例： - 参数：64M × 2
+bytes = 128MB - 优化器(AdamW)：64M × 8 bytes = 512MB (FP32 参数副本 + m
++ v) - 梯度：64M × 2 bytes = 128MB - 激活值：取决于 batch_size × seq_len
+× dim × n_layers - 总计：约 1-2GB (64M 模型很小)</p>
+<p>7B 模型：约 7B × 2 = 14GB 纯参数，全参训练需要 80GB+。</p>
+<hr />
+<h3 id="q69flashattention-的原理">Q69：FlashAttention 的原理？</h3>
+<p><strong>30 秒要点</strong>：分块计算 Attention，利用 SRAM 减少 HBM
+访问。</p>
+<p><strong>详细解答</strong>： 标准 Attention 需要将 N×N
+的注意力矩阵写入 HBM（慢），再读出来做 softmax。 FlashAttention 将
+Q、K、V 分块加载到 SRAM（快），在 SRAM 内完成 softmax 和加权求和，用
+online softmax 技巧保证数值等价。 结果：不改变数学计算，但 IO
+减少数倍，显存从 O(N²) 降到 O(N)。</p>
+<hr />
+<h3 id="q70gradient-checkpointing-的原理">Q70：Gradient Checkpointing
+的原理？</h3>
+<p><strong>30
+秒要点</strong>：不保存中间激活值，反向传播时重新计算，用计算换显存。</p>
+<hr />
+<h3 id="q71训练中如何监控异常">Q71：训练中如何监控异常？</h3>
+<p><strong>30 秒要点</strong>：Loss、grad norm、learning rate、吞吐量 +
+定期采样生成。</p>
+<hr />
+<h3 id="q72如何加速数据加载">Q72：如何加速数据加载？</h3>
+<p><strong>30 秒要点</strong>：多 worker、预处理
+tokenize、内存映射(mmap)、预取。</p>
+<hr />
+<h3 id="q73分布式训练怎么扩展-minimind">Q73：分布式训练怎么扩展
+MiniMind？</h3>
+<p><strong>30 秒要点</strong>：DDP 最简单，ZeRO 可以训更大模型。</p>
+<hr />
+<h3 id="q74模型保存最佳实践">Q74：模型保存最佳实践？</h3>
+<p><strong>30 秒要点</strong>：定期保存
+ckpt（含优化器状态），只保留最优和最新 N 个。</p>
+<hr />
+<h3 id="q75如何做训练的消融实验">Q75：如何做训练的消融实验？</h3>
+<p><strong>30
+秒要点</strong>：控制变量法，一次只变一个因素，记录完整结果。</p>
+<hr />
+<h2 id="第八章部署与推理10-题">第八章：部署与推理（10 题）</h2>
+<h3 id="q76推理时的解码策略">Q76：推理时的解码策略？</h3>
+<p><strong>30 秒要点</strong>：Greedy / Top-K / Top-P / Temperature
+控制。</p>
+<p><strong>详细解答</strong>： - Greedy：始终选最高概率
+token，确定性但单调 - Temperature：logits/T，T 大更随机，T 小更确定 -
+Top-K：只从概率最高的 K 个中采样 - Top-P (Nucleus)：从累积概率达到 P
+的最小集合中采样 - 推荐组合：Temperature=0.7 + Top-P=0.9</p>
+<hr />
+<h3 id="q77vllm-为什么快">Q77：vLLM 为什么快？</h3>
+<p><strong>30 秒要点</strong>：PagedAttention 管理 KV Cache + Continuous
+Batching。</p>
+<hr />
+<h3 id="q78int8-量化的原理">Q78：INT8 量化的原理？</h3>
+<p><strong>30 秒要点</strong>：将 FP16 权重映射到 INT8
+范围，推理时反量化计算。</p>
+<hr />
+<h3 id="q79量化对效果的影响">Q79：量化对效果的影响？</h3>
+<p><strong>30 秒要点</strong>：INT8 通常 &lt; 1% 损失，INT4 需要
+GPTQ/AWQ 等智能量化。</p>
+<hr />
+<h3 id="q80如何实现流式输出">Q80：如何实现流式输出？</h3>
+<p><strong>30 秒要点</strong>：生成一个 token 就发送一个，用
+SSE/WebSocket。</p>
+<hr />
+<h3 id="q81模型服务的并发处理">Q81：模型服务的并发处理？</h3>
+<p><strong>30 秒要点</strong>：Continuous Batching + 异步处理 +
+负载均衡。</p>
+<hr />
+<h3 id="q82推理延迟的瓶颈在哪">Q82：推理延迟的瓶颈在哪？</h3>
+<p><strong>30 秒要点</strong>：预填充阶段（首 token）计算密集 +
+解码阶段访存密集。</p>
+<hr />
+<h3 id="q83minimind-模型能用-ollama-运行吗">Q83：MiniMind 模型能用
+ollama 运行吗？</h3>
+<p><strong>30 秒要点</strong>：可以，需要先转换为 GGUF 格式。</p>
+<hr />
+<h3 id="q84投机解码speculative-decoding">Q84：投机解码(Speculative
+Decoding)？</h3>
+<p><strong>30 秒要点</strong>：小模型快速生成候选 → 大模型并行验证 →
+保证分布一致。</p>
+<hr />
+<h3 id="q85如何评估推理性能">Q85：如何评估推理性能？</h3>
+<p><strong>30 秒要点</strong>：吞吐量(tokens/s) + 延迟(P50/P95/P99) + 首
+token 时间。</p>
+<hr />
+<h2 id="第九章对比与扩展10-题">第九章：对比与扩展（10 题）</h2>
+<h3 id="q86minimind-vs-medicalgpt">Q86：MiniMind vs MedicalGPT？</h3>
+<p><strong>30
+秒要点</strong>：MiniMind=从零实现理解原理；MedicalGPT=工业级微调框架。</p>
+<hr />
+<h3 id="q87minimind-vs-llama-factory">Q87：MiniMind vs
+LLaMA-Factory？</h3>
+<p><strong>30 秒要点</strong>：MiniMind 是手工代码，LLaMA-Factory
+是一站式工具。</p>
+<hr />
+<h3 id="q88如何将-minimind-扩展到医疗领域">Q88：如何将 MiniMind
+扩展到医疗领域？</h3>
+<p><strong>30 秒要点</strong>：收集医疗语料做 CPT → 构建医疗指令数据 SFT
+→ 医疗偏好对齐。</p>
+<hr />
+<h3 id="q89minimind-v-多模态版本">Q89：MiniMind-V 多模态版本？</h3>
+<p><strong>30 秒要点</strong>：加入视觉编码器(ViT) + 投影层 +
+多模态训练。</p>
+<hr />
+<h3 id="q90scaling-law-对-minimind-的启示">Q90：Scaling Law 对 MiniMind
+的启示？</h3>
+<p><strong>30
+秒要点</strong>：模型越大+数据越多+算力越多，效果越好，且有可预测的关系。</p>
+<hr />
+<h3 id="q91minimind-能做-rag-吗">Q91：MiniMind 能做 RAG 吗？</h3>
+<p><strong>30 秒要点</strong>：可以，接入向量数据库做检索，将结果拼入
+context。</p>
+<hr />
+<h3 id="q92如何在-minimind-上做-tool-use">Q92：如何在 MiniMind 上做 Tool
+Use？</h3>
+<p><strong>30 秒要点</strong>：MiniMind 已支持 Agentic RL 和 Tool Use
+训练。</p>
+<hr />
+<h3 id="q93知识蒸馏在-minimind-中怎么做">Q93：知识蒸馏在 MiniMind
+中怎么做？</h3>
+<p><strong>30 秒要点</strong>：大模型输出 soft label → 小模型学习，KL
+散度 loss。</p>
+<hr />
+<h3 id="q94minimind-支持长上下文吗">Q94：MiniMind 支持长上下文吗？</h3>
+<p><strong>30 秒要点</strong>：通过 RoPE
+频率缩放可以外推到更长序列。</p>
+<hr />
+<h3 id="q95从-minimind-迁移到-7b-模型有什么要注意的">Q95：从 MiniMind
+迁移到 7B 模型有什么要注意的？</h3>
+<p><strong>30
+秒要点</strong>：显存管理、分布式训练、更大数据、更长训练时间。</p>
+<hr />
+<h2 id="第十章综合与开放题5-题">第十章：综合与开放题（5 题）</h2>
+<h3
+id="q96如果你有无限算力会怎么改进-minimind">Q96：如果你有无限算力，会怎么改进
+MiniMind？</h3>
+<p><strong>30 秒要点</strong>：扩大到 1B+ 参数，用 TB
+级数据，加入多模态，做更全面评测。</p>
+<hr />
+<h3
+id="q97大模型面试中最容易答错的问题">Q97：大模型面试中最容易答错的问题？</h3>
+<p><strong>30 秒要点</strong>：DPO 不需要 RM 但需要 reference
+model；LoRA 的 B 初始化为零不是 A。</p>
+<hr />
+<h3
+id="q98你觉得大模型最大的挑战是什么">Q98：你觉得大模型最大的挑战是什么？</h3>
+<p><strong>STAR 回答</strong>： - S：大模型快速发展但落地困难重重 -
+T：需要全面思考技术和产业挑战 -
+A：从三个维度分析：技术（幻觉/安全/评测）、工程（成本/延迟/可靠性）、产业（合规/伦理/商业化）
+- R：核心挑战是「可靠性」——如何让大模型的输出可信可控</p>
+<hr />
+<h3 id="q99未来-3-年大模型会怎么发展">Q99：未来 3
+年大模型会怎么发展？</h3>
+<p><strong>30
+秒要点</strong>：推理能力增强(R1)、多模态融合、Agent化、垂直领域深耕。</p>
+<hr />
+<h3
+id="q100给想学大模型的新人什么建议">Q100：给想学大模型的新人什么建议？</h3>
+<p><strong>30 秒要点</strong>：动手 &gt; 读论文 &gt;
+刷课程。建议路径：MiniMind → MedicalGPT → 实际项目。</p>
+<p><strong>STAR 回答</strong>： -
+S：大模型学习资源多但质量参差，新人容易迷失 - T：找到高效的学习路径 -
+A：推荐三步走：1) 先跑通 MiniMind 理解原理 2) 用 MedicalGPT
+学习工业级框架 3) 找一个垂直领域做真实项目 - R：3
+个月可以达到面试基本水平，关键是一定要动手跑代码</p>
+<hr />
+<blockquote>
+<p>回到 <a href="./01-项目全景.md">MiniMind 项目全景</a> | <a
+href="../interview/README.md">面试速查手册</a> | <a
+href="../README.md">课程主页</a></p>
+</blockquote>
+<hr />
+<h1 id="核心概念速查表一页纸">核心概念速查表（一页纸）</h1>
+<blockquote>
+<p><strong>用途</strong>：训练/面试前 <strong>5 分钟</strong>
+扫一遍；详细讲解见各课 README 与 <strong><a
+href="../lessons/L20-面试通关高频考点/README.md">L20</a></strong>。</p>
+</blockquote>
+<hr />
+<h2 id="导航-1">导航</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>链接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../README.md">← 返回课程总览</a></td>
+<td>Learn MedicalGPT 主页</td>
+</tr>
+<tr>
+<td><a href="../lessons/L20-面试通关高频考点/README.md">L20
+面试通关高频考点</a></td>
+<td>完整问答与追问</td>
+</tr>
+<tr>
+<td><a href="../interview/README.md">面试速查手册（关键词版）</a></td>
+<td>80 题极简答案</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="训练阶段速查各一行">训练阶段速查（各一行）</h2>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 25%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>阶段</th>
+<th>数据形态</th>
+<th>目标（直觉）</th>
+<th>典型产物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PT / CPT</strong></td>
+<td>连续纯文本</td>
+<td>让模型「读会」领域语言与知识分布</td>
+<td>领域 LM checkpoint</td>
+</tr>
+<tr>
+<td><strong>SFT</strong></td>
+<td>指令 / 多轮对话</td>
+<td>让模型「会按格式答」、跟任务对齐</td>
+<td>Chat/SFT 模型</td>
+</tr>
+<tr>
+<td><strong>RM</strong></td>
+<td>偏好对 / 排序</td>
+<td>学「人更喜欢哪种回答」</td>
+<td>Reward Model</td>
+</tr>
+<tr>
+<td><strong>PPO（RLHF）</strong></td>
+<td>在线 rollout + RM 分</td>
+<td>在奖励下改进策略，KL 防跑飞</td>
+<td>对齐后 policy</td>
+</tr>
+<tr>
+<td><strong>DPO</strong></td>
+<td>离线偏好对</td>
+<td>直接优化相对 reference 的偏好似然</td>
+<td>对齐后模型</td>
+</tr>
+<tr>
+<td><strong>ORPO</strong></td>
+<td>指令+偏好联合（视实现）</td>
+<td>减少分阶段、联合偏好目标（以论文为准）</td>
+<td>对齐后模型</td>
+</tr>
+<tr>
+<td><strong>GRPO</strong></td>
+<td>组内多样回答</td>
+<td>组内相对优化、弱化 critic（以论文为准）</td>
+<td>对齐后模型</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="关键超参数速查表">关键超参数速查表</h2>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 44%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr>
+<th>超参</th>
+<th>常见范围 / 口诀</th>
+<th>调大/调小直觉</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>学习率（LoRA）</strong></td>
+<td><code>1e-4</code>～<code>1e-3</code> 网格</td>
+<td>大→快但不稳；小→稳但慢</td>
+</tr>
+<tr>
+<td><strong>warmup ratio</strong></td>
+<td>约 <code>0.03</code>～<code>0.1</code>（视总步数）</td>
+<td>防一开始破坏预训练特征</td>
+</tr>
+<tr>
+<td><strong>max length</strong></td>
+<td>受显存与任务约束</td>
+<td>过长→OOM；过短→丢病史</td>
+</tr>
+<tr>
+<td><strong>LoRA r</strong></td>
+<td><code>8 / 16 / 32 / 64</code></td>
+<td>r↑容量↑显存↑</td>
+</tr>
+<tr>
+<td><strong>LoRA α</strong></td>
+<td><code>r</code> 或 <code>2r</code></td>
+<td>与 r、LR 强耦合，需一起扫</td>
+</tr>
+<tr>
+<td><strong>DPO β</strong></td>
+<td>常从小开始试</td>
+<td>大→贴 reference；小→更敢改但易不稳</td>
+</tr>
+<tr>
+<td><strong>grad clip</strong></td>
+<td>如 <code>1.0</code>（依框架默认值再调）</td>
+<td>防爆 NaN / 震荡</td>
+</tr>
+<tr>
+<td><strong>有效 batch</strong></td>
+<td>单卡小 batch + <strong>梯度累积</strong></td>
+<td>影响收敛与泛化，不单是显存</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="显存需求速查量级直觉非保证">显存需求速查（量级直觉，非保证）</h2>
+<blockquote>
+<p>实际与 <strong>模型规模、序列长、是否 ZeRO、框架实现</strong>
+强相关；下列帮助 <strong>选型口述</strong>。</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 52%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr>
+<th>设定</th>
+<th>7B 量级直觉</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>推理 fp16/bf16</strong></td>
+<td>~14GB+ 量级起（+ KV 随长文本涨）</td>
+<td>视实现与 batch</td>
+</tr>
+<tr>
+<td><strong>全参微调 7B</strong></td>
+<td>往往 <strong>多卡高显存</strong></td>
+<td>Adam 状态占大头</td>
+</tr>
+<tr>
+<td><strong>LoRA 7B</strong></td>
+<td>常 <strong>单卡 24G 可训</strong>（视 seq/batch）</td>
+<td>比全参省很多</td>
+</tr>
+<tr>
+<td><strong>QLoRA 7B</strong></td>
+<td>更低；适合 <strong>单卡预算紧</strong></td>
+<td>注意 bnb/CUDA 兼容</td>
+</tr>
+<tr>
+<td><strong>ZeRO-2</strong></td>
+<td>减 <strong>优化器+梯度</strong> 显存</td>
+<td>通信适中</td>
+</tr>
+<tr>
+<td><strong>ZeRO-3</strong></td>
+<td>再减 <strong>参数</strong> 显存</td>
+<td><strong>通信更重</strong>，带宽要够</td>
+</tr>
+</tbody>
+</table>
+<p><strong>口诀</strong>：先 <strong>QLoRA/LoRA + 梯度检查点 +
+累积</strong>，不够再上 <strong>ZeRO</strong>。</p>
+<hr />
+<h2 id="算法对比速查ppo-vs-dpo-vs-grpo-vs-orpo">算法对比速查：PPO vs DPO
+vs GRPO vs ORPO</h2>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 32%" />
+<col style="width: 17%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr>
+<th>维度</th>
+<th><strong>PPO（RLHF）</strong></th>
+<th><strong>DPO</strong></th>
+<th><strong>ORPO</strong></th>
+<th><strong>GRPO</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>是否需要 RM</strong></td>
+<td>需要显式 RM</td>
+<td>不需要（隐式）</td>
+<td>依方法与实现</td>
+<td>依方法与实现</td>
+</tr>
+<tr>
+<td><strong>在线采样</strong></td>
+<td>需要 rollout</td>
+<td>离线偏好对</td>
+<td>多为离线/联合（视论文）</td>
+<td>常依赖组内采样（视论文）</td>
+</tr>
+<tr>
+<td><strong>工程复杂度</strong></td>
+<td>高（四模型回路）</td>
+<td>相对较低</td>
+<td>中（看实现）</td>
+<td>中（看实现）</td>
+</tr>
+<tr>
+<td><strong>稳定性</strong></td>
+<td>敏感，需调参</td>
+<td>相对友好，怕噪声数据</td>
+<td>视目标设计</td>
+<td>视组内设计与任务</td>
+</tr>
+<tr>
+<td><strong>面试一句话</strong></td>
+<td>RM+PPO+KL 经典链路</td>
+<td>直接偏好似然+β 约束</td>
+<td>联合偏好优化少分阶段</td>
+<td>组内相对、弱化 critic</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="数据格式速查">数据格式速查</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 45%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>格式</th>
+<th>典型字段</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Alpaca</strong></td>
+<td><code>instruction</code>, <code>input</code>,
+<code>output</code></td>
+<td>单轮常见；<code>input</code> 可空</td>
+</tr>
+<tr>
+<td><strong>ShareGPT</strong></td>
+<td><code>conversations[]</code> → <code>from</code>/<code>value</code>
+或 role/content</td>
+<td>多轮；注意与模板映射</td>
+</tr>
+<tr>
+<td><strong>偏好（DPO）</strong></td>
+<td><code>prompt</code> + <code>chosen</code> +
+<code>rejected</code></td>
+<td>去平局、去隐私、防长度偏见</td>
+</tr>
+<tr>
+<td><strong>PT</strong></td>
+<td>纯 <code>text</code> 或拼接段落</td>
+<td>注意 EOS 与文档边界</td>
+</tr>
+</tbody>
+</table>
+<p><strong>铁律</strong>：训练与推理 <strong>同一
+<code>chat_template</code></strong>；SFT <strong>常 mask 非
+assistant</strong>。</p>
+<hr />
+<h2 id="常用命令速查medicalgpt-hf-生态">常用命令速查（MedicalGPT / HF
+生态）</h2>
+<blockquote>
+<p>路径与脚本名 <strong>以你克隆的仓库为准</strong>；下列为
+<strong>典型形态</strong>，复制前请 <code>--help</code> 核对参数。</p>
+</blockquote>
+<div class="sourceCode" id="cb70"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 环境（示例）</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install torch transformers datasets peft accelerate bitsandbytes deepspeed</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 增量预训练（示例：按仓库脚本名调整）</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="co"># python pretraining.py --train_file pt.jsonl --model_name_or_path &lt;BASE&gt; ...</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 有监督微调（示例）</span></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a><span class="co"># torchrun --nproc_per_node N supervised_finetuning.py \</span></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   --model_name_or_path &lt;BASE_OR_SFT&gt; \</span></span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   --train_file sft.jsonl --template_name qwen --use_peft True ...</span></span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a><span class="co"># DeepSpeed（示例）</span></span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a><span class="co"># deepspeed --num_gpus N supervised_finetuning.py --deepspeed ds_config.json ...</span></span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a><span class="co"># DPO（示例）</span></span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a><span class="co"># python dpo_training.py --model_name_or_path &lt;SFT&gt; --ref_model &lt;SFT&gt; ...</span></span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 合并 LoRA（概念命令，依仓库工具）</span></span>
+<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a><span class="co"># python merge_peft_adapter.py --base_model &lt;BASE&gt; --adapter_dir &lt;ADAPTER&gt; --out_dir &lt;MERGED&gt;</span></span></code></pre></div>
+<p><strong>自查三件套</strong>：<code>python -c "import torch; print(torch.cuda.is_available())"</code>、<code>transformers.__version__</code>、<code>git rev-parse HEAD</code>。</p>
+<hr />
+<h2 id="一页纸自检进场前-1-分钟">一页纸自检（进场前 1 分钟）</h2>
+<ol type="1">
+<li><strong>三阶段</strong>：我实际做了 <strong>PT? SFT?
+DPO/PPO?</strong><br />
+</li>
+<li><strong>三数字</strong>：<strong>数据量、训练时长、指标提升</strong>（内部集定义）。<br />
+</li>
+<li><strong>三缩写</strong>：<strong>LoRA、DPO、ZeRO</strong>
+各一句人话。<br />
+</li>
+<li><strong>一合规</strong>：<strong>免责 / 拒答 / 脱敏</strong>
+我能说清一条。</li>
+</ol>
+<hr />
+<h2 id="相关课程索引">相关课程索引</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>概念</th>
+<th>建议回查课程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformer / 注意力</td>
+<td><a
+href="../lessons/L02-Transformer架构核心原理/README.md">L02</a></td>
+</tr>
+<tr>
+<td>PT / SFT</td>
+<td><a href="../lessons/L05-增量预训练PT/README.md">L05</a>、<a
+href="../lessons/L06-有监督微调SFT/README.md">L06</a></td>
+</tr>
+<tr>
+<td>LoRA / QLoRA</td>
+<td><a href="../lessons/L07-LoRA与QLoRA高效微调/README.md">L07</a></td>
+</tr>
+<tr>
+<td>RM / PPO / RLHF</td>
+<td><a href="../lessons/L08-奖励模型RM/README.md">L08</a>、<a
+href="../lessons/L09-强化学习PPO与RLHF/README.md">L09</a></td>
+</tr>
+<tr>
+<td>DPO / ORPO / GRPO</td>
+<td><a href="../lessons/L10-直接偏好优化DPO/README.md">L10</a>、<a
+href="../lessons/L11-ORPO与GRPO前沿方法/README.md">L11</a></td>
+</tr>
+<tr>
+<td>数据 / 分布式 / 部署</td>
+<td><a href="../lessons/L13-数据处理与质量工程/README.md">L13</a>、<a
+href="../lessons/L14-分布式训练与DeepSpeed/README.md">L14</a>、<a
+href="../lessons/L15-模型评估与推理部署/README.md">L15</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+</body>
+</html>
